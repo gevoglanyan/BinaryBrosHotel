@@ -1,4 +1,4 @@
-Collaborators
+Collaborators:
 
 Harutyun Gevoglanyan, Diego Arteaga, Jesus Ramirez, & Alex Pulikkottil                        
 
