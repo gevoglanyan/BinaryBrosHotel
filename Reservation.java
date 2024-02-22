@@ -10,6 +10,13 @@ public class Reservation {
         this.roomType = roomType;
     }
 
+    public Reservation () {
+        // "main" function will call this constructor, so i made stuff up, will fix later.
+        this.userID = 0;
+        this.roomType = "";
+    
+    }
+
     public int getUserId() {
         return userID;
     }
