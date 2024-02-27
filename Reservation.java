@@ -33,5 +33,11 @@ public class Reservation {
         else{
             System.out.println("Room is available");
     }
+
+    public void confirm(){
+        System.out.println("Your reservation is confirmed. Thank you!"); //need to modify to GUI
+        sendEmail();
+        sendText();
+    }
         
 }
