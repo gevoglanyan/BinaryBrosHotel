@@ -1,8 +1,6 @@
 // Need to Add Connection's Between GUI's
 // Need to Add Database Functionality 
 
-package CreateReservationWindows;
-
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;

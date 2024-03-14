@@ -10,7 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 
 
-public class LoginPage implements ActionListener{
+public class loginPage implements ActionListener{
 
     JFrame frame = new JFrame();
 
@@ -29,7 +29,7 @@ public class LoginPage implements ActionListener{
 
     HashMap<String,String> loginInfo = new HashMap<String,String>(); //globally available to login page now
 
-    LoginPage (HashMap<String, String> LoginInfoOriginal){
+    loginPage (HashMap<String, String> LoginInfoOriginal){
 
         //code for login page window
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
