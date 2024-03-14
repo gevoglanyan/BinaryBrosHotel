@@ -1,11 +1,10 @@
 # Binary Bros Hotel
 
-## Collaborators:
+## Collaborators
 
 #### Harutyun Gevoglanyan, Diego Arteaga, Jesus Ramirez, & Alex Pulikkottil                        
 
 Spring 2024 - Comp 380
-
 
 ### Program Description:
 
