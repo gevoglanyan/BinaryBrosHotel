@@ -1,5 +1,5 @@
 /*
-// If we end up using Database
+// If we end up using a Database
 
 import java.sql.*;
 

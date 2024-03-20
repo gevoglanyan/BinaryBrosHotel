@@ -1,5 +1,3 @@
-package Objects;
-
 import java.util.HashMap;
 
 public class PasswordsIDs{

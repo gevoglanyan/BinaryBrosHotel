@@ -1,5 +1,3 @@
-package Objects;
-
 // import java.sql.Connection;
 // import java.sql.Statement;
 import java.sql.SQLException;
@@ -36,8 +34,6 @@ public class Reservation {
 
         // Need to add Database
     }
-
-
 
     /* 
     public Reservation (int userID, String roomType) {
