@@ -36,9 +36,14 @@ public class mainMenuWindow extends JFrame {
 
         add(mainPanel);
 
-        btnMakeReservation.addActionListener(e -> JOptionPane.showMessageDialog(null, "Opening Make Reservation Window"));
+        btnMakeReservation.addActionListener(e -> {
+
+            createReservationWindow reservationWindow = new createReservationWindow();
+            reservationWindow.setVisible(true);
+        });
+        
         btnEditReservation.addActionListener(e -> JOptionPane.showMessageDialog(null, "Opening Edit Reservation Window"));
-       
+
         btnLogout.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "Logging Out");
             System.exit(0);

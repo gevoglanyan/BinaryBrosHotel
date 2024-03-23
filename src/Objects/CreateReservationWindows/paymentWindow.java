@@ -3,12 +3,10 @@
 import javax.swing.*;
 import java.awt.*;
 
-// Add Zip Code For Payment
-
 public class paymentWindow extends JFrame {
 
     private JComboBox <String> paymentMethodComboBox;
-    private JTextField cardNumberField, expirationDateField, cvvField;
+    private JTextField cardNumberField, expirationDateField, cvvField, zipCodeField;
 
     public paymentWindow() {
 
@@ -16,7 +14,8 @@ public class paymentWindow extends JFrame {
         cardNumberField = new JTextField(20);
         expirationDateField = new JTextField(10);
         cvvField = new JTextField(3);
-
+        zipCodeField = new JTextField(5);
+       
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> processPayment());
 
@@ -29,6 +28,8 @@ public class paymentWindow extends JFrame {
         add(expirationDateField);
         add(new JLabel("CVV:"));
         add(cvvField);
+        add(new JLabel("Zip Code:"));
+        add(zipCodeField);
         add(new JLabel(""));
         add(submitButton);
 
@@ -44,12 +45,13 @@ public class paymentWindow extends JFrame {
         String cardNumber = cardNumberField.getText();
         String expirationDate = expirationDateField.getText();
         String cvv = cvvField.getText();
+        String zipCode = zipCodeField.getText();
 
-        if (isValidInput(paymentMethod, cardNumber, expirationDate, cvv)) {
+        if (isValidInput(paymentMethod, cardNumber, expirationDate, cvv, zipCode)) {
 
             paymentProcessor paymentProcessor = new paymentProcessor();
 
-            String paymentConfirmation = paymentProcessor.processPayment(paymentMethod, cardNumber, expirationDate, cvv);
+            String paymentConfirmation = paymentProcessor.processPayment(paymentMethod, cardNumber, expirationDate, cvv, zipCode);
 
             JOptionPane.showMessageDialog(this, paymentConfirmation, "Payment Confirmation", JOptionPane.INFORMATION_MESSAGE);
         } 
@@ -60,17 +62,17 @@ public class paymentWindow extends JFrame {
         }
     }
 
-    private boolean isValidInput(String paymentMethod, String cardNumber, String expirationDate, String cvv) {
+    private boolean isValidInput(String paymentMethod, String cardNumber, String expirationDate, String cvv, String zipCode) {
 
-        return paymentMethod != null && !cardNumber.isEmpty() && !expirationDate.isEmpty() && !cvv.isEmpty();
+        return paymentMethod != null && !cardNumber.isEmpty() && !expirationDate.isEmpty() && !cvv.isEmpty() && !zipCode.isEmpty();
     }
 
     public class paymentProcessor 
     {
-        public String processPayment(String paymentMethod, String cardNumber, String expirationDate, String cvv) {
+        public String processPayment(String paymentMethod, String cardNumber, String expirationDate, String cvv, String zipCode) {
         
             return "Payment processed successfully:\n" + "Payment Method: " + paymentMethod + "\n" + "Card Number: " + cardNumber + "\n" 
-                + "Expiration Date: " + expirationDate + "\n" + "CVV: " + cvv;
+                + "Expiration Date: " + expirationDate + "\n" + "CVV: " + cvv + "\n" + "Zip Code: " + zipCode;
         }
     }
 }

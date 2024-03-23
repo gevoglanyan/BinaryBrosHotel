@@ -1,6 +1,3 @@
-// Need to Add Connection's Between GUI's
-// Need to Add Database Functionality 
-
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -12,6 +9,7 @@ public class createReservationWindow extends JFrame {
 
     public createReservationWindow() {
 
+        setTitle("Make a Reservation");
         nameField = new JTextField(20);
         roomNumberField = new JTextField(5);
         checkInDateField = new JTextField(10);
@@ -32,10 +30,9 @@ public class createReservationWindow extends JFrame {
         add(new JLabel(""));
         add(reserveButton);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 200);
         setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     private void reserveRoom() {
@@ -63,7 +60,7 @@ public class createReservationWindow extends JFrame {
         return !name.isEmpty() && !roomNumber.isEmpty() && isValidDate(checkInDate) && isValidDate(checkOutDate);
     }
 
-    @SuppressWarnings("unused") //parsedDate
+    
     private boolean isValidDate(String date) {
 
         try {
