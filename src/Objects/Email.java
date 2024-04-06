@@ -39,8 +39,8 @@ public class Email {
 
     /**
         Creates default email template
-     * @param header subject line of the email
-     * @param body main message of the email
+       @param header subject line of the email
+       @param body main message of the email
      */
     public void message(String header, String body) {
        String text = body;
