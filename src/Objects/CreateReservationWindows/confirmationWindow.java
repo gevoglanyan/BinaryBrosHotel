@@ -2,6 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+    Reports Users with Reservation Confirmation
+    @author Binary Bros
+    @version 1.0
+ */
+
 public class confirmationWindow extends JFrame {
     private JLabel nameLabel, dateLabel, roomTypeLabel;
     private JTextField nameField, dateField;
@@ -10,7 +16,7 @@ public class confirmationWindow extends JFrame {
 
     public confirmationWindow() {
         setTitle("Binary Bros Hotel Reservation Confirmation");
-        setSize(400, 200);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(4, 2));
 

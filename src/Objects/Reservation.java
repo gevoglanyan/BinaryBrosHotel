@@ -1,8 +1,14 @@
-// import java.sql.Connection;
-// import java.sql.Statement;
+package Objects;
+
+import java.sql.Connection;
+import java.sql.Statement;
 import java.sql.SQLException;
 
-// Reservation's a User Can Make Using Their Account
+/**
+    Stores User Reservation Info into Database
+    @author Binary Bros
+    @version 1.0
+ */
 
 public class Reservation {
 
@@ -29,47 +35,45 @@ public class Reservation {
         this.availableRooms = avaliableRooms;
         this.roomType = roomType;
 
-        // Connection databaseConnection = Database.getConnection();
-        // Statement myDatabaseStatement = databaseConnection.createStatement();
+        Connection databaseConnection = Database.getConnection();
+        Statement myDatabaseStatement = databaseConnection.createStatement();
 
-        // Need to add Database
+        // Need to Add Database
     }
 
-    /* 
-    public Reservation (int userID, String roomType) {
-        this.userID = userID;
-        this.roomType = roomType;
+    public int reservationID() {
+        return reservationID;
     }
 
-    public Reservation () {
-        // "main" function will call this constructor, so i made stuff up, will fix later.
-        this.userID = 0;
-        this.roomType = "";
-    
+    public int roomID() {
+        return roomID;
     }
 
-    public int getUserId() {
-        return userID;
+    public String checkInDate() {
+        return checkInDate;
     }
 
-    public String getRoomType() {
+    public String checkOutDate() {
+        return checkOutDate;
+    }
+
+    public double totalPrice() {
+        return totalPrice;
+    }
+
+    public int numberOfRooms() {
+        return numberOfRooms;
+    }
+
+    public int paymentMethod() {
+        return paymentMethod;
+    }
+
+    public int availableRooms() {
+        return availableRooms;
+    }
+
+    public String roomType() {
         return roomType;
     }
-
-    public void isBooked() {
-        if(booked == true) {
-            System.out.println("Room is already booked");
-        } 
-        
-        else {
-            System.out.println("Room is available");
-        }
-    }
-
-    public void confirm()  {
-        System.out.println("Your reservation is confirmed. Thank you!"); // Need to modify to GUI
-        sendEmail();
-        sendText();
-    }
-    */
 }

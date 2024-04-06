@@ -1,13 +1,16 @@
+//package Objects.LoginWindows;
+
+//import Objects.CreateReservationWindows.createReservationWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class mainMenuWindow extends JFrame {
-
     public mainMenuWindow() {
         setTitle("Binary Bros Hotel Reservation System");
-        setSize(300, 300);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -37,7 +40,6 @@ public class mainMenuWindow extends JFrame {
         add(mainPanel);
 
         btnMakeReservation.addActionListener(e -> {
-
             createReservationWindow reservationWindow = new createReservationWindow();
             reservationWindow.setVisible(true);
         });

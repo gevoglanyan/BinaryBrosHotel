@@ -1,5 +1,13 @@
+//package Objects.LoginWindows;
+
 import javax.swing.*;
 import java.awt.*;
+
+/**
+    Allows Users To Log Into Binary Bros Hotel System
+    @author Binary Bros
+    @version 1.0
+ */
 
 public class loginWindow extends JFrame {
 
@@ -8,14 +16,20 @@ public class loginWindow extends JFrame {
 
     public loginWindow() {
         setTitle("Binary Bros Hotel Login");
-        setSize(400, 220);
+        setSize(500, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JLabel titleLabel = new JLabel("Binary Bros Hotel Login");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setForeground(Color.BLUE);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        JPanel loginPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20));
+        JPanel loginPanel = new JPanel(new GridBagLayout()); 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER; 
+        gbc.fill = GridBagConstraints.HORIZONTAL; 
+        gbc.insets = new Insets(10, 50, 10, 50); 
 
         JLabel usernameLabel = new JLabel("Username:");
         JLabel passwordLabel = new JLabel("Password:");
@@ -34,7 +48,7 @@ public class loginWindow extends JFrame {
                 JOptionPane.showMessageDialog(loginWindow.this, "Login Successful!");
                 mainMenuWindow mainMenu = new mainMenuWindow();
                 mainMenu.setVisible(true);
-                loginWindow.this.dispose(); // Close the login window
+                loginWindow.this.dispose(); 
             } else {
                 JOptionPane.showMessageDialog(loginWindow.this, "Login Failed. Please check your credentials.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -42,23 +56,22 @@ public class loginWindow extends JFrame {
             passwordField.setText("");
         });
 
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        loginPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        loginPanel.add(usernameLabel);
-        loginPanel.add(usernameField);
-        loginPanel.add(passwordLabel);
-        loginPanel.add(passwordField);
-        loginPanel.add(loginButton);
+        loginPanel.add(titleLabel, gbc); 
+        loginPanel.add(usernameLabel, gbc);
+        loginPanel.add(usernameField, gbc);
+        loginPanel.add(passwordLabel, gbc);
+        loginPanel.add(passwordField, gbc);
+        loginPanel.add(loginButton, gbc);
+        setLayout(new BorderLayout());
 
         setLayout(new BorderLayout());
 
-        add(titleLabel, BorderLayout.NORTH);
-        add(loginPanel, BorderLayout.CENTER);
+        add(loginPanel, BorderLayout.CENTER); 
 
         setVisible(true);
     }
 
+    // Temporary Login 
     private boolean authenticate(String username, String password) {
         boolean isAdmin = username.equals("admin") && password.equals("password");
         boolean isTempUser = username.equals("temp") && password.equals("temp");

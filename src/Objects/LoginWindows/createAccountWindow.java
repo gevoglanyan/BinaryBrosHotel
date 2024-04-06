@@ -1,11 +1,18 @@
+//package Objects.LoginWindows;
+
 import javax.swing.*;
 import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+    Allows New Users To Create an Account For Binary Bros Hotel
+    @author Binary Bros
+    @version 1.0
+ */
+
 public class createAccountWindow extends JFrame {
-    
     private JTextField fullNameField, usernameField, emailField, dobField, addressField;
     private JPasswordField passwordField;
 
@@ -13,7 +20,7 @@ public class createAccountWindow extends JFrame {
         super("Account Creation");
         initializeUI();
         pack();
-        setSize(600, 400); 
+        setSize(500, 400); 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);

@@ -1,16 +1,24 @@
+//package Objects.LoginWindows;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+    Welcomes Users to Binary Bros Hotel
+    Prompts Users with Login or Create Account Options
+    @author Binary Bros
+    @version 1.0
+ */
+
 public class welcomeWindow extends JFrame {
-    
     public welcomeWindow() {
         initializeUI();
     }
 
     private void initializeUI() {
         setTitle("Binary Bros Hotel Reservation System");
-        setSize(500, 500);
+        setSize(800, 800);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -39,11 +47,10 @@ public class welcomeWindow extends JFrame {
         add(mainPanel, BorderLayout.CENTER);
     }
     
-    
     private JLabel createWelcomeLabel() {
         JLabel welcomeLabel = new JLabel("Welcome to Binary Bros Hotel");
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        welcomeLabel.setForeground(new Color(21, 101, 192));
+        welcomeLabel.setForeground(Color.BLUE);
         return welcomeLabel;
     }
 
