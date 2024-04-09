@@ -43,23 +43,24 @@ public class Email {
        @param body main message of the email
      */
     public void message(String header, String body) {
-       String text = body;
-       String subject = header;
-       try 
-       { 
-           MimeMessage message = new MimeMessage(session); 
-           message.setFrom(new InternetAddress(sender)); 
-           message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient)); 
-           message.setSubject(subject); 
-           message.setText(text); 
-           Transport.send(message); 
-           System.out.println("Email has been sent"); 
-       } 
-       catch (MessagingException mex)  
-       { 
-       mex.printStackTrace(); 
-       } 
-    }
+        String text = body;
+        String subject = header;
+        try 
+        { 
+            MimeMessage message = new MimeMessage(session); 
+            message.setFrom(new InternetAddress(sender)); 
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient)); 
+            message.setSubject(subject); 
+            message.setText(text); 
+            Transport.send(message); 
+            System.out.println("Email has been sent"); 
+        } 
+        catch (MessagingException mex)  
+        { 
+        mex.printStackTrace(); 
+        } 
+        }
+
         /**
             Sends email about guest's recently made hotel reservation
         */
