@@ -62,8 +62,8 @@ public class loginWindow extends JFrame {
         loginPanel.add(passwordLabel, gbc);
         loginPanel.add(passwordField, gbc);
         loginPanel.add(loginButton, gbc);
+        
         setLayout(new BorderLayout());
-
         setLayout(new BorderLayout());
 
         add(loginPanel, BorderLayout.CENTER); 

@@ -61,7 +61,7 @@ public class welcomeWindow extends JFrame {
     }
 
     private void onLoginClicked() {
-        loginWindow loginWindow = new loginWindow();
+        userSelectionWindow loginWindow = new userSelectionWindow();
         loginWindow.setVisible(true);
     }
 

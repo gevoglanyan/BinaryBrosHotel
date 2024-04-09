@@ -96,6 +96,7 @@ public class createAccountWindow extends JFrame {
                                                 fullName, username, email, password, formattedDob, address);
             JOptionPane.showMessageDialog(this, accountInfo);
             clearFields();
+            dispose();
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(this, "Invalid Date of Birth format. Please use MM/DD/YYYY.");
         }
