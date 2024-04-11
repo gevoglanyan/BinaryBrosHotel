@@ -45,7 +45,7 @@ public class Email {
        @param body main message of the email
      */
 
-     /* 
+     
     public void message(String header, String body) {
         String text = body;
         String subject = header;
