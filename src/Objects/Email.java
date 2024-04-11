@@ -27,9 +27,10 @@ public class Email {
         Represents the host IP address
      */
     private String host = "127.0.0.1";
-    //Properties properties = System.getProperties(); 
-    //properties.setProperty("mail.smtp.host", host); 
-   // Session session = Session.getDefaultInstance(properties); 
+    
+    Properties properties = System.getProperties(); 
+    properties.setProperty("mail.smtp.host", host); 
+    Session session = Session.getDefaultInstance(properties); 
 
 
     /**
@@ -44,8 +45,6 @@ public class Email {
        @param header subject line of the email
        @param body main message of the email
      */
-
-     
     public void message(String header, String body) {
         String text = body;
         String subject = header;
@@ -63,13 +62,11 @@ public class Email {
         { 
         mex.printStackTrace(); 
         } 
-        }
+    }
 
         /**
             Sends email about guest's recently made hotel reservation
         */
-
-        /** 
         public void reservationMessage() {
             String message = "Your hotel reservation has been made. Thank you for choosing Binary Bros for your hotel experience! To update or cancel your reservation, check the reservation status on the website.";
             String header = "Binary Bros: Hotel Reservation";
@@ -82,21 +79,18 @@ public class Email {
         public void cancelMessage() {
             String message = "Your hotel reservation with the Binary Bros has been cancelled.";
             String header = "Binary Bros: Reservation Cancelation";
-            //message(header, message);
+            message(header, message);
         }
 
         /**
             Sends email about update to a reservation
         */
 
-        /* 
         public void updateMessage() {
             String message = "Your hotel reservation has been successfully updated! Thank you again for choosing Binary Bros for your hotel experience.";
             String header = "Binary Bros: Reservation Update";
             message(header, message);
         }
-
-        */
 
         /**
             Sets the guest's email as the recipient address
