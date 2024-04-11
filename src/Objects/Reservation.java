@@ -80,39 +80,65 @@ public class Reservation {
         // Need to Add Database
     }
 
-    
+    /**
+        Returns the reservationID
+    */
     public int reservationID() {
         return reservationID;
     }
 
+    /**
+        Returns the roomID
+    */
     public int roomID() {
         return roomID;
     }
 
+    /**
+        Returns the check-in date
+    */
     public String checkInDate() {
         return checkInDate;
     }
 
+    /**
+        Returns the check-out date
+    */
     public String checkOutDate() {
         return checkOutDate;
     }
 
+    /**
+        Returns the total price
+    */
     public double totalPrice() {
         return totalPrice;
     }
 
+    /**
+        Returns the number of rooms
+    */
     public int numberOfRooms() {
         return numberOfRooms;
     }
 
+    /**
+        Returns the payment method
+    */
     public int paymentMethod() {
         return paymentMethod;
     }
 
+    /**
+        Returns the number of available rooms
+    */
     public int availableRooms() {
         return availableRooms;
     }
 
+    /**
+        Returns the room type
+    */
     public String roomType() {
         return roomType;
     }
