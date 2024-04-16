@@ -49,6 +49,18 @@ public class Reservation {
     */
     private final String roomType;
 
+      /**
+        Adds the reservation and its information to the database
+        @param reservationID the reservation ID
+        @param roomID the room ID
+        @param checkInDate the check-in date
+        @param checkOutDate the check-out date
+        @param totalPrice the total price
+        @param numberOfRooms the number of rooms
+        @param paymentMethod the payment method
+        @param availableRooms the number of available rooms
+        @param roomType the room type
+    */
     public Reservation (int reservationID, int roomID, String checkInDate, String checkOutDate, double totalPrice, 
             int numberOfRooms, int paymentMethod, int avaliableRooms, String roomType) throws SQLException {
         
@@ -68,38 +80,65 @@ public class Reservation {
         // Need to Add Database
     }
 
+    /**
+        Returns the reservationID
+    */
     public int reservationID() {
         return reservationID;
     }
 
+    /**
+        Returns the roomID
+    */
     public int roomID() {
         return roomID;
     }
 
+    /**
+        Returns the check-in date
+    */
     public String checkInDate() {
         return checkInDate;
     }
 
+    /**
+        Returns the check-out date
+    */
     public String checkOutDate() {
         return checkOutDate;
     }
 
+    /**
+        Returns the total price
+    */
     public double totalPrice() {
         return totalPrice;
     }
 
+    /**
+        Returns the number of rooms
+    */
     public int numberOfRooms() {
         return numberOfRooms;
     }
 
+    /**
+        Returns the payment method
+    */
     public int paymentMethod() {
         return paymentMethod;
     }
 
+    /**
+        Returns the number of available rooms
+    */
     public int availableRooms() {
         return availableRooms;
     }
 
+    /**
+        Returns the room type
+    */
     public String roomType() {
         return roomType;
     }
