@@ -13,8 +13,6 @@ public class BinaryBrosHotel {
         welcomeWindow window = new welcomeWindow();
         window.setVisible(true);
 
-        // PasswordsAndIDs IDSandPasses = new PasswordsAndIDs(); //
-        // LoginPage loginPage = new LoginPage(IDSandPasses.getLoginInfo());
         // Reservation reservations = new Reservation();
     }
 }

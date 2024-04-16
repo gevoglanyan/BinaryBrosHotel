@@ -1,15 +1,19 @@
+package Objects;
+
 /**
     A way to send text messages to customers regarding their 
     hotel reservation
     @author Binary Bros
     @version 1.0
  */
+
 public class Text {
     /**
         Represents the guest's phone number
      */
     private String recipient;
-//Needs more work
+
+    //Needs more work
     public Text (String number){
         setNumber(number);
 

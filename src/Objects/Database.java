@@ -13,9 +13,9 @@ import java.sql.Statement;
  */
 
 public class Database {
-    private static final String databaseURL = "jdbc:mysql://localhost:3306/BinaryBrosHotelManagement";
-    private static final String databaseUsername = "root";
-    private static final String databasePassword = "uFqkP$FJ4l*VMnt";
+    private static final String databaseURL = "jdbc:mysql://binarybroshotel.c1iem4okk1rj.us-west-1.rds.amazonaws.com:3306/BinaryBrosHotel";
+    private static final String databaseUsername = "BinaryBros";
+    private static final String databasePassword = "kIRK4Fma744RefBQwwzDAc1F8";
 
     private static Connection connection = null;
 
@@ -23,6 +23,7 @@ public class Database {
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
+            
             System.out.println("Database Connected!");
         }
         return connection;
@@ -31,6 +32,7 @@ public class Database {
     // Executes a SQL Query & Returns the Result Set
     public static ResultSet executeQuery(String sql) throws SQLException {
         Connection conn = getConnection();
+        
         try (Statement statement = conn.createStatement()) {
             return statement.executeQuery(sql);
         }

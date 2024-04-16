@@ -1,6 +1,8 @@
-CREATE DATABASE BinaryBrosHotelManagement;
-USE BinaryBrosHotelManagement;
+DROP DATABASE IF EXISTS BinaryBrosHotel;
+CREATE DATABASE BinaryBrosHotel;
+USE BinaryBrosHotel;
 
+-- Table for Users
 CREATE TABLE Users (
     userID INT PRIMARY KEY AUTO_INCREMENT,
     fullName VARCHAR(255) NOT NULL,
@@ -10,29 +12,44 @@ CREATE TABLE Users (
     Role ENUM('user', 'admin') NOT NULL
 );
 
+-- Table for Storing User Accounts
+CREATE TABLE Accounts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullName VARCHAR(255) NOT NULL,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL, 
+    dateOfBirth DATE NOT NULL,
+    address VARCHAR(255) NOT NULL
+);
+
+SELECT * FROM Accounts WHERE username = 'newUsername';
+
+-- Table for Storing Room Information
 CREATE TABLE Rooms (
     roomID INT PRIMARY KEY AUTO_INCREMENT,
     roomNumber INT NOT NULL UNIQUE,
-    roomType VARCHAR(255) NOT NULL,
-    availableRooms BOOLEAN DEFAULT true,
-    totalPrice DECIMAL (10,2) NOT NULL,
-    Type ENUM('single', 'double', 'king') NOT NULL
+    roomType ENUM('single', 'double', 'king', 'suite') NOT NULL,
+    isAvailable BOOLEAN DEFAULT TRUE,
+    price DECIMAL(10, 2) NOT NULL
 );
 
+-- Table for Storing Reservations
 CREATE TABLE Reservations (
     reservationID INT PRIMARY KEY AUTO_INCREMENT,
-    userID INT,
-    roomID INT,
+    userID INT NOT NULL,
+    roomID INT NOT NULL,
     checkInDate DATE NOT NULL,
     checkOutDate DATE NOT NULL,
-    Status ENUM('confirmed', 'canceled') NOT NULL,
-    FOREIGN KEY (userID) REFERENCES Users(userID),
+    status ENUM('confirmed', 'canceled', 'checked_in', 'checked_out') NOT NULL DEFAULT 'confirmed',
+    FOREIGN KEY (userID) REFERENCES Accounts(id),
     FOREIGN KEY (roomID) REFERENCES Rooms(roomID)
 );
 
-CREATE TABLE ReservationModification (
+-- Table for Reservation Modifications (If Needed)
+CREATE TABLE ReservationModifications (
     modificationID INT PRIMARY KEY AUTO_INCREMENT,
-    reservationID INT,
+    reservationID INT NOT NULL,
     previousCheckInDate DATE NOT NULL,
     previousCheckOutDate DATE NOT NULL,
     newCheckInDate DATE NOT NULL,
@@ -41,6 +58,7 @@ CREATE TABLE ReservationModification (
     FOREIGN KEY (reservationID) REFERENCES Reservations(reservationID)
 );
 
+-- Table for Generating Reports (If Needed)
 CREATE TABLE Reports (
     reportID INT PRIMARY KEY AUTO_INCREMENT,
     reportType ENUM('occupancy', 'revenue') NOT NULL,

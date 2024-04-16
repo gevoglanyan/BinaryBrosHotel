@@ -1,8 +1,9 @@
 package Objects;
 
 import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 /**
     Takes user info and stores it into Database
@@ -46,22 +47,49 @@ public class User {
         @param role the role
     */
     public User(int userID, String fullName, String username, String password, String email, String role) throws SQLException {
-
         this.userID = userID;
         this.fullName = fullName;
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
+    }
 
-        Connection databaseConnection = Database.getConnection();
-        Statement myDatabaseStatement = databaseConnection.createStatement();
+    public void insertIntoDatabase() throws SQLException {
+        String sql = "INSERT INTO Users (userID, fullName, username, password, email, role) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try (Connection connection = Database.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setInt(1, this.userID);
+            pstmt.setString(2, this.fullName);
+            pstmt.setString(3, this.username);
+            pstmt.setString(4, this.password);
+            pstmt.setString(5, this.email);
+            pstmt.setString(6, this.role);
+            pstmt.executeUpdate();
+        }
+    }
 
-        String mySQL = "INSERT INTO Users (userID, fullName, username, password, email, role) VALUES ('" 
-            + this.userID + "', '" + this.fullName + "', '" + this.username + "', '" + this.password 
-            + this.email + "', '" + this.role + "')";
+    public static User getUserByUsername(String username) throws SQLException {
+        String sql = "SELECT * FROM Users WHERE username = ?";
+        
+        try (Connection conn = Database.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, username);
+                
+                ResultSet rs = pstmt.executeQuery();
+            
+                if (rs.next()) {
+                    int userID = rs.getInt("userID");
+                    String fullName = rs.getString("fullName");
+                    String password = rs.getString("password");
+                    String email = rs.getString("email");
+                    String role = rs.getString("role");
 
-        myDatabaseStatement.executeQuery(mySQL);
+                    return new User(userID, fullName, username, password, email, role);
+            }
+            return null;
+        }
     }
 
     /**

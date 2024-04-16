@@ -1,7 +1,14 @@
 //package Objects.LoginWindows;
 
 import javax.swing.*;
+
+import Objects.Database;
+
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
     Allows Users To Log Into Binary Bros Hotel System
@@ -71,11 +78,49 @@ public class loginWindow extends JFrame {
         setVisible(true);
     }
 
-    // Temporary Login 
+    private boolean authenticate(String username, String password) {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+    
+        try {
+            connection = Database.getConnection();
+    
+            String sql = "SELECT password FROM Accounts WHERE username = ?";
+            pstmt = connection.prepareStatement(sql);
+            pstmt.setString(1, username);
+            rs = pstmt.executeQuery();
+    
+            if (rs.next()) {
+                String storedPassword = rs.getString("password");
+                return storedPassword.equals(password);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (pstmt != null) pstmt.close();
+                    if (connection != null) connection.close();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Error closing database resources: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                }
+        }
+
+        return false;
+    }
+    
+    /* 
+
+    // Can Become Admin Login (Possibly)
+
     private boolean authenticate(String username, String password) {
         boolean isAdmin = username.equals("admin") && password.equals("password");
         boolean isTempUser = username.equals("temp") && password.equals("temp");
 
         return isAdmin || isTempUser;
     }
+
+    */
 }
