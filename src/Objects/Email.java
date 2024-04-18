@@ -32,9 +32,6 @@ public class Email {
         Constructs an email to send to the guest
      */
     public Email (String guestEmail) {
-        Properties properties = System.getProperties(); 
-        properties.setProperty("mail.smtp.host", host); 
-        Session session = Session.getDefaultInstance(properties); 
         setRecipient(guestEmail);
     }
 
@@ -46,6 +43,9 @@ public class Email {
     public void message(String header, String body) {
         String text = body;
         String subject = header;
+        Properties properties = System.getProperties(); 
+        properties.setProperty("mail.smtp.host", host); 
+        Session session = Session.getDefaultInstance(properties); 
         try 
         { 
             MimeMessage message = new MimeMessage(session); 
