@@ -1,4 +1,5 @@
 import Objects.Database;
+import Objects.Email;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +7,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 
 public class createReservationWindow extends JFrame {
-    private JTextField nameField, checkInDateField, checkOutDateField;
+    private JTextField nameField, emailField, checkInDateField, checkOutDateField;
     private JComboBox<Integer> roomOptions; 
     private JButton reserveButton;
     private int currentUserID = 1; 
@@ -23,6 +24,7 @@ public class createReservationWindow extends JFrame {
 
     private void initializeComponents() {
         nameField = new JTextField(20);
+        emailField = new JTextField(20);
         roomOptions = new JComboBox<>();
         checkInDateField = new JTextField(10);
         checkOutDateField = new JTextField(10);
@@ -47,6 +49,8 @@ public class createReservationWindow extends JFrame {
         setLayout(new GridLayout(5, 2));
         add(new JLabel("Name:"));
         add(nameField);
+        add(new JLabel("Email:"));
+        add(emailField);
         add(new JLabel("Room Selection:"));
         add(roomOptions);
         add(new JLabel("Check-in Date (YYYY-MM-DD):"));
@@ -62,6 +66,8 @@ public class createReservationWindow extends JFrame {
         int roomID = (int) roomOptions.getSelectedItem();
         String checkInDate = checkInDateField.getText();
         String checkOutDate = checkOutDateField.getText();
+        String email = emailField.getText();
+        Email mail = new Email(email);
 
         if (validateInput(guestName, roomID, checkInDate, checkOutDate)) {
             try {
@@ -69,6 +75,7 @@ public class createReservationWindow extends JFrame {
                 String confirmationMessage = "Reservation Confirmed:\n\n" + "Name: " + guestName + "\n" 
                     + "Room ID: " + roomID + "\n" + "Check-in Date: " + checkInDate + "\n" + "Check-out Date: " + checkOutDate;
                 JOptionPane.showMessageDialog(this, confirmationMessage, "Reservation Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                if(!email.isEmpty()) mail.reservationMessage();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
             }
