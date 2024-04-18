@@ -68,8 +68,12 @@ public class managerWindow extends JFrame implements ActionListener {
         }
     }
 
+    /*
+    
     // Test Purposes
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new managerWindow());
     }
+
+    */
 }

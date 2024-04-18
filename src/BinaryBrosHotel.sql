@@ -28,11 +28,22 @@ SELECT * FROM Accounts WHERE username = 'newUsername';
 -- Table for Storing Room Information
 CREATE TABLE Rooms (
     roomID INT PRIMARY KEY AUTO_INCREMENT,
-    roomNumber INT NOT NULL UNIQUE,
-    roomType ENUM('single', 'double', 'king', 'suite') NOT NULL,
-    isAvailable BOOLEAN DEFAULT TRUE,
-    price DECIMAL(10, 2) NOT NULL
+    roomNumber VARCHAR(10) NOT NULL,
+    roomType VARCHAR(50) NOT NULL,
+    bedType VARCHAR(50),
+    maxOccupancy INT,
+    pricePerNight DECIMAL(10, 2),
+    status ENUM('available', 'occupied', 'under maintenance') DEFAULT 'available'
 );
+
+INSERT INTO Rooms (roomNumber, roomType, bedType, maxOccupancy, pricePerNight, status) VALUES
+('101', 'Single', 'Queen', 1, 100.00, 'available'),
+('102', 'Double', 'Two Twins', 2, 120.00, 'available'),
+('103', 'Suite', 'King', 4, 250.00, 'available'),
+('104', 'Double', 'Queen', 2, 130.00, 'occupied'),
+('105', 'Single', 'Single', 1, 90.00, 'available'),
+('201', 'Suite', 'King', 4, 300.00, 'available'),
+('202', 'Single', 'Queen', 1, 110.00, 'under maintenance');
 
 -- Table for Storing Reservations
 CREATE TABLE Reservations (
