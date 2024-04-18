@@ -27,16 +27,14 @@ public class Email {
         Represents the host IP address
      */
     private String host = "127.0.0.1";
-    
-    Properties properties = System.getProperties(); 
-    properties.setProperty("mail.smtp.host", host); 
-    Session session = Session.getDefaultInstance(properties); 
-
 
     /**
         Constructs an email to send to the guest
      */
     public Email (String guestEmail) {
+        Properties properties = System.getProperties(); 
+        properties.setProperty("mail.smtp.host", host); 
+        Session session = Session.getDefaultInstance(properties); 
         setRecipient(guestEmail);
     }
 
