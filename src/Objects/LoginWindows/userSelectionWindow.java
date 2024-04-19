@@ -3,15 +3,23 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
-    Screen Guest's and Hotel Employee See Before Login
-    @author Binary Bros
-    @version 1.0
+ * This class represents the initial user selection screen of the Binary Bros Hotel application,
+ * offering options to proceed as an Admin or a Guest. Depending on the selection, it directs the user to the appropriate login window.
+ * This class extends JFrame and sets up a simple interface with buttons for user role selection.
+ * 
+ * @author Binary Bros
+ * @version 1.0
  */
 
 public class userSelectionWindow extends JFrame {
     public userSelectionWindow() {
         initializeUI();
     }
+
+    /**
+     * Initializes and sets up the user interface components of the window.
+     * Configures the frame size, layout, and behavior on close, along with creating and adding buttons for user role selection.
+     */
     
     private void initializeUI() {
         setTitle("User Selection");
@@ -20,6 +28,7 @@ public class userSelectionWindow extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         JPanel mainPanel = new JPanel(new GridBagLayout());
+        
         getContentPane().add(mainPanel);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -40,13 +49,27 @@ public class userSelectionWindow extends JFrame {
         mainPanel.add(adminButton, gbc);
         mainPanel.add(guestButton, gbc);
     }
+
+    /**
+     * Creates a JButton with specified text and action listener.
+     * 
+     * @param text The text to display on the button.
+     * @param actionListener The action listener to be associated with the button.
+     * @return A JButton configured with the specified text and listener.
+     */
     
     private JButton createButton(String text, ActionListener actionListener) {
         JButton button = new JButton(text);
+        
         button.addActionListener(actionListener);
         
         return button;
     }
+
+    /**
+     * Defines the action to be taken when the Admin button is clicked.
+     * Opens a new window for admin login, handling authentication and directing the user accordingly.
+     */
     
     private void onAdminClicked() {
         JFrame loginFrame = new JFrame("Binary Bros Hotel Admin Login");
@@ -103,12 +126,25 @@ public class userSelectionWindow extends JFrame {
         loginFrame.setVisible(true);
     }
 
+    /**
+     * Authenticates a user based on the provided username and password.
+     * 
+     * @param username The username entered by the user.
+     * @param password The password entered by the user.
+     * @return true if the credentials match predefined admin or temporary user credentials, false otherwise.
+     */
+
     private boolean authenticate(String username, String password) {
         boolean isAdmin = username.equals("admin") && password.equals("password");
         boolean isTempUser = username.equals("temp") && password.equals("temp");
         
         return isAdmin || isTempUser;
     }
+
+    /**
+     * Defines the action to be taken when the Guest button is clicked.
+     * Opens a new window for guest login.
+     */
 
     private void onGuestClicked() {
         loginWindow loginWindow = new loginWindow();

@@ -3,13 +3,15 @@ package Objects;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.SQLException;
 
 /**
-    Database System Information
-    @author Binary Bros
-    @version 1.0
+ * Provides Management for Database Operations on the Binary Bros Hotel Database.
+ * Includes Establishing Connections, Executing Queries, and Closing the Connection.
+ * 
+ * @author Binary Bros
+ * @version 1.0
  */
 
 public class Database {
@@ -19,17 +21,31 @@ public class Database {
 
     private static Connection connection = null;
 
-    // Establishes Database Connection
+     /**
+     * Retrieves a Valid Database connection. Establishes a new one if none exists or if the current one is closed.
+     * 
+     * @return Connection to the Database.
+     * @throws SQLException If a Database Access Error Occurs or the URL is Null.
+     */
+
     public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(databaseURL, databaseUsername, databasePassword);
             
             System.out.println("Database Connected!");
         }
+
         return connection;
     }
 
-    // Executes a SQL Query & Returns the Result Set
+    /**
+     * Executes a SQL query against the database and returns the result.
+     * 
+     * @param sql The SQL Query to Execute.
+     * @return ResultSet Containing the Results of the Query Execution.
+     * @throws SQLException If a Database Access Error Occurs, this method is called on a closed connection or the given SQL statement produces anything other than a single ResultSet.
+     */
+
     public static ResultSet executeQuery(String sql) throws SQLException {
         Connection conn = getConnection();
         
@@ -38,7 +54,6 @@ public class Database {
         }
     }
 
-    // Closes Database Connection
     public static void closeConnection() {
         if (connection != null) {
             try {

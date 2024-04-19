@@ -6,46 +6,33 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 
 /**
-    Takes User Info and Stores it into Database
-    @author Binary Bros
-    @version 1.0
+ * Manages user data for the Binary Bros Hotel system. This class handles creating user records,
+ * inserting them into the database, and fetching user details based on the username.
+ *
+ * @author Binary Bros
+ * @version 1.0
  */
 
 public class User {
-    /**
-        Represents User's Unique ID Number
-    */
-    private int userID;
-    /**
-        Represents User's Full Name
-    */
-    private String fullName;
-    /**
-        Represents User's Username
-    */
-    private String username;
-    /**
-        Represents User's Password
-    */
-    private String password;
-    /**
-        Represents User's Email Address
-    */
-    private String email;
-    /**
-        Represents the User's Role
-    */
-    private String role;
+
+    private int userID;           // Unique identifier for the user
+    private String fullName;      // User's full name
+    private String username;      // User's login username
+    private String password;      // User's password for login
+    private String email;         // User's email address
+    private String role;          // User's role within the system
 
     /**
-        Adds the User and All of Their Information into Database
-        @param userID the User ID
-        @param fullname the Full Name
-        @param username the Username
-        @param password the Password
-        @param email the Email
-        @param role the Role
-    */
+     * Constructs a User object with complete details and prepares to insert these details into the database.
+     *
+     * @param userID The unique identifier for the user.
+     * @param fullName The full name of the user.
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @param email The email address of the user.
+     * @param role The role of the user in the system.
+     */
+
     public User(int userID, String fullName, String username, String password, String email, String role) throws SQLException {
         this.userID = userID;
         this.fullName = fullName;
@@ -54,6 +41,12 @@ public class User {
         this.email = email;
         this.role = role;
     }
+
+    /**
+     * Inserts user data into the database. This method constructs and executes an SQL query to insert the user's details.
+     *
+     * @throws SQLException If an SQL error occurs during the execution of the insert.
+     */
 
     public void insertIntoDatabase() throws SQLException {
         String sql = "INSERT INTO Users (userID, fullName, username, password, email, role) VALUES (?, ?, ?, ?, ?, ?)";
@@ -69,6 +62,14 @@ public class User {
             pstmt.executeUpdate();
         }
     }
+
+    /**
+     * Retrieves a User object from the database based on the username.
+     *
+     * @param username The username to search for in the database.
+     * @return A User object populated with data from the database or null if no such user exists.
+     * @throws SQLException If an SQL error occurs during the execution of the query.
+     */
 
     public static User getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM Users WHERE username = ?";
@@ -93,22 +94,31 @@ public class User {
     }
 
     /**
-        Gets the User's Username
-    */
+     * Returns the username of this user.
+     *
+     * @return The username as a String.
+     */
+
     public String getUsername() {
         return username;
     }
 
     /**
-        Gets the User's Password
-    */
+     * Returns the password of this user.
+     *
+     * @return The password as a String.
+     */
+
     public String getPassword() {
         return password;
     }
 
     /**
-        Gets the User's Role
-    */
+     * Returns the role of this user.
+     *
+     * @return The role as a String.
+     */
+    
     public String getRole() {
         return role;
     }

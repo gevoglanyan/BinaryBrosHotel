@@ -7,9 +7,13 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 
 /**
-    Creates a Reservation
-    @author Binary Bros
-    @version 1.0
+ * Provides an interface for creating a reservation in the Binary Bros Hotel system.
+ * This class extends JFrame and includes form inputs for reservation details such as guest name,
+ * email, room selection, and dates. It also manages database interactions for saving reservations
+ * and updating room statuses.
+ * 
+ * @author Binary Bros
+ * @version 1.0
  */
 
 public class createReservationWindow extends JFrame {
@@ -17,6 +21,11 @@ public class createReservationWindow extends JFrame {
     private JComboBox<String> roomOptions;
     private JButton reserveButton, viewDetailsButton;
     private int currentUserID = 1;
+
+    /**
+     * Constructor for createReservationWindow that initializes the user interface components,
+     * sets up the layout, and loads available room options.
+     */
 
     public createReservationWindow() {
         setTitle("Make a Reservation");
@@ -27,6 +36,10 @@ public class createReservationWindow extends JFrame {
         setLocationRelativeTo(null);
         loadRoomOptions();
     }
+
+    /**
+     * Initializes all the UI components required for the reservation form.
+     */
 
     private void initializeComponents() {
         nameField = new JTextField(20);
@@ -41,9 +54,13 @@ public class createReservationWindow extends JFrame {
         viewDetailsButton.addActionListener(event -> showRoomDetails());
     }
 
+    /**
+     * Loads available room options from the database into the room selection combo box.
+     */
+
     private void loadRoomOptions() {
-        try (Connection conn = Database.getConnection();
-            Statement stmt = conn.createStatement()) {
+        try (Connection connection = Database.getConnection();
+            Statement stmt = connection.createStatement()) {
                 ResultSet rs = stmt.executeQuery("SELECT roomNumber, roomType, pricePerNight FROM Rooms WHERE status = 'available'");
                 
                 while (rs.next()) {
@@ -56,6 +73,10 @@ public class createReservationWindow extends JFrame {
             JOptionPane.showMessageDialog(this, "Failed to load rooms: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Sets up the layout for the reservation window, arranging components in panels.
+     */
 
     private void setUpLayout() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10)); 
@@ -83,6 +104,10 @@ public class createReservationWindow extends JFrame {
         add(mainPanel);
     }
 
+    /**
+     * Displays details of the selected room.
+     */
+
     private void showRoomDetails() {
         String selectedRoomDetail = (String) roomOptions.getSelectedItem();
         String selectedRoomNumber = selectedRoomDetail.split(":")[0].replace("Room ", "").trim();
@@ -104,6 +129,10 @@ public class createReservationWindow extends JFrame {
         }
     }
 
+    /**
+     * Attempts to reserve the selected room for the guest.
+     */
+
     private void reserveRoom() {
         String guestName = nameField.getText();
         String email = emailField.getText();
@@ -111,44 +140,70 @@ public class createReservationWindow extends JFrame {
         String selectedRoomNumber = selectedRoomDetail.split(":")[0].replace("Room ", "").trim();
         String checkInDate = checkInDateField.getText();
         String checkOutDate = checkOutDateField.getText();
-
+    
         if (validateInput(guestName, selectedRoomNumber, checkInDate, checkOutDate)) {
             try {
                 insertReservation(currentUserID, selectedRoomNumber, checkInDate, checkOutDate);
+    
                 updateRoomStatus(selectedRoomNumber, "Occupied"); 
-                
-                String confirmationMessage = "Reservation Confirmed:\n\n" + 
-                    "Name: " + guestName + "\n" + "Room Number: " + selectedRoomNumber + "\n" +
-                    "Check-in Date: " + checkInDate + "\n" + "Check-out Date: " + checkOutDate;
 
-                JOptionPane.showMessageDialog(this, confirmationMessage, "Reservation Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                
+                JOptionPane.showMessageDialog(this, "Reservation Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+    
+                openPaymentWindow();
+
                 if (!email.isEmpty()) 
                     new Email(email).reservationMessage();
-
+    
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Database ERROR: " + e.getMessage(), "Database ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Failed to make reservation: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Fill in all fields with valid data.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in all fields with valid data.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Opens a new payment window.
+     */
+
+    private void openPaymentWindow() {
+        paymentWindow paymentWindow = new paymentWindow();
+        paymentWindow.setVisible(true);
+    }
+
+    /**
+     * Updates the status of a specific room in the database.
+     *
+     * @param roomNumber The number of the room whose status needs to be updated.
+     * @param newStatus The new status to set for the room, e.g., "Occupied".
+     * @throws SQLException If there is a database access error or the update is not possible.
+     */
+
     private void updateRoomStatus(String roomNumber, String newStatus) throws SQLException {
-        try (Connection conn = Database.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("UPDATE Rooms SET status = ? WHERE roomNumber = ?")) {
+        try (Connection connection = Database.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE Rooms SET status = ? WHERE roomNumber = ?")) {
                 pstmt.setString(1, newStatus);
                 pstmt.setString(2, roomNumber);
                 pstmt.executeUpdate();
             }
     }
 
+    /**
+     * Inserts a new reservation into the database.
+     *
+     * @param userID The user ID of the guest making the reservation.
+     * @param roomNumber The room number being reserved.
+     * @param checkInDate The check-in date for the reservation.
+     * @param checkOutDate The check-out date for the reservation.
+     * @throws SQLException If there is a database access error or the insert is not executed properly.
+     */
+
     private void insertReservation(int userID, String roomNumber, String checkInDate, String checkOutDate) throws SQLException {
         int roomID = getRoomIDFromRoomNumber(roomNumber);
         
         String sql = "INSERT INTO Reservations (userID, roomID, checkInDate, checkOutDate, status) VALUES (?, ?, ?, ?, 'Confirmed')";
-        try (Connection conn = Database.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection connection = Database.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)) {
                 pstmt.setInt(1, userID);
                 pstmt.setInt(2, roomID);
                 pstmt.setDate(3, java.sql.Date.valueOf(checkInDate));
@@ -157,11 +212,19 @@ public class createReservationWindow extends JFrame {
             }
     }
 
+    /**
+     * Retrieves the database ID of a room based on its room number.
+     *
+     * @param roomNumber The room number to look up.
+     * @return The database ID of the room, or -1 if the room cannot be found.
+     * @throws SQLException If there is a database access error or the query fails.
+     */
+
     private int getRoomIDFromRoomNumber(String roomNumber) throws SQLException {
         int roomID = -1;
         
-        try (Connection conn = Database.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement("SELECT roomID FROM Rooms WHERE roomNumber = ?")) {
+        try (Connection connection = Database.getConnection();
+                PreparedStatement pstmt = connection.prepareStatement("SELECT roomID FROM Rooms WHERE roomNumber = ?")) {
                     pstmt.setString(1, roomNumber);
                     ResultSet rs = pstmt.executeQuery();
             
@@ -173,9 +236,26 @@ public class createReservationWindow extends JFrame {
         return roomID;
     }
 
+    /**
+     * Validates the input fields for creating a reservation.
+     *
+     * @param name The guest's name.
+     * @param roomNumber The room number.
+     * @param checkInDate The check-in date.
+     * @param checkOutDate The check-out date.
+     * @return true if all inputs are valid and not empty, false otherwise.
+     */
+
     private boolean validateInput(String name, String roomNumber, String checkInDate, String checkOutDate) {
         return !name.isEmpty() && !roomNumber.isEmpty() && isValidDate(checkInDate) && isValidDate(checkOutDate);
     }
+
+    /**
+     * Validates if a string date is in the correct "yyyy-MM-dd" format and is a valid date.
+     *
+     * @param date The date string to validate.
+     * @return true if the date is valid, false otherwise.
+     */
 
     private boolean isValidDate(String date) {
         try {

@@ -3,7 +3,9 @@ DROP DATABASE IF EXISTS BinaryBrosHotel;
 CREATE DATABASE BinaryBrosHotel;
 USE BinaryBrosHotel;
 
--- Table for Users
+-- Users Table:
+-- Stores all user account information necessary for system access and management.
+-- Includes basic user identification and roles to differentiate access levels.
 CREATE TABLE Users (
     userID INT PRIMARY KEY AUTO_INCREMENT,
     fullName VARCHAR(255) NOT NULL,
@@ -13,7 +15,9 @@ CREATE TABLE Users (
     Role ENUM('User', 'Admin') NOT NULL
 );
 
--- Table for Storing User Accounts
+-- Accounts Table:
+-- Detailed account information for users including personal details.
+-- Used for both authentication purposes and user management within the system.
 CREATE TABLE Accounts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fullName VARCHAR(255) NOT NULL,
@@ -26,7 +30,9 @@ CREATE TABLE Accounts (
 
 SELECT * FROM Accounts WHERE username = 'newUsername';
 
--- Table for Storing Room Information
+-- Rooms Table:
+-- Contains all physical room details managed by the hotel.
+-- This table's data assists in the reservation process and room maintenance tracking.
 CREATE TABLE Rooms (
     roomID INT PRIMARY KEY AUTO_INCREMENT,
     roomNumber VARCHAR(10) NOT NULL,
@@ -37,6 +43,7 @@ CREATE TABLE Rooms (
     status ENUM('Available', 'Occupied', 'Under Maintenance') DEFAULT 'Available'
 );
 
+-- Can Be Deleted
 INSERT INTO Rooms (roomNumber, roomType, bedType, maxOccupancy, pricePerNight, status) VALUES
     ('100', 'Single', 'Twin', 1, 50.00, 'Available'),
     ('101', 'Single', 'Twin', 1, 50.00, 'Available'),
@@ -69,7 +76,9 @@ INSERT INTO Rooms (roomNumber, roomType, bedType, maxOccupancy, pricePerNight, s
     ('504', 'Penthouse', 'Super King', 10, 2000.00, 'Available'),
     ('505', 'Penthouse', 'Super King', 10, 2000.00, 'Available');
 
--- Table for Storing Reservations
+-- Reservations Table:
+-- Records all reservations made by users.
+-- Links to Accounts and Rooms tables via foreign keys to integrate user data and room details.
 CREATE TABLE Reservations (
     reservationID INT PRIMARY KEY AUTO_INCREMENT,
     userID INT NOT NULL,
@@ -81,7 +90,9 @@ CREATE TABLE Reservations (
     FOREIGN KEY (roomID) REFERENCES Rooms(roomID)
 );
 
--- Table for Reservation Modifications
+-- ReservationModifications Table:
+-- Tracks any changes made to reservations such as date changes.
+-- Helps in auditing modifications and managing customer service.
 CREATE TABLE ReservationModifications (
     modificationID INT PRIMARY KEY AUTO_INCREMENT,
     reservationID INT NOT NULL,
@@ -93,7 +104,9 @@ CREATE TABLE ReservationModifications (
     FOREIGN KEY (reservationID) REFERENCES Reservations(reservationID)
 );
 
--- Table for Generating Reports (If Needed)
+-- Reports Table:
+-- Optional table for generating reports related to occupancy and revenue.
+-- Structured to store results of periodic reports for management review.
 CREATE TABLE Reports (
     reportID INT PRIMARY KEY AUTO_INCREMENT,
     reportType ENUM('Occupancy', 'Revenue') NOT NULL,

@@ -8,15 +8,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
-    Allows Users To Log Into Binary Bros Hotel System
-    @author Binary Bros
-    @version 1.0
+ * Provides a login interface for guests of the Binary Bros Hotel System. 
+ * This class extends JFrame and manages user authentication against a database,
+ * granting access based on valid credentials.
+ * 
+ * @author Binary Bros
+ * @version 1.0
  */
 
 public class loginWindow extends JFrame {
 
     private JTextField usernameField;
     private JPasswordField passwordField;
+
+    /**
+     * Constructor that sets up the login interface, including text fields for username and password,
+     * and a button to submit the login credentials.
+     */
 
     public loginWindow() {
         setTitle("Binary Bros Hotel Login");
@@ -76,6 +84,15 @@ public class loginWindow extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Authenticates a user by comparing the provided username and password with those in the database.
+     * Provides user feedback via dialog messages for successful or unsuccessful logins, and handles any SQL exceptions that may occur.
+     *
+     * @param username The username entered by the user.
+     * @param password The password entered by the user.
+     * @return boolean true if the credentials match those on record, false otherwise.
+     */
+
     private boolean authenticate(String username, String password) {
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -85,6 +102,7 @@ public class loginWindow extends JFrame {
             connection = Database.getConnection();
     
             String sql = "SELECT password FROM Accounts WHERE username = ?";
+            
             pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, username);
             rs = pstmt.executeQuery();
@@ -94,7 +112,7 @@ public class loginWindow extends JFrame {
                 return storedPassword.equals(password);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Database ERROR: " + e.getMessage(), "Database ERROR", JOptionPane.ERROR_MESSAGE);
 
             } finally {
                 try {
@@ -105,7 +123,7 @@ public class loginWindow extends JFrame {
                     if (connection != null) 
                         connection.close();
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, "Error closing database resources: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "ERROR Closing Database Resources: " + ex.getMessage(), "Database ERROR", JOptionPane.ERROR_MESSAGE);
                 }
         }
 

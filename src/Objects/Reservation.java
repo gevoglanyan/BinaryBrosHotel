@@ -5,62 +5,41 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
 /**
-    Stores Guest Reservation Info
-    @author Binary Bros
-    @version 1.0
+ * Represents a reservation within the Binary Bros Hotel system.
+ * This class encapsulates all necessary reservation details and is responsible for
+ * persisting these details to the database upon creation.
+ * 
+ * @author Binary Bros
+ * @version 1.0
  */
 
 public class Reservation {
 
-    /**
-        Represents the Reservation ID Number
-    */
-    private final int reservationID;
-    /**
-        Represents the Room's ID Number
-    */
-    private final int roomID;
-    /**
-        Represents the Reservation Check In Date
-    */
-    private final String checkInDate;
-    /**
-        Represents the Reservation Check Out Date
-    */
-    private final String checkOutDate;
-    /**
-        Represents the Reservation's Total Price
-    */
-    private final double totalPrice;
-    /**
-        Represents the Number of Rooms
-    */
-    private final int numberOfRooms;
-    /**
-        Represents the Payment Method
-    */
-    private final int paymentMethod;
-    /**
-        Represents the Number of Available Rooms
-    */
-    private final int availableRooms;
-    /**
-        Represents the Room Type
-    */
-    private final String roomType;
+    private final int reservationID;    // Unique identifier for the reservation
+    private final int roomID;           // Identifier for the room associated with this reservation
+    private final String checkInDate;   // Start date of the reservation
+    private final String checkOutDate;  // End date of the reservation
+    private final double totalPrice;    // Total price of the reservation
+    private final int numberOfRooms;    // Number of rooms booked in this reservation
+    private final int paymentMethod;    // Payment method used
+    private final int availableRooms;   // Number of rooms available at the time of booking
+    private final String roomType;      // Type of room booked
 
-      /**
-        Adds the Reservation and Information to Database
-        @param reservationID the Reservation ID
-        @param roomID the Room ID
-        @param checkInDate the Check In Date
-        @param checkOutDate the Check Out Date
-        @param totalPrice the Total Price
-        @param numberOfRooms the Number of Rooms
-        @param paymentMethod the Payment Method
-        @param availableRooms the Number of Available Rooms
-        @param roomType the Room Type
-    */
+    /**
+     * Constructs a new Reservation object and stores its details to the database.
+     *
+     * @param reservationID  The reservation's unique identifier.
+     * @param roomID  The identifier for the room associated with this reservation.
+     * @param checkInDate  The start date of the reservation in YYYY-MM-DD format.
+     * @param checkOutDate  The end date of the reservation in YYYY-MM-DD format.
+     * @param totalPrice  The total price for the reservation.
+     * @param numberOfRooms  The number of rooms booked.
+     * @param paymentMethod  The payment method identifier used for the reservation.
+     * @param availableRooms  The number of rooms available at the time of booking.
+     * @param roomType  The type of room booked.
+     * @throws SQLException  If there is a problem executing the SQL to store reservation details.
+     */
+
     public Reservation (int reservationID, int roomID, String checkInDate, String checkOutDate, double totalPrice, 
             int numberOfRooms, int paymentMethod, int avaliableRooms, String roomType) throws SQLException {
         
@@ -96,64 +75,91 @@ public class Reservation {
     }
 
     /**
-        Returns reservationID
-    */
+     * Gets the unique identifier for this reservation.
+     *
+     * @return the reservation ID as an integer.
+     */
+
     public int reservationID() {
         return reservationID;
     }
 
     /**
-        Returns roomID
-    */
+     * Gets the room ID associated with this reservation.
+     *
+     * @return the room ID as an integer.
+     */
+
     public int roomID() {
         return roomID;
     }
 
     /**
-        Returns checkInDate
-    */
+     * Gets the check-in date for this reservation.
+     *
+     * @return the check-in date as a String in YYYY-MM-DD format.
+     */
+
     public String checkInDate() {
         return checkInDate;
     }
 
     /**
-        Returns checkOutDate
-    */
+     * Gets the check-out date for this reservation.
+     *
+     * @return the check-out date as a String in YYYY-MM-DD format.
+     */
+
     public String checkOutDate() {
         return checkOutDate;
     }
 
     /**
-        Returns totalPrice
-    */
+     * Gets the total price for this reservation.
+     *
+     * @return the total price as a double.
+     */
+
     public double totalPrice() {
         return totalPrice;
     }
 
     /**
-        Returns numberOfRooms
-    */
+     * Gets the number of rooms booked in this reservation.
+     *
+     * @return the number of rooms as an integer.
+     */
+
     public int numberOfRooms() {
         return numberOfRooms;
     }
 
     /**
-        Returns paymentMethod
-    */
+     * Gets the payment method used for this reservation.
+     *
+     * @return the payment method as an integer, where each integer corresponds to a specific payment method.
+     */
+
     public int paymentMethod() {
         return paymentMethod;
     }
 
     /**
-        Returns availableRooms
-    */
+     * Gets the number of rooms available at the time this reservation was made.
+     *
+     * @return the number of available rooms as an integer.
+     */
+
     public int availableRooms() {
         return availableRooms;
     }
 
     /**
-        Returns roomType
-    */
+     * Gets the type of room booked in this reservation.
+     *
+     * @return the room type as a String.
+     */
+    
     public String roomType() {
         return roomType;
     }

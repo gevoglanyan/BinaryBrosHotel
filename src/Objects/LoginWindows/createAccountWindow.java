@@ -10,14 +10,22 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
-    Allows New Users To Create an Account For Binary Bros Hotel
-    @author Binary Bros
-    @version 1.0
+ * Provides an interface for new users to create an account for the Binary Bros Hotel system.
+ * This class extends JFrame and includes form inputs for user details such as full name, username,
+ * email, password, date of birth, and address. It also handles the creation and validation of user
+ * accounts, storing them in a database upon successful validation.
+ * 
+ * @author Binary Bros
+ * @version 1.0
  */
 
 public class createAccountWindow extends JFrame {
     private JTextField fullNameField, usernameField, emailField, dobField, addressField;
     private JPasswordField passwordField;
+
+    /**
+     * Constructor for createAccountWindow that initializes the user interface and makes the window visible.
+     */
 
     public createAccountWindow() {
         super("Account Creation");
@@ -28,6 +36,11 @@ public class createAccountWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+     /**
+     * Initializes the user interface components of the account creation form.
+     * Sets up a form with labeled text fields for user input and a button to submit the form.
+     */
 
     private void initializeUI() {
         JPanel formPanel = new JPanel();
@@ -71,6 +84,13 @@ public class createAccountWindow extends JFrame {
         add(formPanel);
     }
 
+    /**
+     * Returns the appropriate input field based on the provided index.
+     * 
+     * @param index The index corresponding to the input field.
+     * @return JComponent representing the input field.
+     */
+
     private JComponent getInputField(int index) {
         switch (index) {
             case 0: return fullNameField;
@@ -82,6 +102,11 @@ public class createAccountWindow extends JFrame {
             default: return new JTextField(15);
         }
     }
+
+    /**
+     * Attempts to create a new user account by inserting the input data into the database.
+     * Validates the input data, particularly the date format, and handles SQL and parsing exceptions.
+     */
     
     private void createAccount() {
         String fullName = fullNameField.getText();
@@ -131,6 +156,10 @@ public class createAccountWindow extends JFrame {
             }
         }
     }
+
+    /**
+     * Clears all input fields after an account creation attempt or upon successful account creation.
+     */
     
     private void clearFields() {
         fullNameField.setText("");

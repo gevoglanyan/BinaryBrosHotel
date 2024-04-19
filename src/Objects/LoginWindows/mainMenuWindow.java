@@ -4,12 +4,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
-    Shows User The Binary Bros Hotel Menu
-    @author Binary Bros
-    @version 1.0
+ * Represents the main menu window of the Binary Bros Hotel Reservation System.
+ * This class provides a user interface for navigating to different reservation management functionalities,
+ * such as making or editing reservations, and logging out of the system.
+ * 
+ * @author Binary Bros
+ * @version 1.0
  */
 
 public class mainMenuWindow extends JFrame {
+    
+    /**
+     * Constructor for the mainMenuWindow. Sets up the user interface, including buttons for different actions.
+     */
+
     public mainMenuWindow() {
         setTitle("Binary Bros Hotel Reservation System");
         setSize(500, 400);
@@ -53,6 +61,14 @@ public class mainMenuWindow extends JFrame {
             System.exit(0);
         });
     }
+
+    /**
+     * Creates a stylized JButton with specified text. Buttons in this window have specific fonts,
+     * are centered, and change the cursor to a hand when hovered over.
+     * 
+     * @param text The text to display on the button.
+     * @return JButton that is visually and functionally configured for use in the main menu.
+     */
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
