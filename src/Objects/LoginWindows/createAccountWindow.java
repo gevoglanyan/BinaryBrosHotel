@@ -1,9 +1,6 @@
-//package Objects.LoginWindows;
-
-import javax.swing.*;
-
 import Objects.Database;
 
+import javax.swing.*;
 import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

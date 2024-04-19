@@ -1,11 +1,13 @@
-//package Objects.LoginWindows;
-
-//import Objects.CreateReservationWindows.createReservationWindow;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+/**
+    Shows User The Binary Bros Hotel Menu
+    @author Binary Bros
+    @version 1.0
+ */
 
 public class mainMenuWindow extends JFrame {
     public mainMenuWindow() {
