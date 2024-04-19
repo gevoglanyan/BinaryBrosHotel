@@ -6,6 +6,8 @@ import javax.mail.internet.*;
 import javax.activation.*; 
 import javax.mail.Session; 
 import javax.mail.Transport;
+import java.util.regex.Matcher; 
+import java.util.regex.Pattern; 
 
 /**
     Send Emails to Guests Pertaining to Their Hotel Reservation
@@ -26,8 +28,10 @@ public class Email {
         Represents the Host IP Address
      */
     private String host = "127.0.0.1";
+    
     /**
-        Constructs an Amail to Send to Guest
+        Constructs an Email to Send to Guest
+        @param guestEmail Guest Email Address
      */
     public Email (String guestEmail) {
         setRecipient(guestEmail);
@@ -38,8 +42,9 @@ public class Email {
        @param header Subject Line of the Email
        @param body Main Message of the Email
     */
-
     public void message(String header, String body) {
+        if(!isValid(recipient)) break;
+        
         String text = body;
         String subject = header;
         
@@ -67,7 +72,9 @@ public class Email {
             Sends an Email About Guests Recently Made Reservation
         */
         public void reservationMessage() {
-            String message = "Your hotel reservation has been made. Thank you for choosing Binary Bros for your hotel experience! To update or cancel your reservation, check the reservation status on the website.";
+            String message = "Your hotel reservation has been made." 
+            + "Thank you for choosing Binary Bros for your hotel experience!"
+            + "To update or cancel your reservation, please edit your reservation.";
             String header = "Binary Bros: Hotel Reservation";
             message(header, message);
         }
@@ -84,17 +91,35 @@ public class Email {
         /**
             Sends an Email About an Update to a Reservation
         */
-
         public void updateMessage() {
-            String message = "Your hotel reservation has been successfully updated! Thank you again for choosing Binary Bros for your hotel experience.";
+            String message = "Your hotel reservation has been successfully updated." 
+            + "Thank you again for choosing Binary Bros for your hotel experience!";
             String header = "Binary Bros: Reservation Update";
             message(header, message);
         }
 
         /**
             Sets the Guests Email as the Recipient Address
+            @param guestEmail the Guest Email Address
         */
         public void setRecipient(String guestEmail) {
             recipient = guestEmail;
+        }
+
+        /**
+            Checks if the Email Address is Valid
+            @param email the Email Address
+            @return Validity of the Email
+         */
+        public boolean isValid(String email){
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
+                            "[a-zA-Z0-9_+&*-]+)*@" + 
+                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
+                            "A-Z]{2,7}$"; 
+                              
+            Pattern pat = Pattern.compile(emailRegex); 
+            if (email == null) 
+                return false; 
+            return pat.matcher(email).matches(); 
         }
 }
