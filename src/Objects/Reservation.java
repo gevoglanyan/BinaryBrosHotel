@@ -95,8 +95,6 @@ public class Reservation {
     
         // Execute the Query
         pstmt.executeUpdate();
-
-        // Need to Add Database
     }
 
     /**
