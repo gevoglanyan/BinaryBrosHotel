@@ -1,8 +1,8 @@
 package Objects;
 
 import java.sql.Connection;
-import java.sql.Statement;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
 /**
     Stores user reservation info into Database
@@ -74,8 +74,27 @@ public class Reservation {
         this.availableRooms = avaliableRooms;
         this.roomType = roomType;
 
-        Connection databaseConnection = Database.getConnection();
-        Statement myDatabaseStatement = databaseConnection.createStatement();
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+
+        connection = Database.getConnection();
+    
+        // Prepare SQL Query
+        String sql = "INSERT INTO Reservation (reservationID, roomID, checkInDate, checkOutDate, totalPrice, numberOfRooms, paymentMethod, avaliableRooms, roomType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        pstmt = connection.prepareStatement(sql);
+        pstmt.setInt(1, reservationID);
+        pstmt.setInt(2, roomID);
+        pstmt.setString(3, checkInDate);
+        pstmt.setString(4, checkOutDate);
+        pstmt.setDouble(5, totalPrice);
+        pstmt.setInt(6, numberOfRooms);
+        pstmt.setInt(6, paymentMethod);
+        pstmt.setInt(6, avaliableRooms);
+        pstmt.setString(3, roomType);
+    
+        // Execute the Query
+        pstmt.executeUpdate();
 
         // Need to Add Database
     }
