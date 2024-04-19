@@ -1,4 +1,5 @@
 DROP DATABASE IF EXISTS BinaryBrosHotel;
+
 CREATE DATABASE BinaryBrosHotel;
 USE BinaryBrosHotel;
 
@@ -9,7 +10,7 @@ CREATE TABLE Users (
     userUsername VARCHAR(255) NOT NULL,
     userPassword VARCHAR(255) NOT NULL,
     userEmail VARCHAR(255) NOT NULL UNIQUE,
-    Role ENUM('user', 'admin') NOT NULL
+    Role ENUM('User', 'Admin') NOT NULL
 );
 
 -- Table for Storing User Accounts
@@ -33,17 +34,41 @@ CREATE TABLE Rooms (
     bedType VARCHAR(50),
     maxOccupancy INT,
     pricePerNight DECIMAL(10, 2),
-    status ENUM('available', 'occupied', 'under maintenance') DEFAULT 'available'
+    status ENUM('Available', 'Occupied', 'Under Maintenance') DEFAULT 'Available'
 );
 
+--Can Delete This Later On (Will Leave Here For Now)
 INSERT INTO Rooms (roomNumber, roomType, bedType, maxOccupancy, pricePerNight, status) VALUES
-('101', 'Single', 'Queen', 1, 100.00, 'available'),
-('102', 'Double', 'Two Twins', 2, 120.00, 'available'),
-('103', 'Suite', 'King', 4, 250.00, 'available'),
-('104', 'Double', 'Queen', 2, 130.00, 'occupied'),
-('105', 'Single', 'Single', 1, 90.00, 'available'),
-('201', 'Suite', 'King', 4, 300.00, 'available'),
-('202', 'Single', 'Queen', 1, 110.00, 'under maintenance');
+('100', 'Single', 'Twin', 1, 50.00, 'Available'),
+('101', 'Single', 'Twin', 1, 50.00, 'Available'),
+('102', 'Single', 'Twin', 1, 50.00, 'Available'), 
+('103', 'Single', 'Twin', 1, 100.00, 'Available'),
+('104', 'Single', 'Twin', 1, 100.00, 'Available'),
+('105', 'Single', 'Twin', 1, 100.00, 'Available'),
+('200', 'Double', 'Full', 1, 200.00, 'Available'),
+('201', 'Double', 'Full', 1, 200.00, 'Available'),
+('202', 'Double', 'Full', 1, 200.00, 'Available'),
+('203', 'Double', 'Full', 2, 275.00, 'Available'),
+('204', 'Double', 'Full', 2, 275.00, 'Available'), 
+('205', 'Double', 'Full', 2, 275.00, 'Available'),
+('300', 'Queen', 'Queen', 1, 500.00, 'Available'),
+('301', 'Queen', 'Queen', 1, 500.00, 'Available'),
+('302', 'Queen', 'Queen', 1, 500.00, 'Available'),
+('303', 'Queen', 'Queen', 2, 575.00, 'Available'), 
+('304', 'Queen', 'Queen', 2, 575.00, 'Available'),
+('305', 'Queen', 'Queen', 2, 575.00, 'Available'),
+('400', 'Suite', 'King', 4, 750.00, 'Available'),
+('401', 'Suite', 'King', 4, 750.00, 'Available'),
+('402', 'Suite', 'King', 4, 750.00, 'Available'),
+('403', 'Suite', 'King', 6, 1000.00, 'Available'),  
+('404', 'Suite', 'King', 6, 1000.00, 'Available'),
+('405', 'Suite', 'King', 6, 1000.00, 'Available'),
+('500', 'Penthouse', 'Super King', 8, 1500.00, 'Available'),
+('501', 'Penthouse', 'Super King', 8, 1500.00, 'Available'),
+('502', 'Penthouse', 'Super King', 8, 1500.00, 'Available'),  
+('503', 'Penthouse', 'Super King', 10, 2000.00, 'Available'),
+('504', 'Penthouse', 'Super King', 10, 2000.00, 'Available'),
+('505', 'Penthouse', 'Super King', 10, 2000.00, 'Available');
 
 -- Table for Storing Reservations
 CREATE TABLE Reservations (
@@ -52,7 +77,7 @@ CREATE TABLE Reservations (
     roomID INT NOT NULL,
     checkInDate DATE NOT NULL,
     checkOutDate DATE NOT NULL,
-    status ENUM('confirmed', 'canceled', 'checked_in', 'checked_out') NOT NULL DEFAULT 'confirmed',
+    status ENUM('Confirmed', 'Canceled', 'Checked In', 'Checked Out') NOT NULL DEFAULT 'Confirmed',
     FOREIGN KEY (userID) REFERENCES Accounts(id),
     FOREIGN KEY (roomID) REFERENCES Rooms(roomID)
 );
@@ -72,7 +97,7 @@ CREATE TABLE ReservationModifications (
 -- Table for Generating Reports (If Needed)
 CREATE TABLE Reports (
     reportID INT PRIMARY KEY AUTO_INCREMENT,
-    reportType ENUM('occupancy', 'revenue') NOT NULL,
+    reportType ENUM('Occupancy', 'Revenue') NOT NULL,
     period VARCHAR(255) NOT NULL,
     details TEXT NOT NULL
 );
