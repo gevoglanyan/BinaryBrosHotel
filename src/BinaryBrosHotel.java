@@ -12,7 +12,5 @@ public class BinaryBrosHotel {
         System.out.println("Program is running!");
         welcomeWindow window = new welcomeWindow();
         window.setVisible(true);
-
-        // Reservation reservations = new Reservation();
     }
 }
