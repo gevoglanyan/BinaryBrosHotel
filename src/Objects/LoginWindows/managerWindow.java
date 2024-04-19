@@ -1,24 +1,22 @@
-//package Objects.LoginWindows;
+import Objects.Database;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-/**
-    Allows Managers Functionality
-    @author Binary Bros
-    @version 1.0
- */
+import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.math.BigDecimal;
+import javax.swing.table.DefaultTableModel;
 
 public class managerWindow extends JFrame implements ActionListener {
     private JLabel titleLabel;
     private JButton addRoomsButton, removeRoomsButton, viewRoomsButton, logoutButton;
 
     public managerWindow() {
-        setTitle("Manager Dashboard");
+        setTitle("Binary Bros Hotel Manager Dashboard");
 
-        titleLabel = new JLabel("Binary Bros Hotel Manager Dashboard");
+        titleLabel = new JLabel("Manager Dashboard");
         addRoomsButton = new JButton("Add Rooms");
         removeRoomsButton = new JButton("Remove Rooms");
         viewRoomsButton = new JButton("View Rooms");
@@ -49,31 +47,244 @@ public class managerWindow extends JFrame implements ActionListener {
         add(viewRoomsButton, gbc);
         add(logoutButton, gbc);
 
-        setSize(600, 600);
+        setSize(800, 800);
         setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    // Runs the Different Buttons
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addRoomsButton) {
-            JOptionPane.showMessageDialog(this, "Add Rooms Button Clicked");
+            addRoomWindow addRoom = new addRoomWindow(this);
+            addRoom.setVisible(true);
         } else if (e.getSource() == removeRoomsButton) {
-            JOptionPane.showMessageDialog(this, "Remove Rooms Button Clicked");
+            removeRoomWindow removeRoom = new removeRoomWindow(this);
+            removeRoom.setVisible(true);
         } else if (e.getSource() == viewRoomsButton) {
-            JOptionPane.showMessageDialog(this, "View Rooms Button Clicked");
+            viewRoomsWindow viewRooms = new viewRoomsWindow(this);
+            viewRooms.setVisible(true);
         } else if (e.getSource() == logoutButton) {
             dispose(); 
         }
     }
 
-    /*
+    class addRoomWindow extends JDialog {
+        private JTextField roomNumberField, maxOccupancyField, pricePerNightField;
+        private JComboBox<String> roomTypeCombo, bedTypeCombo, statusCombo;
     
-    // Test Purposes
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new managerWindow());
+        public addRoomWindow(Frame owner) {
+            super(owner, "Add Room", true);
+            setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            
+            gbc.gridwidth = 1;
+            gbc.gridheight = 1;
+            gbc.insets = new Insets(10, 10, 10, 10);
+            gbc.anchor = GridBagConstraints.WEST;
+    
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            add(new JLabel("Room Number:"), gbc);
+            roomNumberField = new JTextField(20);
+            gbc.gridx = 1;
+            add(roomNumberField, gbc);
+    
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            add(new JLabel("Room Type:"), gbc);
+            roomTypeCombo = new JComboBox<>(new String[]{"Single", "Double", "Queen", "Suite", "Penthouse"});
+            gbc.gridx = 1;
+            add(roomTypeCombo, gbc);
+    
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            add(new JLabel("Bed Type:"), gbc);
+            bedTypeCombo = new JComboBox<>(new String[]{"Twin", "Full", "Queen", "King", "Super King"});
+            gbc.gridx = 1;
+            add(bedTypeCombo, gbc);
+    
+            gbc.gridx = 0;
+            gbc.gridy = 3;
+            add(new JLabel("Max Occupancy:"), gbc);
+            maxOccupancyField = new JTextField(20);
+            gbc.gridx = 1;
+            add(maxOccupancyField, gbc);
+    
+            gbc.gridx = 0;
+            gbc.gridy = 4;
+            add(new JLabel("Price Per Night:"), gbc);
+            pricePerNightField = new JTextField(20);
+            gbc.gridx = 1;
+            add(pricePerNightField, gbc);
+    
+            gbc.gridx = 0;
+            gbc.gridy = 5;
+            add(new JLabel("Status:"), gbc);
+            statusCombo = new JComboBox<>(new String[]{"Available", "Occupied", "Under Maintenance"});
+            gbc.gridx = 1;
+            add(statusCombo, gbc);
+    
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+            JButton addButton = new JButton("Add Room");
+            addButton.addActionListener(this::addRoom);
+            buttonPanel.add(addButton);
+    
+            JButton cancelButton = new JButton("Cancel");
+            cancelButton.addActionListener(e -> dispose());
+            buttonPanel.add(cancelButton);
+    
+            gbc.gridx = 0;
+            gbc.gridy = 6;
+            gbc.gridwidth = 2;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            
+            add(buttonPanel, gbc);
+    
+            pack();
+            setLocationRelativeTo(owner);
+        }
+
+        private void addRoom(ActionEvent e) {
+            String roomNumber = roomNumberField.getText();
+            String roomType = (String) roomTypeCombo.getSelectedItem();
+            String bedType = (String) bedTypeCombo.getSelectedItem();
+            int maxOccupancy = Integer.parseInt(maxOccupancyField.getText());
+            BigDecimal pricePerNight = new BigDecimal(pricePerNightField.getText());
+            String status = (String) statusCombo.getSelectedItem();
+
+            try (Connection conn = Database.getConnection()) {
+                String sql = "INSERT INTO Rooms (roomNumber, roomType, bedType, maxOccupancy, pricePerNight, status) VALUES (?, ?, ?, ?, ?, ?)";
+                
+                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                    stmt.setString(1, roomNumber);
+                    stmt.setString(2, roomType);
+                    stmt.setString(3, bedType);
+                    stmt.setInt(4, maxOccupancy);
+                    stmt.setBigDecimal(5, pricePerNight);
+                    stmt.setString(6, status);
+                    
+                    int affectedRows = stmt.executeUpdate();
+                    
+                    if (affectedRows > 0) {
+                        JOptionPane.showMessageDialog(this, "Room added successfully!");
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error adding the room: " + ex.getMessage());
+            }
+        }
     }
 
-    */
+    class removeRoomWindow extends JDialog {
+        private JTextField roomNumberField;
+        private JButton removeButton, cancelButton;
+    
+        public removeRoomWindow(Frame owner) {
+            super(owner, "Remove Room", true);
+            setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+    
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.insets = new Insets(10, 10, 10, 10);
+            
+            roomNumberField = new JTextField(20);
+            add(new JLabel("Enter Room Number to Remove:"), gbc);
+            add(roomNumberField, gbc);
+            
+            removeButton = new JButton("Remove");
+            removeButton.addActionListener(this::removeRoom);
+            cancelButton = new JButton("Cancel");
+            cancelButton.addActionListener(e -> dispose());
+            
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.add(removeButton);
+            buttonPanel.add(cancelButton);
+            add(buttonPanel, gbc);
+            
+            pack();
+            setLocationRelativeTo(owner);
+        }
+    
+        private void removeRoom(ActionEvent e) {
+            String roomNumber = roomNumberField.getText();
+            
+            try (Connection conn = Database.getConnection()) {
+                String sql = "DELETE FROM Rooms WHERE roomNumber = ?";
+                
+                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                    stmt.setString(1, roomNumber);
+                    int affectedRows = stmt.executeUpdate();
+                    
+                    if (affectedRows > 0) {
+                        JOptionPane.showMessageDialog(this, "Room removed successfully!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No room found with that number.");
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error removing the room: " + ex.getMessage());
+            }
+            dispose();
+        }
+    }
+
+    class viewRoomsWindow extends JDialog {
+        private JTable roomTable;
+        private JScrollPane scrollPane;
+    
+        public viewRoomsWindow(Frame owner) {
+            super(owner, "View Rooms", true);
+            setLayout(new BorderLayout());
+    
+            String[] columnNames = {"Room Number", "Room Type", "Bed Type", "Max Occupancy", "Price Per Night", "Status"};
+            DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+            
+            roomTable = new JTable(tableModel);
+            scrollPane = new JScrollPane(roomTable);
+            roomTable.setFillsViewportHeight(true);
+    
+            loadRoomData(tableModel);
+    
+            add(scrollPane, BorderLayout.CENTER);
+    
+            JButton closeButton = new JButton("Close");
+            closeButton.addActionListener(e -> dispose());
+            add(closeButton, BorderLayout.SOUTH);
+    
+            setSize(500, 500);
+            setLocationRelativeTo(owner);
+        }
+    
+        private void loadRoomData(DefaultTableModel tableModel) {
+            try (Connection connection = Database.getConnection()) {
+                String sql = "SELECT roomNumber, roomType, bedType, maxOccupancy, pricePerNight, status FROM Rooms";
+                
+                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                    ResultSet rs = stmt.executeQuery();
+                    
+                    while (rs.next()) {
+                        Object[] row = new Object[]{
+                            rs.getString("roomNumber"),
+                            rs.getString("roomType"),
+                            rs.getString("bedType"),
+                            rs.getInt("maxOccupancy"),
+                            rs.getBigDecimal("pricePerNight"),
+                            rs.getString("status")
+                        };
+                        tableModel.addRow(row);
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error Loading Room Data: " + ex.getMessage());
+            }
+        }
+    }
 }
