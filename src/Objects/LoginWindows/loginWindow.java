@@ -1,9 +1,6 @@
-//package Objects.LoginWindows;
-
-import javax.swing.*;
-
 import Objects.Database;
 
+import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,11 +20,11 @@ public class loginWindow extends JFrame {
 
     public loginWindow() {
         setTitle("Binary Bros Hotel Login");
-        setSize(500, 600);
+        setSize(800, 800);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JLabel titleLabel = new JLabel("Binary Bros Hotel Login");
+        JLabel titleLabel = new JLabel("Guest Login");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         titleLabel.setForeground(Color.BLUE);
         titleLabel.setHorizontalAlignment(JLabel.CENTER);

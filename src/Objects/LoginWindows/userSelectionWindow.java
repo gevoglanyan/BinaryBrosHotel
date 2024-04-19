@@ -9,26 +9,29 @@ public class userSelectionWindow extends JFrame {
     
     private void initializeUI() {
         setTitle("User Selection");
-        setSize(500, 500);
+        setSize(800, 800);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new GridBagLayout());
         getContentPane().add(mainPanel);
-        
-        JPanel buttonPanel = new JPanel(new GridBagLayout());
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(20, 20, 20, 20);  // Increased padding between the buttons
+
+        JButton adminButton = createButton("Admin", null);
+        JButton guestButton = createButton("Guest", null);
         
-        JButton adminButton = createButton("Admin", e -> onAdminClicked());
-        JButton guestButton = createButton("Guest", e -> onGuestClicked());
+        adminButton.setPreferredSize(new Dimension(200, 50)); // Set button size
+        guestButton.setPreferredSize(new Dimension(200, 50)); // Set button size
         
-        buttonPanel.add(adminButton, gbc);
-        buttonPanel.add(guestButton, gbc);
+        adminButton.addActionListener(e -> onAdminClicked());
+        guestButton.addActionListener(e -> onGuestClicked());
         
-        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        mainPanel.add(adminButton, gbc);
+        mainPanel.add(guestButton, gbc);
     }
     
     private JButton createButton(String text, ActionListener actionListener) {
@@ -39,26 +42,54 @@ public class userSelectionWindow extends JFrame {
     }
     
     private void onAdminClicked() {
-        JTextField usernameField = new JTextField();
-        JPasswordField passwordField = new JPasswordField();
-
-        Object[] message = { "Username:", usernameField, "Password:", passwordField};
-
-        int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION);
-        
-        if (option == JOptionPane.OK_OPTION) {
+        JFrame loginFrame = new JFrame("Binary Bros Hotel Admin Login");
+        loginFrame.setSize(800, 800);
+        loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        loginFrame.setLocationRelativeTo(null);
+    
+        JLabel titleLabel = new JLabel("Admin Login");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setForeground(Color.BLUE);
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+    
+        JPanel loginPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 50, 10, 50);
+    
+        JLabel usernameLabel = new JLabel("Username:");
+        JLabel passwordLabel = new JLabel("Password:");
+    
+        JTextField usernameField = new JTextField(20);
+        JPasswordField passwordField = new JPasswordField(20);
+    
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(e -> {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
+    
             if (authenticate(username, password)) {
-                JOptionPane.showMessageDialog(null, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-                
+                JOptionPane.showMessageDialog(loginFrame, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+    
                 managerWindow loginWindow = new managerWindow();
                 loginWindow.setVisible(true);
-
+                loginFrame.dispose();
             } else {
-                JOptionPane.showMessageDialog(null, "Incorrect username or password", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(loginFrame, "Incorrect Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        });
+    
+        loginPanel.add(titleLabel, gbc);
+        loginPanel.add(usernameLabel, gbc);
+        loginPanel.add(usernameField, gbc);
+        loginPanel.add(passwordLabel, gbc);
+        loginPanel.add(passwordField, gbc);
+        loginPanel.add(loginButton, gbc);
+    
+        loginFrame.setLayout(new BorderLayout());
+        loginFrame.add(loginPanel, BorderLayout.CENTER);
+        loginFrame.setVisible(true);
     }
 
     private boolean authenticate(String username, String password) {
