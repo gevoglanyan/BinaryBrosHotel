@@ -89,9 +89,9 @@ public class Reservation {
         pstmt.setString(4, checkOutDate);
         pstmt.setDouble(5, totalPrice);
         pstmt.setInt(6, numberOfRooms);
-        pstmt.setInt(6, paymentMethod);
-        pstmt.setInt(6, avaliableRooms);
-        pstmt.setString(3, roomType);
+        pstmt.setInt(7, paymentMethod);
+        pstmt.setInt(8, avaliableRooms);
+        pstmt.setString(9, roomType);
     
         // Execute the Query
         pstmt.executeUpdate();
