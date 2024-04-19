@@ -31,6 +31,7 @@ public class loginWindow extends JFrame {
 
         JPanel loginPanel = new JPanel(new GridBagLayout()); 
         GridBagConstraints gbc = new GridBagConstraints();
+        
         gbc.gridwidth = GridBagConstraints.REMAINDER; 
         gbc.fill = GridBagConstraints.HORIZONTAL; 
         gbc.insets = new Insets(10, 50, 10, 50); 
@@ -97,9 +98,12 @@ public class loginWindow extends JFrame {
 
             } finally {
                 try {
-                    if (rs != null) rs.close();
-                    if (pstmt != null) pstmt.close();
-                    if (connection != null) connection.close();
+                    if (rs != null) 
+                        rs.close();
+                    if (pstmt != null) 
+                        pstmt.close();
+                    if (connection != null) 
+                        connection.close();
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(this, "Error closing database resources: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
                 }

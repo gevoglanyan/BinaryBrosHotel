@@ -6,45 +6,45 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 
 /**
-    Takes user info and stores it into Database
+    Takes User Info and Stores it into Database
     @author Binary Bros
     @version 1.0
  */
 
 public class User {
     /**
-        Represents user's unique ID number
+        Represents User's Unique ID Number
     */
     private int userID;
     /**
-        Represents user's full name
+        Represents User's Full Name
     */
     private String fullName;
     /**
-        Represents user's username
+        Represents User's Username
     */
     private String username;
     /**
-        Represents user's password
+        Represents User's Password
     */
     private String password;
     /**
-        Represents user's email address
+        Represents User's Email Address
     */
     private String email;
     /**
-        Represents the user's role
+        Represents the User's Role
     */
     private String role;
 
     /**
-        Adds the user and all of their information into the user database
-        @param userID the userID
-        @param fullname the full name
-        @param username the username
-        @param password the password
-        @param email the email
-        @param role the role
+        Adds the User and All of Their Information into Database
+        @param userID the User ID
+        @param fullname the Full Name
+        @param username the Username
+        @param password the Password
+        @param email the Email
+        @param role the Role
     */
     public User(int userID, String fullName, String username, String password, String email, String role) throws SQLException {
         this.userID = userID;
@@ -93,21 +93,21 @@ public class User {
     }
 
     /**
-        Gets the user's username
+        Gets the User's Username
     */
     public String getUsername() {
         return username;
     }
 
     /**
-        Gets the user's password
+        Gets the User's Password
     */
     public String getPassword() {
         return password;
     }
 
     /**
-        Gets the user's role
+        Gets the User's Role
     */
     public String getRole() {
         return role;

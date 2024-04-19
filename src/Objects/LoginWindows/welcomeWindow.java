@@ -34,6 +34,7 @@ public class welcomeWindow extends JFrame {
     
         JPanel mainPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -49,12 +50,14 @@ public class welcomeWindow extends JFrame {
         JLabel welcomeLabel = new JLabel("Welcome to Binary Bros Hotel");
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         welcomeLabel.setForeground(Color.BLUE);
+        
         return welcomeLabel;
     }
 
     private JButton createButton(String text, ActionListener actionListener) {
         JButton button = new JButton(text);
         button.addActionListener(actionListener);
+        
         return button;
     }
 

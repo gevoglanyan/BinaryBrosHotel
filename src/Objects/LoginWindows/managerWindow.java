@@ -9,6 +9,12 @@ import java.sql.ResultSet;
 import java.math.BigDecimal;
 import javax.swing.table.DefaultTableModel;
 
+/**
+    Admin/Manager Window
+    @author Binary Bros
+    @version 1.0
+ */
+
 public class managerWindow extends JFrame implements ActionListener {
     private JLabel titleLabel;
     private JButton addRoomsButton, removeRoomsButton, viewRoomsButton, logoutButton;
@@ -156,10 +162,10 @@ public class managerWindow extends JFrame implements ActionListener {
             BigDecimal pricePerNight = new BigDecimal(pricePerNightField.getText());
             String status = (String) statusCombo.getSelectedItem();
 
-            try (Connection conn = Database.getConnection()) {
+            try (Connection connection = Database.getConnection()) {
                 String sql = "INSERT INTO Rooms (roomNumber, roomType, bedType, maxOccupancy, pricePerNight, status) VALUES (?, ?, ?, ?, ?, ?)";
                 
-                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                     stmt.setString(1, roomNumber);
                     stmt.setString(2, roomType);
                     stmt.setString(3, bedType);
@@ -214,10 +220,10 @@ public class managerWindow extends JFrame implements ActionListener {
         private void removeRoom(ActionEvent e) {
             String roomNumber = roomNumberField.getText();
             
-            try (Connection conn = Database.getConnection()) {
+            try (Connection connection = Database.getConnection()) {
                 String sql = "DELETE FROM Rooms WHERE roomNumber = ?";
                 
-                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                     stmt.setString(1, roomNumber);
                     int affectedRows = stmt.executeUpdate();
                     

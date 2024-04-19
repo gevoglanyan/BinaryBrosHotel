@@ -8,43 +8,44 @@ import javax.mail.Session;
 import javax.mail.Transport;
 
 /**
-    A way to send emails to customers pertaining to their
-    hotel reservation
+    Send Emails to Guests Pertaining to Their Hotel Reservation
     @author Binary Bros
     @version 1.0
  */
 
 public class Email {
     /**
-        Represents the customer's email address
+        Represents the Guests Email Address
      */
     private String recipient;
     /** 
-        Represents the hotel's email address 
+        Represents the Hotel's Email Address 
     */
     private String sender = "binarybros@gmail.com";
     /**
-        Represents the host IP address
+        Represents the Host IP Address
      */
     private String host = "127.0.0.1";
-
     /**
-        Constructs an email to send to the guest
+        Constructs an Amail to Send to Guest
      */
     public Email (String guestEmail) {
         setRecipient(guestEmail);
     }
 
     /**
-        Creates default email template
-       @param header subject line of the email
-       @param body main message of the email
-     */
+        Creates Default Email Template
+       @param header Subject Line of the Email
+       @param body Main Message of the Email
+    */
+
     public void message(String header, String body) {
         String text = body;
         String subject = header;
+        
         Properties properties = System.getProperties(); 
         properties.setProperty("mail.smtp.host", host); 
+        
         Session session = Session.getDefaultInstance(properties); 
         try 
         { 
@@ -54,16 +55,16 @@ public class Email {
             message.setSubject(subject); 
             message.setText(text); 
             Transport.send(message); 
-            System.out.println("Email has been sent"); 
+            
+            System.out.println("Email Sent!"); 
         } 
-        catch (MessagingException mex)  
-        { 
-        mex.printStackTrace(); 
+        catch (MessagingException mex) { 
+            mex.printStackTrace(); 
         } 
     }
 
         /**
-            Sends email about guest's recently made hotel reservation
+            Sends an Email About Guests Recently Made Reservation
         */
         public void reservationMessage() {
             String message = "Your hotel reservation has been made. Thank you for choosing Binary Bros for your hotel experience! To update or cancel your reservation, check the reservation status on the website.";
@@ -72,7 +73,7 @@ public class Email {
         }
 
         /**
-            Sends email about a reservation cancelation
+            Sends an Email About a Reservation Cancelation
         */
         public void cancelMessage() {
             String message = "Your hotel reservation with the Binary Bros has been cancelled.";
@@ -81,7 +82,7 @@ public class Email {
         }
 
         /**
-            Sends email about update to a reservation
+            Sends an Email About an Update to a Reservation
         */
 
         public void updateMessage() {
@@ -91,9 +92,9 @@ public class Email {
         }
 
         /**
-            Sets the guest's email as the recipient address
+            Sets the Guests Email as the Recipient Address
         */
-        public void setRecipient(String guestEmail){
+        public void setRecipient(String guestEmail) {
             recipient = guestEmail;
         }
 }

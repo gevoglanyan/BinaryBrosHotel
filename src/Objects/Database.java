@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
-    Database System
+    Database System Information
     @author Binary Bros
     @version 1.0
  */

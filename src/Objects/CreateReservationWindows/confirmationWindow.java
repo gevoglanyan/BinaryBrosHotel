@@ -31,12 +31,12 @@ public class confirmationWindow extends JFrame {
         roomTypeComboBox = new JComboBox<>(roomTypes);
 
         confirmButton = new JButton("Confirm");
+        
         confirmButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
                 String date = dateField.getText();
                 String roomType = (String) roomTypeComboBox.getSelectedItem();
-
                 String confirmationMessage = "Reservation Summary:\n" +
                         "Name: " + name + "\n" +
                         "Date: " + date + "\n" +

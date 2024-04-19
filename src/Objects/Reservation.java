@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
 /**
-    Stores user reservation info into Database
+    Stores Guest Reservation Info
     @author Binary Bros
     @version 1.0
  */
@@ -13,53 +13,53 @@ import java.sql.PreparedStatement;
 public class Reservation {
 
     /**
-        Represents the reservation ID number
+        Represents the Reservation ID Number
     */
     private final int reservationID;
     /**
-        Represents the room's ID number
+        Represents the Room's ID Number
     */
     private final int roomID;
     /**
-        Represents the reservation check-in date
+        Represents the Reservation Check In Date
     */
     private final String checkInDate;
     /**
-        Represents the reservation check-out date
+        Represents the Reservation Check Out Date
     */
     private final String checkOutDate;
     /**
-        Represents the reservation's total price
+        Represents the Reservation's Total Price
     */
     private final double totalPrice;
     /**
-        Represents the number of rooms
+        Represents the Number of Rooms
     */
     private final int numberOfRooms;
     /**
-        Represents the paymentMethod
+        Represents the Payment Method
     */
     private final int paymentMethod;
     /**
-        Represents the number of available rooms
+        Represents the Number of Available Rooms
     */
     private final int availableRooms;
     /**
-        Represents the room type
+        Represents the Room Type
     */
     private final String roomType;
 
       /**
-        Adds the reservation and its information to the database
-        @param reservationID the reservation ID
-        @param roomID the room ID
-        @param checkInDate the check-in date
-        @param checkOutDate the check-out date
-        @param totalPrice the total price
-        @param numberOfRooms the number of rooms
-        @param paymentMethod the payment method
-        @param availableRooms the number of available rooms
-        @param roomType the room type
+        Adds the Reservation and Information to Database
+        @param reservationID the Reservation ID
+        @param roomID the Room ID
+        @param checkInDate the Check In Date
+        @param checkOutDate the Check Out Date
+        @param totalPrice the Total Price
+        @param numberOfRooms the Number of Rooms
+        @param paymentMethod the Payment Method
+        @param availableRooms the Number of Available Rooms
+        @param roomType the Room Type
     */
     public Reservation (int reservationID, int roomID, String checkInDate, String checkOutDate, double totalPrice, 
             int numberOfRooms, int paymentMethod, int avaliableRooms, String roomType) throws SQLException {
@@ -79,7 +79,6 @@ public class Reservation {
 
         connection = Database.getConnection();
     
-        // Prepare SQL Query
         String sql = "INSERT INTO Reservation (reservationID, roomID, checkInDate, checkOutDate, totalPrice, numberOfRooms, paymentMethod, avaliableRooms, roomType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         pstmt = connection.prepareStatement(sql);
@@ -93,68 +92,67 @@ public class Reservation {
         pstmt.setInt(8, avaliableRooms);
         pstmt.setString(9, roomType);
     
-        // Execute the Query
         pstmt.executeUpdate();
     }
 
     /**
-        Returns the reservationID
+        Returns reservationID
     */
     public int reservationID() {
         return reservationID;
     }
 
     /**
-        Returns the roomID
+        Returns roomID
     */
     public int roomID() {
         return roomID;
     }
 
     /**
-        Returns the check-in date
+        Returns checkInDate
     */
     public String checkInDate() {
         return checkInDate;
     }
 
     /**
-        Returns the check-out date
+        Returns checkOutDate
     */
     public String checkOutDate() {
         return checkOutDate;
     }
 
     /**
-        Returns the total price
+        Returns totalPrice
     */
     public double totalPrice() {
         return totalPrice;
     }
 
     /**
-        Returns the number of rooms
+        Returns numberOfRooms
     */
     public int numberOfRooms() {
         return numberOfRooms;
     }
 
     /**
-        Returns the payment method
+        Returns paymentMethod
     */
     public int paymentMethod() {
         return paymentMethod;
     }
 
     /**
-        Returns the number of available rooms
+        Returns availableRooms
     */
     public int availableRooms() {
         return availableRooms;
     }
 
     /**
-        Returns the room type
+        Returns roomType
     */
     public String roomType() {
         return roomType;

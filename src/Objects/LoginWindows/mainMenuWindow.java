@@ -22,13 +22,13 @@ public class mainMenuWindow extends JFrame {
         JPanel reservationPanel = new JPanel();
         reservationPanel.setLayout(new BoxLayout(reservationPanel, BoxLayout.Y_AXIS));
 
-        JButton btnMakeReservation = createButton("Make Reservation");
-        JButton btnEditReservation = createButton("Edit Reservation");
+        JButton buttonMakeReservation = createButton("Make Reservation");
+        JButton buttonEditReservation = createButton("Edit Reservation");
 
         reservationPanel.add(Box.createVerticalGlue()); 
-        reservationPanel.add(btnMakeReservation);
+        reservationPanel.add(buttonMakeReservation);
         reservationPanel.add(Box.createRigidArea(new Dimension(0, 10))); 
-        reservationPanel.add(btnEditReservation);
+        reservationPanel.add(buttonEditReservation);
         reservationPanel.add(Box.createVerticalGlue()); 
 
         JPanel logoutPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -41,12 +41,12 @@ public class mainMenuWindow extends JFrame {
 
         add(mainPanel);
 
-        btnMakeReservation.addActionListener(e -> {
+        buttonMakeReservation.addActionListener(e -> {
             createReservationWindow reservationWindow = new createReservationWindow();
             reservationWindow.setVisible(true);
         });
         
-        btnEditReservation.addActionListener(e -> JOptionPane.showMessageDialog(null, "Opening Edit Reservation Window"));
+        buttonEditReservation.addActionListener(e -> JOptionPane.showMessageDialog(null, "Opening Edit Reservation Window"));
 
         btnLogout.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "Logging Out");
@@ -56,6 +56,7 @@ public class mainMenuWindow extends JFrame {
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
+        
         button.setFont(new Font("Arial", Font.BOLD, 16));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setFocusPainted(false); 

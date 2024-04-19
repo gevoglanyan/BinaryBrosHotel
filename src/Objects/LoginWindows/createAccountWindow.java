@@ -60,6 +60,7 @@ public class createAccountWindow extends JFrame {
         }
 
         JButton createAccountButton = new JButton("Create Account");
+        
         createAccountButton.addActionListener(e -> createAccount());
         gbc.gridx = 0; 
         gbc.gridy = GridBagConstraints.RELATIVE;
@@ -98,11 +99,10 @@ public class createAccountWindow extends JFrame {
             SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     
             Date dobDate = inputDateFormat.parse(dob);
-            String formattedDob = outputDateFormat.format(dobDate);  // Format Date for MySQL
+            String formattedDob = outputDateFormat.format(dobDate); 
 
             connection = Database.getConnection();
     
-            // Prepare SQL Query
             String sql = "INSERT INTO Accounts (fullName, username, email, password, dateOfBirth, address) VALUES (?, ?, ?, ?, ?, ?)";
             pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, fullName);
@@ -112,7 +112,6 @@ public class createAccountWindow extends JFrame {
             pstmt.setString(5, formattedDob);
             pstmt.setString(6, address);
     
-            // Execute the Query
             pstmt.executeUpdate();
     
             JOptionPane.showMessageDialog(this, "Account Created Successfully.");
