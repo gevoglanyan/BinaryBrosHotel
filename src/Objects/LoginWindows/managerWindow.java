@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class managerWindow extends JFrame implements ActionListener {
     private JLabel titleLabel;
-    private JButton addRoomsButton, removeRoomsButton, viewRoomsButton, logoutButton;
+    private JButton addRoomsButton, removeRoomsButton, viewRoomsButton, viewReservationButton, logoutButton;
 
     /**
      * Constructor for creating the manager window with initialization of the user interface.
@@ -33,6 +33,7 @@ public class managerWindow extends JFrame implements ActionListener {
         addRoomsButton = new JButton("Add Rooms");
         removeRoomsButton = new JButton("Remove Rooms");
         viewRoomsButton = new JButton("View Rooms");
+        viewReservationButton = new JButton("View Reservations");
         logoutButton = new JButton("Logout");
 
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -55,11 +56,13 @@ public class managerWindow extends JFrame implements ActionListener {
         addRoomsButton.addActionListener(this);
         removeRoomsButton.addActionListener(this);
         viewRoomsButton.addActionListener(this);
+        viewReservationButton.addActionListener(this);
         logoutButton.addActionListener(this);
 
         add(addRoomsButton, gbc);
         add(removeRoomsButton, gbc);
         add(viewRoomsButton, gbc);
+        add(viewReservationButton, gbc);
         add(logoutButton, gbc);
 
         setSize(800, 800);
@@ -86,6 +89,9 @@ public class managerWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == viewRoomsButton) {
             viewRoomsWindow viewRooms = new viewRoomsWindow(this);
             viewRooms.setVisible(true);
+        } else if (e.getSource() == viewReservationButton) {
+            viewReservationWindow viewReservations = new viewReservationWindow(this);
+            viewReservations.setVisible(true);
         } else if (e.getSource() == logoutButton) {
             dispose(); 
         }
@@ -356,6 +362,80 @@ public class managerWindow extends JFrame implements ActionListener {
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error Loading Room Data: " + ex.getMessage());
+            }
+        }
+    }
+
+        /**
+         * This class represents a dialog window that displays a list of all reservations in the system.
+         * It extends {@link JDialog} and includes a {@link JTable} within a {@link JScrollPane} for displaying reservation details.
+         */
+
+    class viewReservationWindow extends JDialog {
+        private JTable reservationTable;
+        private JScrollPane scrollPane;
+
+        /**
+         * Constructs a new viewReservationWindow which initializes the GUI components and loads the reservation data into the table.
+         * 
+         * @param owner the {@link Frame} from which this dialog is displayed
+         */
+    
+        public viewReservationWindow(Frame owner) {
+            super(owner, "View Reservations", true);
+            setLayout(new BorderLayout());
+    
+            String[] columnNames = {"Reservation ID", "Guest Name", "Room Number", "Check-in Date", "Check-out Date", "Reservation Status"};
+            DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+    
+            reservationTable = new JTable(tableModel);
+            scrollPane = new JScrollPane(reservationTable);
+    
+            reservationTable.setFillsViewportHeight(true);
+    
+            loadReservationData(tableModel);
+    
+            add(scrollPane, BorderLayout.CENTER);
+    
+            JButton closeButton = new JButton("Close");
+            closeButton.addActionListener(e -> dispose());
+            add(closeButton, BorderLayout.SOUTH);
+    
+            setSize(800, 400);
+            setLocationRelativeTo(owner);
+        }
+
+        /**
+         * Loads the reservation data from the database and populates the table model.
+         * It executes SQL queries to fetch reservation details and maps them into the table model rows.
+         * 
+         * @param tableModel the {@link DefaultTableModel} which is used to hold the reservation data displayed in the {@link JTable}
+         */
+    
+        private void loadReservationData(DefaultTableModel tableModel) {
+            try (Connection connection = Database.getConnection()) {
+                String sql = "SELECT Reservations.reservationID, Accounts.fullName, Rooms.roomNumber, Reservations.checkInDate, Reservations.checkOutDate, Reservations.status " +
+                             "FROM Reservations " +
+                             "JOIN Accounts ON Reservations.userID = Accounts.id " +
+                             "JOIN Rooms ON Reservations.roomID = Rooms.roomID";
+    
+                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                    ResultSet rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        Object[] row = new Object[]{
+                            rs.getInt("reservationID"),
+                            rs.getString("fullName"),
+                            rs.getString("roomNumber"),
+                            rs.getDate("checkInDate"),
+                            rs.getDate("checkOutDate"),
+                            rs.getString("status")
+                        };
+                        tableModel.addRow(row);
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error Loading Reservation Data: " + ex.getMessage());
             }
         }
     }
