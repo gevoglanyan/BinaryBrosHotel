@@ -16,6 +16,7 @@ public class BinaryBrosHotel {
      * 
      * @param args Command Line Arguments (not used).
      */
+    
     public static void main(String[] args) {
         
         System.out.println("Running!");
