@@ -229,37 +229,75 @@ public class managerWindow extends JFrame implements ActionListener {
      * It extends JDialog and includes a text field for entering the room number to be removed, and buttons for executing the removal or cancelling the operation.
      */
 
-    class removeRoomWindow extends JDialog {
+     class removeRoomWindow extends JDialog {
+        private JTable roomTable;
         private JTextField roomNumberField;
         private JButton removeButton, cancelButton;
+        private DefaultTableModel tableModel;
     
         public removeRoomWindow(Frame owner) {
             super(owner, "Remove Room", true);
-            setLayout(new GridBagLayout());
-            
-            GridBagConstraints gbc = new GridBagConstraints();
+            setLayout(new BorderLayout());
     
+            String[] columnNames = {"Room Number", "Room Type", "Bed Type", "Max Occupancy", "Price Per Night", "Status"};
+            tableModel = new DefaultTableModel(columnNames, 0);
+            roomTable = new JTable(tableModel);
+            loadRoomData();
+    
+            JScrollPane scrollPane = new JScrollPane(roomTable);
+            add(scrollPane, BorderLayout.CENTER);
+    
+            JPanel inputPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+
             gbc.gridwidth = GridBagConstraints.REMAINDER;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.insets = new Insets(10, 10, 10, 10);
-            
+    
             roomNumberField = new JTextField(20);
-            add(new JLabel("Enter Room Number to Remove:"), gbc);
-            add(roomNumberField, gbc);
-            
+            inputPanel.add(new JLabel("Enter Room Number to Remove:"), gbc);
+            inputPanel.add(roomNumberField, gbc);
+    
             removeButton = new JButton("Remove");
             removeButton.addActionListener(this::removeRoom);
             cancelButton = new JButton("Cancel");
             cancelButton.addActionListener(e -> dispose());
-            
+    
             JPanel buttonPanel = new JPanel();
             
             buttonPanel.add(removeButton);
             buttonPanel.add(cancelButton);
-            add(buttonPanel, gbc);
-            
+            inputPanel.add(buttonPanel, gbc);
+    
+            add(inputPanel, BorderLayout.SOUTH);
             pack();
             setLocationRelativeTo(owner);
+        }
+    
+        private void loadRoomData() {
+            try (Connection connection = Database.getConnection()) {
+                String sql = "SELECT roomNumber, roomType, bedType, maxOccupancy, pricePerNight, status FROM Rooms";
+                
+                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                    ResultSet rs = stmt.executeQuery();
+                    
+                    while (rs.next()) {
+                        Object[] row = new Object[]{
+                            rs.getString("roomNumber"),
+                            rs.getString("roomType"),
+                            rs.getString("bedType"),
+                            rs.getInt("maxOccupancy"),
+                            rs.getBigDecimal("pricePerNight"),
+                            rs.getString("status")
+                        };
+
+                        tableModel.addRow(row);
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error Loading Room Data: " + ex.getMessage());
+            }
         }
 
         /**
@@ -269,18 +307,19 @@ public class managerWindow extends JFrame implements ActionListener {
          * @param e the event that triggered this method
          */
     
-        private void removeRoom(ActionEvent e) {
+         private void removeRoom(ActionEvent e) {
             String roomNumber = roomNumberField.getText();
-            
             try (Connection connection = Database.getConnection()) {
                 String sql = "DELETE FROM Rooms WHERE roomNumber = ?";
-                
                 try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                     stmt.setString(1, roomNumber);
+                    
                     int affectedRows = stmt.executeUpdate();
                     
                     if (affectedRows > 0) {
                         JOptionPane.showMessageDialog(this, "Room Removed Successfully!");
+                        tableModel.setRowCount(0);
+                        loadRoomData();
                     } else {
                         JOptionPane.showMessageDialog(this, "No Room Found!");
                     }
@@ -289,7 +328,6 @@ public class managerWindow extends JFrame implements ActionListener {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "ERROR Removing Room: " + ex.getMessage());
             }
-            dispose();
         }
     }
 
