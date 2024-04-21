@@ -1,60 +1,44 @@
+/* 
+    Need to Add Better Confirmation Message
+
+    - Name
+    - Room Number
+    - Bed Type
+    - Check In Date
+    - Check Out Date
+    - Payment Success
+*/
+
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 
 /**
-    Reports Users with Reservation Confirmation
-    @author Binary Bros
-    @version 1.0
+ * This class provides a window that displays a payment confirmation message to the user.
+ * The window is intended to confirm reservation details such as name, room number, bed type,
+ * check-in and check-out dates, and the status of the payment.
+ * 
+ * @author Binary Bros
+ * @version 1.0
  */
 
-public class confirmationWindow extends JFrame {
-    private JLabel nameLabel, dateLabel, roomTypeLabel;
-    private JTextField nameField, dateField;
-    private JComboBox<String> roomTypeComboBox;
-    private JButton confirmButton;
+ public class confirmationWindow extends JFrame {
 
-    public confirmationWindow() {
-        setTitle("Binary Bros Hotel Reservation Confirmation");
-        setSize(500, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(4, 2));
-
-        nameLabel = new JLabel("Name:");
-        nameField = new JTextField();
-
-        dateLabel = new JLabel("Date:");
-        dateField = new JTextField();
-
-        roomTypeLabel = new JLabel("Room Type:");
-        String[] roomTypes = {"Single", "Double", "Suite"};
-        roomTypeComboBox = new JComboBox<>(roomTypes);
-
-        confirmButton = new JButton("Confirm");
-        
-        confirmButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText();
-                String date = dateField.getText();
-                String roomType = (String) roomTypeComboBox.getSelectedItem();
-                String confirmationMessage = "Reservation Summary:\n" +
-                        "Name: " + name + "\n" +
-                        "Date: " + date + "\n" +
-                        "Room Type: " + roomType;
-
-                JOptionPane.showMessageDialog(null, confirmationMessage, "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
-        add(nameLabel);
-        add(nameField);
-        add(dateLabel);
-        add(dateField);
-        add(roomTypeLabel);
-        add(roomTypeComboBox);
-        add(new JLabel());
-        add(confirmButton);
-
+    /**
+     * Constructs a confirmationWindow which displays a payment confirmation message.
+     * The window is centered, has a predefined size, and includes a single label
+     * that shows the confirmation details passed as a parameter.
+     *
+     * @param paymentConfirmation A string containing the detailed payment confirmation
+     *                            message to be displayed. This message should ideally include
+     *                            the reservation name, room number, bed type, check-in and check-out
+     *                            dates, and a confirmation of successful payment.
+     */
+    
+    public confirmationWindow(String paymentConfirmation) {
+        setTitle("Confirmation");
+        setSize(500, 500);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        add(new JLabel(paymentConfirmation, SwingConstants.CENTER));
         setVisible(true);
     }
 }

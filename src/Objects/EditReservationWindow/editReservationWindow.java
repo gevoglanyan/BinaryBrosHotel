@@ -1,3 +1,10 @@
+/*
+    - Need to Make Better GUI
+
+    - Need to show Reservation (So Canceling is Easier)
+    - Need to make Textfield Smaller
+*/
+
 package Objects.EditReservationWindow;
 
 import Objects.Database;
@@ -6,18 +13,33 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 
+/**
+ * This class provides a graphical user interface for managing reservations.
+ * Users can cancel or modify existing reservations by entering a reservation ID.
+ */
+
 public class editReservationWindow extends JFrame {
     private JTextField reservationIDField;
     private JButton cancelButton, modifyButton;
+
+    /**
+     * Constructs a new editReservationWindow.
+     * Initializes the GUI components and sets up the layout and window properties.
+     */
 
     public editReservationWindow() {
         setTitle("Manage Reservation");
         initializeComponents();
         setUpLayout();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 200);
+        setSize(500, 500);
         setLocationRelativeTo(null);
     }
+
+    /**
+     * Initializes the components of the window including input fields and buttons.
+     * It sets up listeners for the buttons to handle user actions.
+     */
 
     private void initializeComponents() {
         reservationIDField = new JTextField(20);
@@ -25,8 +47,12 @@ public class editReservationWindow extends JFrame {
         modifyButton = new JButton("Modify");
 
         cancelButton.addActionListener(event -> cancelReservation());
-        modifyButton.addActionListener(event -> openModificationDialog());
+        modifyButton.addActionListener(event -> openModificationWindow());
     }
+
+    /**
+     * Sets up the layout of the window, organizing components into panels.
+     */
 
     private void setUpLayout() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
@@ -45,53 +71,88 @@ public class editReservationWindow extends JFrame {
         add(mainPanel);
     }
 
+    /**
+     * Cancels the reservation with the given reservation ID.
+     * Displays a message based on the success or failure of the operation.
+     */
+
     private void cancelReservation() {
-        String reservationID = reservationIDField.getText();
+        String reservationID = reservationIDField.getText().trim();
+        
         if (!reservationID.isEmpty()) {
             try {
                 updateReservationStatus(reservationID, "Canceled");
-                JOptionPane.showMessageDialog(this, "Reservation canceled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Reservation Cnceled Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Failed to cancel reservation: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Failed to cancel reservation: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Please enter a valid reservation ID.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Enter a Valid Reservation ID!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void openModificationDialog() {
-        String reservationID = reservationIDField.getText();
+    /**
+     * Opens a dialog to modify the reservation details for the given reservation ID.
+     */
+
+    private void openModificationWindow() {
+        String reservationID = reservationIDField.getText().trim();
+
         if (!reservationID.isEmpty()) {
-            // This is a placeholder for an actual modification window or dialog
-            ModificationDialog modificationDialog = new ModificationDialog(this, reservationID);
-            modificationDialog.setVisible(true);
+            new ModificationWindow(this, reservationID).setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please enter a valid reservation ID.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Enter a Valid Reservation ID!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Updates the reservation status in the database.
+     *
+     * @param reservationID the ID of the reservation to update
+     * @param newStatus the new status to set for the reservation
+     * @throws SQLException if there is a database error during update
+     */
 
     private void updateReservationStatus(String reservationID, String newStatus) throws SQLException {
         try (Connection connection = Database.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement("UPDATE Reservations SET status = ? WHERE reservationID = ?")) {
-            pstmt.setString(1, newStatus);
-            pstmt.setInt(2, Integer.parseInt(reservationID));
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Updating reservation failed, no rows affected.");
-            }
+             PreparedStatement pstmt = connection.prepareStatement(
+                "UPDATE Reservations SET status = ? WHERE reservationID = ?")) {
+                    pstmt.setString(1, newStatus);
+                    pstmt.setInt(2, Integer.parseInt(reservationID));
+                    
+                    if (pstmt.executeUpdate() == 0) {
+                        throw new SQLException("Updating Reservation Failed!");
+                    }
         }
     }
 
-    // Nested class for the modification dialog
-    class ModificationDialog extends JDialog {
-        JTextField checkInDateField, checkOutDateField;
-        JButton updateButton;
-        String reservationID;
+    /**
+     * Inner class to handle modification of reservations.
+     */
 
-        ModificationDialog(Frame owner, String reservationID) {
+    class ModificationWindow extends JDialog {
+        private JTextField checkInDateField, checkOutDateField;
+        private JButton updateButton;
+        private String reservationID;
+
+        /**
+         * Constructs a ModificationWindow for modifying reservation details.
+         *
+         * @param owner the Frame from which the dialog is displayed
+         * @param reservationID the ID of the reservation to modify
+         */
+
+        ModificationWindow(Frame owner, String reservationID) {
             super(owner, "Modify Reservation", true);
             this.reservationID = reservationID;
+            initializeWindow();
+        }
 
+        /**
+         * Initializes the window components and layout.
+         */
+
+        private void initializeWindow() {
             checkInDateField = new JTextField(10);
             checkOutDateField = new JTextField(10);
             updateButton = new JButton("Update");
@@ -99,40 +160,44 @@ public class editReservationWindow extends JFrame {
             updateButton.addActionListener(event -> updateReservation());
 
             setLayout(new FlowLayout());
-            add(new JLabel("Check-in Date:"));
+            add(new JLabel("Check In Date:"));
             add(checkInDateField);
-            add(new JLabel("Check-out Date:"));
+            add(new JLabel("Check Out Date:"));
             add(checkOutDateField);
             add(updateButton);
 
-            setSize(300, 200);
-            setLocationRelativeTo(owner);
+            setSize(500, 500);
+            setLocationRelativeTo(getOwner());
         }
 
+        /**
+         * Updates the reservation in the database with new check-in and check-out dates.
+         */
+
         private void updateReservation() {
-            String checkInDate = checkInDateField.getText();
-            String checkOutDate = checkOutDateField.getText();
+            String checkInDate = checkInDateField.getText().trim();
+            String checkOutDate = checkOutDateField.getText().trim();
+
             if (!checkInDate.isEmpty() && !checkOutDate.isEmpty()) {
                 try (Connection connection = Database.getConnection();
                      PreparedStatement pstmt = connection.prepareStatement(
-                             "UPDATE Reservations SET checkInDate = ?, checkOutDate = ? WHERE reservationID = ?")) {
-                    pstmt.setDate(1, java.sql.Date.valueOf(checkInDate));
-                    pstmt.setDate(2, java.sql.Date.valueOf(checkOutDate));
-                    pstmt.setInt(3, Integer.parseInt(this.reservationID));
+                        "UPDATE Reservations SET checkInDate = ?, checkOutDate = ? WHERE reservationID = ?")) {
+                            pstmt.setDate(1, java.sql.Date.valueOf(checkInDate));
+                            pstmt.setDate(2, java.sql.Date.valueOf(checkOutDate));
+                            pstmt.setInt(3, Integer.parseInt(reservationID));
 
-                    int affectedRows = pstmt.executeUpdate();
-                    if (affectedRows > 0) {
-                        JOptionPane.showMessageDialog(this, "Reservation updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        dispose();
-                    } else {
-                        throw new SQLException("Updating reservation failed, no rows affected.");
-                    }
-                } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(this, "Failed to update reservation: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            if (pstmt.executeUpdate() > 0) {
+                                JOptionPane.showMessageDialog(this, "Reservation updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                dispose();
+                            } else {
+                                throw new SQLException("Updating Reservation Failed!");
+                            }
+                        } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(this, "Failed to Update Reservation! " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Fill in All Fields.", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-}
+}                       
