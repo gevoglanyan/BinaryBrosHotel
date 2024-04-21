@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import Objects.EditReservationWindow.editReservationWindow;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -54,8 +57,11 @@ public class mainMenuWindow extends JFrame {
             reservationWindow.setVisible(true);
         });
         
-        buttonEditReservation.addActionListener(e -> JOptionPane.showMessageDialog(null, "Opening Edit Reservation Window"));
-
+        buttonEditReservation.addActionListener(e -> {
+            editReservationWindow reservationWindow = new editReservationWindow();
+            reservationWindow.setVisible(true);
+        });
+        
         btnLogout.addActionListener(e -> {
             JOptionPane.showMessageDialog(null, "Logging Out");
             System.exit(0);
