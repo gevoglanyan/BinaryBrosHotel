@@ -63,7 +63,7 @@ public class loginWindow extends JFrame {
                 mainMenu.setVisible(true);
                 loginWindow.this.dispose(); 
             } else {
-                JOptionPane.showMessageDialog(loginWindow.this, "Login Failed. Please check your credentials.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(loginWindow.this, "Login Failed. Check Your Credentials!", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
             passwordField.setText("");
@@ -95,35 +95,35 @@ public class loginWindow extends JFrame {
 
     private boolean authenticate(String username, String password) {
         Connection connection = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        PreparedStatement statement = null;
+        ResultSet next = null;
     
         try {
             connection = Database.getConnection();
     
             String sql = "SELECT password FROM Accounts WHERE username = ?";
             
-            pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, username);
-            rs = pstmt.executeQuery();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            next = statement.executeQuery();
     
-            if (rs.next()) {
-                String storedPassword = rs.getString("password");
+            if (next.next()) {
+                String storedPassword = next.getString("password");
                 return storedPassword.equals(password);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Database ERROR: " + e.getMessage(), "Database ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ERROR: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 
             } finally {
                 try {
-                    if (rs != null) 
-                        rs.close();
-                    if (pstmt != null) 
-                        pstmt.close();
+                    if (next != null) 
+                        next.close();
+                    if (statement != null) 
+                        statement.close();
                     if (connection != null) 
                         connection.close();
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, "ERROR Closing Database Resources: " + ex.getMessage(), "Database ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "ERROR" + ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
         }
 

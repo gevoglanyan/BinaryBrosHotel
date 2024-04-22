@@ -92,7 +92,7 @@ public class editReservationWindow extends JFrame {
     }
 
     /**
-     * Opens a dialog to modify the reservation details for the given reservation ID.
+     * Opens a window to modify the reservation details for the given reservation ID.
      */
 
     private void openModificationWindow() {
@@ -115,12 +115,12 @@ public class editReservationWindow extends JFrame {
 
     private void updateReservationStatus(String reservationID, String newStatus) throws SQLException {
         try (Connection connection = Database.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(
+             PreparedStatement statement = connection.prepareStatement(
                 "UPDATE Reservations SET status = ? WHERE reservationID = ?")) {
-                    pstmt.setString(1, newStatus);
-                    pstmt.setInt(2, Integer.parseInt(reservationID));
+                    statement.setString(1, newStatus);
+                    statement.setInt(2, Integer.parseInt(reservationID));
                     
-                    if (pstmt.executeUpdate() == 0) {
+                    if (statement.executeUpdate() == 0) {
                         throw new SQLException("Updating Reservation Failed!");
                     }
         }
@@ -180,13 +180,13 @@ public class editReservationWindow extends JFrame {
 
             if (!checkInDate.isEmpty() && !checkOutDate.isEmpty()) {
                 try (Connection connection = Database.getConnection();
-                     PreparedStatement pstmt = connection.prepareStatement(
+                     PreparedStatement statement = connection.prepareStatement(
                         "UPDATE Reservations SET checkInDate = ?, checkOutDate = ? WHERE reservationID = ?")) {
-                            pstmt.setDate(1, java.sql.Date.valueOf(checkInDate));
-                            pstmt.setDate(2, java.sql.Date.valueOf(checkOutDate));
-                            pstmt.setInt(3, Integer.parseInt(reservationID));
+                            statement.setDate(1, java.sql.Date.valueOf(checkInDate));
+                            statement.setDate(2, java.sql.Date.valueOf(checkOutDate));
+                            statement.setInt(3, Integer.parseInt(reservationID));
 
-                            if (pstmt.executeUpdate() > 0) {
+                            if (statement.executeUpdate() > 0) {
                                 JOptionPane.showMessageDialog(this, "Reservation updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                                 dispose();
                             } else {

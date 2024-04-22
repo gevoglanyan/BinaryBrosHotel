@@ -203,15 +203,15 @@ public class managerWindow extends JFrame implements ActionListener {
             try (Connection connection = Database.getConnection()) {
                 String sql = "INSERT INTO Rooms (roomNumber, roomType, bedType, maxOccupancy, pricePerNight, status) VALUES (?, ?, ?, ?, ?, ?)";
                 
-                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                    stmt.setString(1, roomNumber);
-                    stmt.setString(2, roomType);
-                    stmt.setString(3, bedType);
-                    stmt.setInt(4, maxOccupancy);
-                    stmt.setBigDecimal(5, pricePerNight);
-                    stmt.setString(6, status);
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setString(1, roomNumber);
+                    statement.setString(2, roomType);
+                    statement.setString(3, bedType);
+                    statement.setInt(4, maxOccupancy);
+                    statement.setBigDecimal(5, pricePerNight);
+                    statement.setString(6, status);
                     
-                    int affectedRows = stmt.executeUpdate();
+                    int affectedRows = statement.executeUpdate();
                     
                     if (affectedRows > 0) {
                         JOptionPane.showMessageDialog(this, "Room Added Successfully!");
@@ -219,7 +219,7 @@ public class managerWindow extends JFrame implements ActionListener {
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "ERROR Adding Room: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "ERROR" + ex.getMessage());
             }
         }
     }
@@ -296,7 +296,7 @@ public class managerWindow extends JFrame implements ActionListener {
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error Loading Room Data: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "ERROR" + ex.getMessage());
             }
         }
 
@@ -309,12 +309,14 @@ public class managerWindow extends JFrame implements ActionListener {
     
          private void removeRoom(ActionEvent e) {
             String roomNumber = roomNumberField.getText();
+
             try (Connection connection = Database.getConnection()) {
                 String sql = "DELETE FROM Rooms WHERE roomNumber = ?";
-                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                    stmt.setString(1, roomNumber);
+
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    statement.setString(1, roomNumber);
                     
-                    int affectedRows = stmt.executeUpdate();
+                    int affectedRows = statement.executeUpdate();
                     
                     if (affectedRows > 0) {
                         JOptionPane.showMessageDialog(this, "Room Removed Successfully!");
@@ -326,7 +328,7 @@ public class managerWindow extends JFrame implements ActionListener {
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "ERROR Removing Room: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "ERROR" + ex.getMessage());
             }
         }
     }
@@ -381,17 +383,17 @@ public class managerWindow extends JFrame implements ActionListener {
             try (Connection connection = Database.getConnection()) {
                 String sql = "SELECT roomNumber, roomType, bedType, maxOccupancy, pricePerNight, status FROM Rooms";
                 
-                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                    ResultSet rs = stmt.executeQuery();
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    ResultSet next = statement.executeQuery();
                     
-                    while (rs.next()) {
+                    while (next.next()) {
                         Object[] row = new Object[]{
-                            rs.getString("roomNumber"),
-                            rs.getString("roomType"),
-                            rs.getString("bedType"),
-                            rs.getInt("maxOccupancy"),
-                            rs.getBigDecimal("pricePerNight"),
-                            rs.getString("status")
+                            next.getString("roomNumber"),
+                            next.getString("roomType"),
+                            next.getString("bedType"),
+                            next.getInt("maxOccupancy"),
+                            next.getBigDecimal("pricePerNight"),
+                            next.getString("status")
                         };
 
                         tableModel.addRow(row);
@@ -399,7 +401,7 @@ public class managerWindow extends JFrame implements ActionListener {
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error Loading Room Data: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "ERROR" + ex.getMessage());
             }
         }
     }
@@ -457,23 +459,25 @@ public class managerWindow extends JFrame implements ActionListener {
                              "JOIN Accounts ON Reservations.userID = Accounts.id " +
                              "JOIN Rooms ON Reservations.roomID = Rooms.roomID";
     
-                try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-                    ResultSet rs = stmt.executeQuery();
-                    while (rs.next()) {
+                try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                    ResultSet next = statement.executeQuery();
+                    
+                    while (next.next()) {
                         Object[] row = new Object[]{
-                            rs.getInt("reservationID"),
-                            rs.getString("fullName"),
-                            rs.getString("roomNumber"),
-                            rs.getDate("checkInDate"),
-                            rs.getDate("checkOutDate"),
-                            rs.getString("status")
+                            next.getInt("reservationID"),
+                            next.getString("fullName"),
+                            next.getString("roomNumber"),
+                            next.getDate("checkInDate"),
+                            next.getDate("checkOutDate"),
+                            next.getString("status")
                         };
+                        
                         tableModel.addRow(row);
                     }
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error Loading Reservation Data: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "ERROR" + ex.getMessage());
             }
         }
     }

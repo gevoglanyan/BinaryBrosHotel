@@ -20,7 +20,6 @@ public class BinaryBrosHotel {
     public static void main(String[] args) {
         
         System.out.println("Running!");
-        
         welcomeWindow window = new welcomeWindow();
         window.setVisible(true);
     }

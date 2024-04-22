@@ -52,14 +52,15 @@ public class User {
         String sql = "INSERT INTO Users (userID, fullName, username, password, email, role) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (Connection connection = Database.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, this.userID);
-            pstmt.setString(2, this.fullName);
-            pstmt.setString(3, this.username);
-            pstmt.setString(4, this.password);
-            pstmt.setString(5, this.email);
-            pstmt.setString(6, this.role);
-            pstmt.executeUpdate();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, this.userID);
+                statement.setString(2, this.fullName);
+                statement.setString(3, this.username);
+                statement.setString(4, this.password);
+                statement.setString(5, this.email);
+                statement.setString(6, this.role);
+
+                statement.executeUpdate();
         }
     }
 
@@ -74,18 +75,18 @@ public class User {
     public static User getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM Users WHERE username = ?";
         
-        try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, username);
+        try (Connection connection = Database.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, username);
                 
-                ResultSet rs = pstmt.executeQuery();
+                ResultSet next = statement.executeQuery();
             
-                if (rs.next()) {
-                    int userID = rs.getInt("userID");
-                    String fullName = rs.getString("fullName");
-                    String password = rs.getString("password");
-                    String email = rs.getString("email");
-                    String role = rs.getString("role");
+                if (next.next()) {
+                    int userID = next.getInt("userID");
+                    String fullName = next.getString("fullName");
+                    String password = next.getString("password");
+                    String email = next.getString("email");
+                    String role = next.getString("role");
 
                     return new User(userID, fullName, username, password, email, role);
             }

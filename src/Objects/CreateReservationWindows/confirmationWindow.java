@@ -6,7 +6,7 @@
     - Bed Type
     - Check In Date
     - Check Out Date
-    - Payment Success
+    - Payment Success (INFO)
 */
 
 import javax.swing.*;

@@ -47,9 +47,9 @@ public class Database {
      */
 
     public static ResultSet executeQuery(String sql) throws SQLException {
-        Connection conn = getConnection();
+        Connection connection = getConnection();
         
-        try (Statement statement = conn.createStatement()) {
+        try (Statement statement = connection.createStatement()) {
             return statement.executeQuery(sql);
         }
     }

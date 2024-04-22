@@ -45,6 +45,7 @@ public class createAccountWindow extends JFrame {
     private void initializeUI() {
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new GridBagLayout());
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); 
 
@@ -117,7 +118,7 @@ public class createAccountWindow extends JFrame {
         String address = addressField.getText();
 
         Connection connection = null;
-        PreparedStatement pstmt = null;
+        PreparedStatement statement = null;
 
         try {
             SimpleDateFormat inputDateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -129,30 +130,32 @@ public class createAccountWindow extends JFrame {
             connection = Database.getConnection();
     
             String sql = "INSERT INTO Accounts (fullName, username, email, password, dateOfBirth, address) VALUES (?, ?, ?, ?, ?, ?)";
-            pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, fullName);
-            pstmt.setString(2, username);
-            pstmt.setString(3, email);
-            pstmt.setString(4, password);
-            pstmt.setString(5, formattedDob);
-            pstmt.setString(6, address);
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, fullName);
+            statement.setString(2, username);
+            statement.setString(3, email);
+            statement.setString(4, password);
+            statement.setString(5, formattedDob);
+            statement.setString(6, address);
     
-            pstmt.executeUpdate();
+            statement.executeUpdate();
     
             JOptionPane.showMessageDialog(this, "Account Created Successfully.");
             clearFields();
             dispose();
             
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Invalid Date of Birth format. Please use MM/dd/yyyy.");
+            JOptionPane.showMessageDialog(this, "Invalid Date of Birth Format. Use MM/dd/yyyy.");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "ERROR" + e.getMessage());
         } finally {
             try {
-                if (pstmt != null) pstmt.close();
-                if (connection != null) connection.close();
+                if (statement != null) 
+                    statement.close();
+                if (connection != null) 
+                    connection.close();
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error closing database resources: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "ERROR" + e.getMessage());
             }
         }
     }

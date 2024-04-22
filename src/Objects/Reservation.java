@@ -54,24 +54,25 @@ public class Reservation {
         this.roomType = roomType;
 
         Connection connection = null;
-        PreparedStatement pstmt = null;
+        PreparedStatement statement = null;
 
         connection = Database.getConnection();
     
         String sql = "INSERT INTO Reservation (reservationID, roomID, checkInDate, checkOutDate, totalPrice, numberOfRooms, paymentMethod, avaliableRooms, roomType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
-        pstmt = connection.prepareStatement(sql);
-        pstmt.setInt(1, reservationID);
-        pstmt.setInt(2, roomID);
-        pstmt.setString(3, checkInDate);
-        pstmt.setString(4, checkOutDate);
-        pstmt.setDouble(5, totalPrice);
-        pstmt.setInt(6, numberOfRooms);
-        pstmt.setInt(7, paymentMethod);
-        pstmt.setInt(8, avaliableRooms);
-        pstmt.setString(9, roomType);
+        statement = connection.prepareStatement(sql);
+
+        statement.setInt(1, reservationID);
+        statement.setInt(2, roomID);
+        statement.setString(3, checkInDate);
+        statement.setString(4, checkOutDate);
+        statement.setDouble(5, totalPrice);
+        statement.setInt(6, numberOfRooms);
+        statement.setInt(7, paymentMethod);
+        statement.setInt(8, avaliableRooms);
+        statement.setString(9, roomType);
     
-        pstmt.executeUpdate();
+        statement.executeUpdate();
     }
 
     /**

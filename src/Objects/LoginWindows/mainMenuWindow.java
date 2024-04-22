@@ -69,7 +69,7 @@ public class mainMenuWindow extends JFrame {
     }
 
     /**
-     * Creates a stylized JButton with specified text. Buttons in this window have specific fonts,
+     * Creates JButton with specified text. Buttons in this window have specific fonts,
      * are centered, and change the cursor to a hand when hovered over.
      * 
      * @param text The text to display on the button.

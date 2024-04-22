@@ -96,7 +96,6 @@ public class welcomeWindow extends JFrame {
 
     private void onLoginClicked() {
         userSelectionWindow loginWindow = new userSelectionWindow();
-        
         loginWindow.setVisible(true);
     }
 
@@ -107,7 +106,6 @@ public class welcomeWindow extends JFrame {
 
     private void onRegisterClicked() {
         createAccountWindow createAccountWindow = new createAccountWindow();
-        
         createAccountWindow.setVisible(true);
     }
 }

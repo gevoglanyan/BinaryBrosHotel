@@ -82,13 +82,13 @@ public class paymentWindow extends JFrame {
         if (isValidInput(paymentMethod, cardNumber, expirationDate, cvv, zipCode)) {
             PaymentProcessor paymentProcessor = new PaymentProcessor();
             String paymentConfirmation = paymentProcessor.processPayment(paymentMethod, cardNumber, expirationDate, cvv, zipCode);
-            JOptionPane.showMessageDialog(this, paymentConfirmation, "Payment Confirmation", JOptionPane.INFORMATION_MESSAGE);
 
+            JOptionPane.showMessageDialog(this, paymentConfirmation, "Payment Confirmation", JOptionPane.INFORMATION_MESSAGE);
             dispose();
 
             new confirmationWindow(paymentConfirmation); 
         } else {
-            JOptionPane.showMessageDialog(this, "Please fill in all fields correctly.", "Payment Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Fill in All Fields", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 

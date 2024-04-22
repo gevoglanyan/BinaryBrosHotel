@@ -104,13 +104,13 @@ public class userSelectionWindow extends JFrame {
             String password = new String(passwordField.getPassword());
     
             if (authenticate(username, password)) {
-                JOptionPane.showMessageDialog(loginFrame, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(loginFrame, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
     
                 managerWindow loginWindow = new managerWindow();
                 loginWindow.setVisible(true);
                 loginFrame.dispose();
             } else {
-                JOptionPane.showMessageDialog(loginFrame, "Incorrect Username or Password", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(loginFrame, "Incorrect Username or Password", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         });
     
