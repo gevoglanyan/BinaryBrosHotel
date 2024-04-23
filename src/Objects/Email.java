@@ -135,6 +135,13 @@ public class Email {
             startDate = checkIn;
         }
 
+        /**
+            Sets the proper check-out date
+        */
+        public void setCheckOut(String checkOut){
+            endDate = checkOut;
+        }
+
         
         /**
             Checks if the email address is valid
