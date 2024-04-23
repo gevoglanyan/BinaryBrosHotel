@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 /**
     Send emails to guests pertaining to their Binary Bros Hotel Reservation
+    
     @author Binary Bros
     @version 1.0
  */
@@ -48,6 +49,9 @@ public class Email {
      */
     public Email (String guestEmail, String name, String checkIn, String checkOut) {
         setRecipient(guestEmail);
+        setName(name);
+        setCheckIn(checkIn);
+        setCheckOut(checkOut);
     }
 
     /**
@@ -123,6 +127,7 @@ public class Email {
 
         /**
             Sets the guest's name as the name
+            @param name the guest's name
         */
         public void setName(String name) {
             this.name = name;
@@ -130,6 +135,7 @@ public class Email {
 
         /**
             Sets the proper check-in date
+            @param checkIn the check-in date
         */
         public void setCheckIn(String checkIn){
             startDate = checkIn;
@@ -137,12 +143,12 @@ public class Email {
 
         /**
             Sets the proper check-out date
+            @param checkOut the check-out date
         */
         public void setCheckOut(String checkOut){
             endDate = checkOut;
         }
 
-        
         /**
             Checks if the email address is valid
             @param email the email address
