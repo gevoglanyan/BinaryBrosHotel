@@ -29,9 +29,17 @@ public class Email {
         Represents the host IP address
      */
     private String host = "127.0.0.1";
-
+    /**
+        Represents the recipient's name
+    */
     private String name;
+    /**
+        Represents the start date of the reservation
+    */
     private String startDate;
+    /**
+        Represents the end date of the reservation
+    */
     private String endDate;
     
     /**
@@ -44,8 +52,8 @@ public class Email {
 
     /**
         Creates default email template
-       @param header Subject Line of the Email
-       @param body Main Message of the Email
+       @param header subject line of the email
+       @param body main message of the email
     */
     public void message(String header, String body) {
         if(!isValid(recipient)) break;
@@ -107,7 +115,7 @@ public class Email {
 
         /**
             Sets the guest's email as the recipient address
-            @param guestEmail the Guest Email Address
+            @param guestEmail the guest email address
         */
         public void setRecipient(String guestEmail) {
             recipient = guestEmail;
