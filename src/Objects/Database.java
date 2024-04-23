@@ -7,8 +7,8 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 /**
- * Provides Management for Database Operations on the Binary Bros Hotel Database.
- * Includes Establishing Connections, Executing Queries, and Closing the Connection.
+ * Provides management for database operations on the Binary Bros Hotel Database.
+ * Includes establishing connections, executing queries, and closing the connection.
  * 
  * @author Binary Bros
  * @version 1.0
@@ -22,7 +22,7 @@ public class Database {
     private static Connection connection = null;
 
      /**
-     * Retrieves a Valid Database connection. Establishes a new one if none exists or if the current one is closed.
+     * Retrieves a valid Database connection. Establishes a new one if none exists or if the current one is closed.
      * 
      * @return Connection to the Database.
      * @throws SQLException If a Database Access Error Occurs or the URL is Null.
@@ -41,7 +41,7 @@ public class Database {
     /**
      * Executes a SQL query against the database and returns the result.
      * 
-     * @param sql The SQL Query to Execute.
+     * @param sql the SQL Query to Execute.
      * @return ResultSet Containing the Results of the Query Execution.
      * @throws SQLException If a Database Access Error Occurs, this method is called on a closed connection or the given SQL statement produces anything other than a single ResultSet.
      */
@@ -54,6 +54,9 @@ public class Database {
         }
     }
 
+    /**
+     * Closes the connection to the database
+     */
     public static void closeConnection() {
         if (connection != null) {
             try {
