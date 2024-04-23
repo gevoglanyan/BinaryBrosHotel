@@ -78,7 +78,8 @@ public class Email {
         */
         public void reservationMessage() {
             String message = "Your hotel reservation has been made." 
-            + "Thank you for choosing Binary Bros for your hotel experience!"
+            + "Thank you " + name + " for choosing Binary Bros. for your hotel experience!"
+            + "Your reservation is from " + startDate + " to " + endDate + "."
             + "To update or cancel your reservation, please edit your reservation.";
             String header = "Binary Bros: Hotel Reservation";
             message(header, message);
