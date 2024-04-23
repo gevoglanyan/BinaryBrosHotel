@@ -10,35 +10,36 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern; 
 
 /**
-    Send Emails to Guests Pertaining to Their Hotel Reservation
+    Send emails to guests pertaining to their Binary Bros Hotel Reservation
     @author Binary Bros
     @version 1.0
  */
 
 public class Email {
+    
     /**
-        Represents the Guests Email Address
+        Represents the guest's email address
      */
     private String recipient;
     /** 
-        Represents the Hotel's Email Address 
+        Represents the hotel's email address 
     */
     private String sender = "binarybros@gmail.com";
     /**
-        Represents the Host IP Address
+        Represents the host IP address
      */
     private String host = "127.0.0.1";
     
     /**
-        Constructs an Email to Send to Guest
-        @param guestEmail Guest Email Address
+        Constructs an email to send to guest
+        @param guestEmail the guest's email address
      */
     public Email (String guestEmail) {
         setRecipient(guestEmail);
     }
 
     /**
-        Creates Default Email Template
+        Creates default email template
        @param header Subject Line of the Email
        @param body Main Message of the Email
     */
@@ -69,7 +70,7 @@ public class Email {
     }
 
         /**
-            Sends an Email About Guests Recently Made Reservation
+            Sends an email about guests recently made reservation
         */
         public void reservationMessage() {
             String message = "Your hotel reservation has been made." 
@@ -80,7 +81,7 @@ public class Email {
         }
 
         /**
-            Sends an Email About a Reservation Cancelation
+            Sends an email about a reservation cancelation
         */
         public void cancelMessage() {
             String message = "Your hotel reservation with the Binary Bros has been cancelled.";
@@ -89,7 +90,7 @@ public class Email {
         }
 
         /**
-            Sends an Email About an Update to a Reservation
+            Sends an email about an update to a reservation
         */
         public void updateMessage() {
             String message = "Your hotel reservation has been successfully updated." 
@@ -99,7 +100,7 @@ public class Email {
         }
 
         /**
-            Sets the Guests Email as the Recipient Address
+            Sets the guest's email as the recipient address
             @param guestEmail the Guest Email Address
         */
         public void setRecipient(String guestEmail) {
@@ -107,9 +108,9 @@ public class Email {
         }
 
         /**
-            Checks if the Email Address is Valid
-            @param email the Email Address
-            @return Validity of the Email
+            Checks if the email address is valid
+            @param email the email address
+            @return validity of the email
          */
         public boolean isValid(String email){
             String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
