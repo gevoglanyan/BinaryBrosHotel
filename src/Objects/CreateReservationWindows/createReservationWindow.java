@@ -147,7 +147,7 @@ public class createReservationWindow extends JFrame {
                 openPaymentWindow();
 
                 if (!email.isEmpty()) 
-                    new Email(email).reservationMessage();
+                    new Email(email, checkOutDate, checkOutDate, checkOutDate).reservationMessage(); 
     
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Failed to Make Reservation: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
