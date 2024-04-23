@@ -98,8 +98,9 @@ public class Email {
             Sends an email about an update to a reservation
         */
         public void updateMessage() {
-            String message = "Your hotel reservation has been successfully updated." 
-            + "Thank you again for choosing Binary Bros for your hotel experience!";
+            String message = "Your hotel reservation from " + startDate + " to " + endDate
+            + "has been successfully updated. Thank you again " + name
+            + " for choosing Binary Bros. for your hotel experience!";
             String header = "Binary Bros: Reservation Update";
             message(header, message);
         }
