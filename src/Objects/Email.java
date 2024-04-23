@@ -122,6 +122,13 @@ public class Email {
         }
 
         /**
+            Sets the guest's name as the name
+        */
+        public void setName(String name) {
+            this.name = name;
+        }
+    
+        /**
             Checks if the email address is valid
             @param email the email address
             @return validity of the email
