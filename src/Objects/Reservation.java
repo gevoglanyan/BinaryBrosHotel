@@ -15,28 +15,55 @@ import java.sql.PreparedStatement;
 
 public class Reservation {
 
-    private final int reservationID;    // Unique identifier for the reservation
-    private final int roomID;           // Identifier for the room associated with this reservation
-    private final String checkInDate;   // Start date of the reservation
-    private final String checkOutDate;  // End date of the reservation
-    private final double totalPrice;    // Total price of the reservation
-    private final int numberOfRooms;    // Number of rooms booked in this reservation
-    private final int paymentMethod;    // Payment method used
-    private final int availableRooms;   // Number of rooms available at the time of booking
-    private final String roomType;      // Type of room booked
+    /**
+        Represents the unique identifier for the reservation
+    */
+    private final int reservationID; 
+    /** 
+        Represents the identifier for the room associated with this reservation
+    */
+    private final int roomID;           
+    /**
+        Represents start date of the reservation
+    */
+    private final String checkInDate;   
+    /**
+        Represents end date of the reservation
+    */
+    private final String checkOutDate; 
+    /**
+        Represents total price of the reservation
+    */
+    private final double totalPrice;   
+    /**
+        Represents number of rooms in this reservation
+    */
+    private final int numberOfRooms;  
+    /**
+        Represents payment method used
+    */
+    private final int paymentMethod; 
+    /**
+        Represents number of rooms available at time of booking
+    */
+    private final int availableRooms; 
+    /**
+        Represents type of room booked
+    */
+    private final String roomType;     
 
     /**
      * Constructs a new Reservation object and stores its details to the database.
      *
-     * @param reservationID  The reservation's unique identifier.
-     * @param roomID  The identifier for the room associated with this reservation.
-     * @param checkInDate  The start date of the reservation in YYYY-MM-DD format.
-     * @param checkOutDate  The end date of the reservation in YYYY-MM-DD format.
-     * @param totalPrice  The total price for the reservation.
-     * @param numberOfRooms  The number of rooms booked.
-     * @param paymentMethod  The payment method identifier used for the reservation.
-     * @param availableRooms  The number of rooms available at the time of booking.
-     * @param roomType  The type of room booked.
+     * @param reservationID  the reservation's unique identifier.
+     * @param roomID  the identifier for the room associated with this reservation.
+     * @param checkInDate  the start date of the reservation in YYYY-MM-DD format.
+     * @param checkOutDate  the end date of the reservation in YYYY-MM-DD format.
+     * @param totalPrice  the total price for the reservation.
+     * @param numberOfRooms  the number of rooms booked.
+     * @param paymentMethod  the payment method identifier used for the reservation.
+     * @param availableRooms  the number of rooms available at the time of booking.
+     * @param roomType  the type of room booked.
      * @throws SQLException  If there is a problem executing the SQL to store reservation details.
      */
 
