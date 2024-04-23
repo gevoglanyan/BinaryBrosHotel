@@ -15,12 +15,30 @@ import java.sql.ResultSet;
 
 public class User {
 
-    private int userID;           // Unique identifier for the user
-    private String fullName;      // User's full name
-    private String username;      // User's login username
-    private String password;      // User's password for login
-    private String email;         // User's email address
-    private String role;          // User's role within the system
+    /**
+        Represents unique identifier for the user
+    */
+    private int userID;  
+    /**
+        Represents user's full name
+    */
+    private String fullName;     
+    /**
+        Represents user's login username
+    */
+    private String username;
+    /**
+        Represents user's password for login
+    */
+    private String password;     
+    /**
+        Represents user's email address
+    */
+    private String email;        
+    /**
+        Represents user's role within the system
+    */
+    private String role;         
 
     /**
      * Constructs a User object with complete details and prepares to insert these details into the database.
@@ -43,7 +61,7 @@ public class User {
     }
 
     /**
-     * Inserts user data into the database. This method constructs and executes an SQL query to insert the user's details.
+     * Inserts user data into the database then constructs and executes an SQL query to insert the user's details.
      *
      * @throws SQLException If an SQL error occurs during the execution of the insert.
      */
@@ -67,7 +85,7 @@ public class User {
     /**
      * Retrieves a User object from the database based on the username.
      *
-     * @param username The username to search for in the database.
+     * @param username the username to search for in the database.
      * @return A User object populated with data from the database or null if no such user exists.
      * @throws SQLException If an SQL error occurs during the execution of the query.
      */
