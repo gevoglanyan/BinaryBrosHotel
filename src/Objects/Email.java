@@ -46,7 +46,7 @@ public class Email {
         Constructs an email to send to guest
         @param guestEmail the guest's email address
      */
-    public Email (String guestEmail) {
+    public Email (String guestEmail, String name, String checkIn, String checkOut) {
         setRecipient(guestEmail);
     }
 
