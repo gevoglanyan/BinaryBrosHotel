@@ -127,7 +127,15 @@ public class Email {
         public void setName(String name) {
             this.name = name;
         }
-    
+
+        /**
+            Sets the proper check-in date
+        */
+        public void setCheckIn(String checkIn){
+            startDate = checkIn;
+        }
+
+        
         /**
             Checks if the email address is valid
             @param email the email address
