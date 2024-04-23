@@ -29,6 +29,10 @@ public class Email {
         Represents the host IP address
      */
     private String host = "127.0.0.1";
+
+    private String name;
+    private String startDate;
+    private String endDate;
     
     /**
         Constructs an email to send to guest
