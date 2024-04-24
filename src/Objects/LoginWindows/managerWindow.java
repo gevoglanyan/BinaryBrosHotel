@@ -107,6 +107,16 @@ public class managerWindow extends JFrame implements ActionListener {
     class addRoomWindow extends JDialog {
         private JTextField roomNumberField, maxOccupancyField, pricePerNightField;
         private JComboBox<String> roomTypeCombo, bedTypeCombo, statusCombo;
+
+        /**
+         * Constructs an AddRoomWindow as a modal dialog that is used to enter details for a new room.
+         * The window is initialized with a grid layout to accept user inputs for various room attributes
+         * including room number, room type, bed type, maximum occupancy, price per night, and status.
+         * It includes an "Add Room" button that triggers the addition of the new room details
+         * and a "Cancel" button that closes the dialog.
+         *
+         * @param owner the parent frame from which the dialog is displayed
+         */
     
         public addRoomWindow(Frame owner) {
             super(owner, "Add Room", true);
@@ -235,6 +245,15 @@ public class managerWindow extends JFrame implements ActionListener {
         private JTextField roomNumberField;
         private JButton removeButton, cancelButton;
         private DefaultTableModel tableModel;
+
+        /**
+         * Constructs a RemoveRoomWindow as a modal dialog that allows the user to remove a room from the system.
+         * The window is divided into two main sections: a table displaying existing rooms and an input area
+         * for specifying the room number to be removed. It includes a "Remove" button that triggers the deletion
+         * of the specified room and a "Cancel" button that closes the dialog.
+         * 
+         * @param owner the parent frame from which the dialog is displayed
+         */
     
         public removeRoomWindow(Frame owner) {
             super(owner, "Remove Room", true);
@@ -274,6 +293,14 @@ public class managerWindow extends JFrame implements ActionListener {
             pack();
             setLocationRelativeTo(owner);
         }
+
+        /**
+         * Loads data from the database into the room table model.
+         * This method retrieves room details such as room number, type, bed type, maximum occupancy,
+         * price per night, and status from the Rooms table in the database. Each room's details are
+         * displayed in the room table in the Remove Room window. Errors during data retrieval are caught
+         * and displayed to the user through a dialog.
+         */
     
         private void loadRoomData() {
             try (Connection connection = Database.getConnection()) {
@@ -407,10 +434,10 @@ public class managerWindow extends JFrame implements ActionListener {
         }
     }
 
-        /**
-         * This class represents a dialog window that displays a list of all reservations in the system.
-         * It extends {@link JDialog} and includes a {@link JTable} within a {@link JScrollPane} for displaying reservation details.
-         */
+    /**
+     * This class represents a dialog window that displays a list of all reservations in the system.
+     * It extends {@link JDialog} and includes a {@link JTable} within a {@link JScrollPane} for displaying reservation details.
+     */
 
     class viewReservationWindow extends JDialog {
         private JTable reservationTable;
