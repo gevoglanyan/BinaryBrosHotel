@@ -14,7 +14,8 @@ import javax.swing.table.DefaultTableModel;
  * This class provides a GUI interface for administrative tasks such as adding, removing, and viewing rooms.
  * The manager window allows users to manage room details and logout from the dashboard.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Harutyun Gevoglanyan)
+ * @date 04/08/2024
  * @version 1.0
  */
 

@@ -10,7 +10,8 @@ import java.awt.event.ActionListener;
  * The GUI layout includes a main panel with a welcome label and buttons for logging in and registering. 
  * Each button, when clicked, triggers a respective action for user authentication or account creation.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Harutyun Gevoglanyan) 
+ * @date 02/26/2024
  * @version 1.0
  */
 

@@ -12,7 +12,8 @@ import java.sql.SQLException;
  * This class extends JFrame and manages user authentication against a database,
  * granting access based on valid credentials.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Jesus Ramirez)
+ * @date 02/21/2024
  * @version 1.0
  */
 

@@ -11,7 +11,8 @@ import java.awt.event.MouseEvent;
  * This class provides a user interface for navigating to different reservation management functionalities,
  * such as making or editing reservations, and logging out of the system.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Harutyun Gevoglanyan)
+ * @date 04/08/2024
  * @version 1.0
  */
 

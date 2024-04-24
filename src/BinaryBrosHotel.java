@@ -4,7 +4,8 @@
  * This class directly starts the application, prints a status message to the console, and opens the main welcome window of the application.
  * It relies on the welcomeWindow class to create and manage the GUI.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Jesus Ramirez)
+ * @date 02/12/2024
  * @version 1.0
  */
 

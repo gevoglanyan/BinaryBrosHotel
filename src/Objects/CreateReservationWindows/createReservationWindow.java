@@ -12,7 +12,8 @@ import java.text.SimpleDateFormat;
  * email, room selection, and dates. It also manages database interactions for saving reservations
  * and updating room statuses.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Harutyun Gevoglanyan)
+ * @date 02/28/2024
  * @version 1.0
  */
 
@@ -27,6 +28,7 @@ public class createReservationWindow extends JFrame {
      * Constructor for createReservationWindow that initializes the user interface components,
      * sets up the layout, and loads available room options.
      */
+
     public createReservationWindow() {
         setTitle("Make a Reservation");
         initializeComponents();
@@ -40,6 +42,7 @@ public class createReservationWindow extends JFrame {
     /**
      * Initializes all the UI components required for the reservation form.
      */
+
     private void initializeComponents() {
         nameField = new JTextField(20);
         emailField = new JTextField(20);
@@ -56,6 +59,7 @@ public class createReservationWindow extends JFrame {
     /**
      * Loads available room options from the database into the room selection combo box.
      */
+
     private void loadRoomOptions() {
         try (Connection connection = Database.getConnection();
             Statement statement = connection.createStatement()) {
@@ -75,6 +79,7 @@ public class createReservationWindow extends JFrame {
     /**
      * Sets up the layout for the reservation window, arranging components in panels.
      */
+
     private void setUpLayout() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10)); 
         JPanel dataPanel = new JPanel(new GridLayout(6, 2, 5, 5)); 
@@ -104,6 +109,7 @@ public class createReservationWindow extends JFrame {
     /**
      * Displays details of the selected room.
      */
+
     private void showRoomDetails() {
         String selectedRoomDetail = (String) roomOptions.getSelectedItem();
         String selectedRoomNumber = selectedRoomDetail.split(":")[0].replace("Room ", "").trim();
@@ -129,6 +135,7 @@ public class createReservationWindow extends JFrame {
     /**
      * Attempts to reserve the selected room for the guest.
      */
+    
     private void reserveRoom() {
         String guestName = nameField.getText();
         String email = emailField.getText();
@@ -160,6 +167,7 @@ public class createReservationWindow extends JFrame {
     /**
      * Opens a new payment window.
      */
+
     private void openPaymentWindow() {
         paymentWindow paymentWindow = new paymentWindow();
         paymentWindow.setVisible(true);
@@ -172,6 +180,7 @@ public class createReservationWindow extends JFrame {
      * @param newStatus the new status to set for the room, e.g., "Occupied".
      * @throws SQLException If there is a database access error or the update is not possible.
      */
+
     private void updateRoomStatus(String roomNumber, String newStatus) throws SQLException {
         try (Connection connection = Database.getConnection();
             PreparedStatement statement = connection.prepareStatement("UPDATE Rooms SET status = ? WHERE roomNumber = ?")) {
@@ -190,6 +199,7 @@ public class createReservationWindow extends JFrame {
      * @param checkOutDate the check-out date for the reservation.
      * @throws SQLException If there is a database access error or the insert is not executed properly.
      */
+
     private void insertReservation(int userID, String roomNumber, String checkInDate, String checkOutDate) throws SQLException {
         int roomID = getRoomIDFromRoomNumber(roomNumber);
         
@@ -212,6 +222,7 @@ public class createReservationWindow extends JFrame {
      * @return The database ID of the room, or -1 if the room cannot be found.
      * @throws SQLException If there is a database access error or the query fails.
      */
+
     private int getRoomIDFromRoomNumber(String roomNumber) throws SQLException {
         int roomID = -1;
         
@@ -237,6 +248,7 @@ public class createReservationWindow extends JFrame {
      * @param checkOutDate the check-out date.
      * @return true if all inputs are valid and not empty, false otherwise.
      */
+
     private boolean validateInput(String name, String roomNumber, String checkInDate, String checkOutDate) {
         return !name.isEmpty() && !roomNumber.isEmpty() && isValidDate(checkInDate) && isValidDate(checkOutDate);
     }
@@ -247,6 +259,7 @@ public class createReservationWindow extends JFrame {
      * @param date the date string to validate.
      * @return true if the date is valid, false otherwise.
      */
+    
     private boolean isValidDate(String date) {
         try {
             SimpleDateFormat dateTime = new SimpleDateFormat("yyyy-MM-dd");

@@ -10,7 +10,8 @@ import java.sql.SQLException;
  * Provides management for database operations on the Binary Bros Hotel Database.
  * Includes establishing connections, executing queries, and closing the connection.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Harutyun Gevoglanyan)
+ * @date 03/19/2024
  * @version 1.0
  */
 
@@ -57,6 +58,7 @@ public class Database {
     /**
      * Closes the connection to the database
      */
+
     public static void closeConnection() {
         if (connection != null) {
             try {

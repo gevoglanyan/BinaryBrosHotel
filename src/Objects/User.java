@@ -9,35 +9,47 @@ import java.sql.ResultSet;
  * Manages user data for the Binary Bros Hotel system. This class handles creating user records,
  * inserting them into the database, and fetching user details based on the username.
  *
- * @author Binary Bros
+ * @author Binary Bros (Diego Arteaga)
+ * @date 02/12/2024
  * @version 1.0
  */
 
 public class User {
 
     /**
-        Represents unique identifier for the user
-    */
-    private int userID;  
+     * Represents unique identifier for the user
+     */
+
+    private int userID; 
+
     /**
-        Represents user's full name
-    */
+     * Represents user's full name
+     */
+
     private String fullName;     
+    
     /**
-        Represents user's login username
-    */
+     * Represents user's login username
+     */
+
     private String username;
+    
     /**
-        Represents user's password for login
-    */
+     * Represents user's password for login
+     */
+
     private String password;     
+    
     /**
-        Represents user's email address
-    */
+     * Represents user's email address
+     */
+
     private String email;        
+    
     /**
-        Represents user's role within the system
-    */
+     * Represents user's role within the system
+     */
+
     private String role;         
 
     /**

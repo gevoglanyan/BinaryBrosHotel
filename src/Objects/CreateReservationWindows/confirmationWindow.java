@@ -1,5 +1,5 @@
 /* 
-    Need to Add Better Confirmation Message
+    Need to Add Better Confirmation Message For GUI
 
     - Name
     - Room Number
@@ -16,7 +16,8 @@ import javax.swing.*;
  * The window is intended to confirm reservation details such as name, room number, bed type,
  * check-in and check-out dates, and the status of the payment.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Diego Arteaga)
+ * @date 02/28/2024
  * @version 1.0
  */
 
@@ -39,6 +40,7 @@ import javax.swing.*;
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         add(new JLabel(paymentConfirmation, SwingConstants.CENTER));
+        
         setVisible(true);
     }
 }

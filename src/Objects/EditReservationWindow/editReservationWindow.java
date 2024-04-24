@@ -17,7 +17,8 @@ import java.sql.*;
  * This class provides a graphical user interface for managing reservations.
  * Users can cancel or modify existing reservations by entering a reservation ID.
  *
- * @author Binary Bros
+ * @author Binary Bros (Alex Pulikkottil)
+ * @date 04/21/2024
  * @version 1.0
  */
 
@@ -29,6 +30,7 @@ public class editReservationWindow extends JFrame {
      * Constructs a new editReservationWindow.
      * Initializes the GUI components and sets up the layout and window properties.
      */
+    
     public editReservationWindow() {
         setTitle("Manage Reservation");
         initializeComponents();
@@ -42,6 +44,7 @@ public class editReservationWindow extends JFrame {
      * Initializes the components of the window including input fields and buttons.
      * It sets up listeners for the buttons to handle user actions.
      */
+
     private void initializeComponents() {
         reservationIDField = new JTextField(20);
         cancelButton = new JButton("Cancel");
@@ -54,6 +57,7 @@ public class editReservationWindow extends JFrame {
     /**
      * Sets up the layout of the window, organizing components into panels.
      */
+
     private void setUpLayout() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         JPanel dataPanel = new JPanel(new GridLayout(1, 2, 5, 5));
@@ -75,6 +79,7 @@ public class editReservationWindow extends JFrame {
      * Cancels the reservation with the given reservation ID.
      * Displays a message based on the success or failure of the operation.
      */
+
     private void cancelReservation() {
         String reservationID = reservationIDField.getText().trim();
         
@@ -93,11 +98,12 @@ public class editReservationWindow extends JFrame {
     /**
      * Opens a window to modify the reservation details for the given reservation ID.
      */
+
     private void openModificationWindow() {
         String reservationID = reservationIDField.getText().trim();
 
         if (!reservationID.isEmpty()) {
-            new ModificationWindow(this, reservationID).setVisible(true);
+            new modificationWindow(this, reservationID).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Enter a Valid Reservation ID!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -110,6 +116,7 @@ public class editReservationWindow extends JFrame {
      * @param newStatus the new status to set for the reservation
      * @throws SQLException if there is a database error during update
      */
+
     private void updateReservationStatus(String reservationID, String newStatus) throws SQLException {
         try (Connection connection = Database.getConnection();
              PreparedStatement statement = connection.prepareStatement(
@@ -126,7 +133,8 @@ public class editReservationWindow extends JFrame {
     /**
      * Inner class to handle modification of reservations.
      */
-    class ModificationWindow extends JDialog {
+
+    class modificationWindow extends JDialog {
         private JTextField checkInDateField, checkOutDateField;
         private JButton updateButton;
         private String reservationID;
@@ -137,7 +145,8 @@ public class editReservationWindow extends JFrame {
          * @param owner the Frame from which the dialog is displayed
          * @param reservationID the ID of the reservation to modify
          */
-        ModificationWindow(Frame owner, String reservationID) {
+
+        modificationWindow(Frame owner, String reservationID) {
             super(owner, "Modify Reservation", true);
             this.reservationID = reservationID;
             initializeWindow();
@@ -146,6 +155,7 @@ public class editReservationWindow extends JFrame {
         /**
          * Initializes the window components and layout.
          */
+
         private void initializeWindow() {
             checkInDateField = new JTextField(10);
             checkOutDateField = new JTextField(10);
@@ -167,6 +177,7 @@ public class editReservationWindow extends JFrame {
         /**
          * Updates the reservation in the database with new check-in and check-out dates.
          */
+        
         private void updateReservation() {
             String checkInDate = checkInDateField.getText().trim();
             String checkOutDate = checkOutDateField.getText().trim();

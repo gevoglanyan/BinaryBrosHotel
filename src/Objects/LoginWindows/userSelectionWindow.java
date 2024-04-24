@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
  * offering options to proceed as an Admin or a Guest. Depending on the selection, it directs the user to the appropriate login window.
  * This class extends JFrame and sets up a simple interface with buttons for user role selection.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Harutyun Gevoglanyan)
+ * @date 04/08/2024
  * @version 1.0
  */
 

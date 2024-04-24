@@ -1,3 +1,7 @@
+-- Binary Bros (Harutyun Gevoglanyan)
+-- 02/12/2024
+-- version 1.0
+
 DROP DATABASE IF EXISTS BinaryBrosHotel;
 
 CREATE DATABASE BinaryBrosHotel;

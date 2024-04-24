@@ -9,47 +9,65 @@ import java.sql.PreparedStatement;
  * This class encapsulates all necessary reservation details and is responsible for
  * persisting these details to the database upon creation.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Diego Arteaga)
+ * @date 02/12/2024
  * @version 1.0
  */
 
 public class Reservation {
 
     /**
-        Represents the unique identifier for the reservation
-    */
+     * Represents the unique identifier for the reservation
+     */
+
     private final int reservationID; 
+
     /** 
-        Represents the identifier for the room associated with this reservation
-    */
-    private final int roomID;           
+     * Represents the identifier for the room associated with this reservation
+     */
+
+    private final int roomID;    
+
     /**
-        Represents start date of the reservation
-    */
+     * Represents start date of the reservation
+     */
+
     private final String checkInDate;   
+
     /**
-        Represents end date of the reservation
-    */
+     * Represents end date of the reservation
+     */
+
     private final String checkOutDate; 
+    
     /**
-        Represents total price of the reservation
-    */
+     * Represents total price of the reservation
+     */
+
     private final double totalPrice;   
+    
     /**
-        Represents number of rooms in this reservation
-    */
+     * Represents number of rooms in this reservation
+     */
+
     private final int numberOfRooms;  
+    
     /**
-        Represents payment method used
-    */
+     * Represents payment method used
+     */
+    
     private final int paymentMethod; 
+    
     /**
-        Represents number of rooms available at time of booking
-    */
+     * Represents number of rooms available at time of booking
+     */
+
     private final int availableRooms; 
+    
     /**
-        Represents type of room booked
-    */
+     * Represents type of room booked
+     */
+
     private final String roomType;     
 
     /**

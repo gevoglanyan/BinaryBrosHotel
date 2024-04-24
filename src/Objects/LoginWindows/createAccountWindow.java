@@ -15,7 +15,8 @@ import java.sql.SQLException;
  * email, password, date of birth, and address. It also handles the creation and validation of user
  * accounts, storing them in a database upon successful validation.
  * 
- * @author Binary Bros
+ * @author Binary Bros (Harutyun Gevoglanyan)
+ * @date 02/28/2024
  * @version 1.0
  */
 
