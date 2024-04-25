@@ -1,0 +1,26 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            
+            "previewLimit": 50,
+            "server": "binarybroshotel.c1iem4okk1rj.us-west-1.rds.amazonaws.com",
+            "port": 3306,
+            "driver": "MySQL",
+            "database": "initialdatabase",
+            "username": "BinaryBros",
+            "name": "FirstRDS",
+            "askForPassword": true
+        }
+    ],
+
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\notkr\\Downloads\\mysql-connector-j-8.3.0\\mysql-connector-j-8.3.0\\mysql-connector-j-8.3.0.jar",
+        "c:\\Users\\notkr\\Downloads\\activation-1.1.1.jar",
+        "c:\\Users\\notkr\\Downloads\\javax.mail.jar"
+    ]
+}
