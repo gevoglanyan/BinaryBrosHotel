@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
  * @version 1.0
  */
 
+@SuppressWarnings("unused")
 public class Email {
     
     /**
@@ -74,8 +75,8 @@ public class Email {
      */
 
     public void message(String header, String body) {
-        if(!isValid(recipient)) 
-            break;
+        if (!isValid(recipient)) 
+            return;
         
         String text = body;
         String subject = header;
