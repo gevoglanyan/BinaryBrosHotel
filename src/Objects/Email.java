@@ -59,6 +59,9 @@ public class Email {
     /**
      * Constructs an email to send to guest
      * @param guestEmail the guest's email address
+     * @param name the guest's name
+     * @param checkIn the check-in date
+     * @param checkOut the check-out date
      */
 
     public Email (String guestEmail, String name, String checkIn, String checkOut) {
