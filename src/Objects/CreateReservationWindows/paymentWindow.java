@@ -14,13 +14,30 @@ import java.awt.*;
 public class paymentWindow extends JFrame {
     private JComboBox<String> paymentMethodComboBox;
     private JTextField cardNumberField, expirationDateField, cvvField, zipCodeField;
-    private JButton submitButton; 
+    private JButton submitButton;
+
+    private String guestName;
+    private String roomNumber;
+    private String bedType;
+    private String checkInDate;
+    private String checkOutDate;
 
     /**
-     * Constructs the payment window and initializes its components and layout.
+     * Constructs the payment window and initializes its components, layout, and stores reservation details.
+     * @param guestName Guest's name.
+     * @param roomNumber Room number.
+     * @param bedType Bed type.
+     * @param checkInDate Check-in date.
+     * @param checkOutDate Check-out date.
      */
 
-    public paymentWindow() {
+    public paymentWindow(String guestName, String roomNumber, String bedType, String checkInDate, String checkOutDate) {
+        this.guestName = guestName;
+        this.roomNumber = roomNumber;
+        this.bedType = bedType;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+
         setTitle("Payment Processing");
         initializeComponents();
         setUpLayout();
@@ -41,7 +58,7 @@ public class paymentWindow extends JFrame {
         cvvField = new JTextField(3);
         zipCodeField = new JTextField(5);
 
-        submitButton = new JButton("Submit Payment"); 
+        submitButton = new JButton("Submit Payment");
         submitButton.addActionListener(e -> processPayment());
     }
 
@@ -54,26 +71,21 @@ public class paymentWindow extends JFrame {
         setLayout(new GridLayout(6, 2, 5, 5));
         add(new JLabel("Payment Method:"));
         add(paymentMethodComboBox);
-
         add(new JLabel("Card Number:"));
         add(cardNumberField);
-
         add(new JLabel("Expiration Date (MM/YY):"));
         add(expirationDateField);
-
         add(new JLabel("CVV:"));
         add(cvvField);
-
         add(new JLabel("Zip Code:"));
         add(zipCodeField);
-
-        add(new JLabel());
-        add(submitButton); 
+        add(new JLabel());  
+        add(submitButton);
     }
 
     /**
      * Processes the payment information entered by the user.
-     * Validates input before processing and displays a confirmation or error message.
+     * Validates input before processing and optionally displays a confirmation.
      */
 
     private void processPayment() {
@@ -87,10 +99,9 @@ public class paymentWindow extends JFrame {
             PaymentProcessor paymentProcessor = new PaymentProcessor();
             String paymentConfirmation = paymentProcessor.processPayment(paymentMethod, cardNumber, expirationDate, cvv, zipCode);
 
-            JOptionPane.showMessageDialog(this, paymentConfirmation, "Payment Confirmation", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
+            new confirmationWindow(guestName, roomNumber, bedType, checkInDate, checkOutDate, paymentConfirmation);
 
-            new confirmationWindow(paymentConfirmation); 
+            dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Fill in All Fields", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -98,19 +109,13 @@ public class paymentWindow extends JFrame {
 
     /**
      * Validates that all payment input fields are filled in correctly.
-     *
-     * @param paymentMethod The selected payment method.
-     * @param cardNumber The card number input.
-     * @param expirationDate The card expiration date.
-     * @param cvv The card CVV number.
-     * @param zipCode The zip code associated with the card.
      * @return true if all fields are valid, false otherwise.
      */
 
     private boolean isValidInput(String paymentMethod, String cardNumber, String expirationDate, String cvv, String zipCode) {
         return paymentMethod != null && !cardNumber.isEmpty() && !expirationDate.isEmpty() && !cvv.isEmpty() && !zipCode.isEmpty();
     }
-    
+
     /**
      * Inner class that handles the processing of payment details.
      */
@@ -119,18 +124,12 @@ public class paymentWindow extends JFrame {
 
         /**
          * Simulates payment processing.
-         *
-         * @param paymentMethod The payment method used.
-         * @param cardNumber The card number.
-         * @param expirationDate The expiration date of the card.
-         * @param cvv The CVV of the card.
-         * @param zipCode The zip code linked to the card.
          * @return A string summarizing the payment information, confirming processing.
          */
-        
+
         public String processPayment(String paymentMethod, String cardNumber, String expirationDate, String cvv, String zipCode) {
-            return String.format("Payment Processed Successfully for %s:\nCard Number: %s\nExpiration Date: %s\nCVV: %s\nZip Code: %s",
-                    paymentMethod, cardNumber, expirationDate, cvv, zipCode);
-        }
+            return String.format("Payment Processed Successfully for %s\nCard Number: %s\nExpiration Date: %s\nCVV: %s\nZip Code: %s",
+                paymentMethod, cardNumber, expirationDate, cvv, zipCode);
+    }
     }
 }

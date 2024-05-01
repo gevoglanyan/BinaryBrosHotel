@@ -136,26 +136,26 @@ public class createReservationWindow extends JFrame {
      * Attempts to reserve the selected room for the guest.
      */
     
-    private void reserveRoom() {
+     private void reserveRoom() {
         String guestName = nameField.getText();
         String email = emailField.getText();
         String selectedRoomDetail = (String) roomOptions.getSelectedItem();
         String selectedRoomNumber = selectedRoomDetail.split(":")[0].replace("Room ", "").trim();
         String checkInDate = checkInDateField.getText();
         String checkOutDate = checkOutDateField.getText();
-    
+
         if (validateInput(guestName, selectedRoomNumber, checkInDate, checkOutDate)) {
             try {
                 insertReservation(currentUserID, selectedRoomNumber, checkInDate, checkOutDate);
                 updateRoomStatus(selectedRoomNumber, "Occupied"); 
-
-                JOptionPane.showMessageDialog(this, "Reservation Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                openPaymentWindow();
-
+                
+                /* 
                 if (!email.isEmpty()) 
-                    new Email(email, checkOutDate, checkOutDate, checkOutDate).reservationMessage(); 
-    
+                    new Email(email, "Reservation Confirmation", "Your reservation is confirmed for " + checkInDate + " to " + checkOutDate).send(); 
+                */
+                
+                new paymentWindow(guestName, selectedRoomNumber, "Type fetched from DB or selected item", checkInDate, checkOutDate).setVisible(true);
+
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Failed to Make Reservation: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
@@ -168,10 +168,12 @@ public class createReservationWindow extends JFrame {
      * Opens a new payment window.
      */
 
+    /*
     private void openPaymentWindow() {
         paymentWindow paymentWindow = new paymentWindow();
         paymentWindow.setVisible(true);
     }
+    */
 
     /**
      * Updates the status of a specific room in the database.
