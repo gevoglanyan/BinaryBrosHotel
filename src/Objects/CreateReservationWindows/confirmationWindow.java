@@ -1,15 +1,8 @@
-/* 
-    Need to Add Better Confirmation Message For GUI
-
-    - Name
-    - Room Number
-    - Bed Type
-    - Check In Date
-    - Check Out Date
-    - Payment Success (INFO)
-*/
-
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 /**
  * This class provides a window that displays a payment confirmation message to the user.
@@ -23,6 +16,9 @@ import javax.swing.*;
 
  public class confirmationWindow extends JFrame {
 
+    private JLabel confirmationLabel;
+    private JButton closeButton;
+
     /**
      * Constructs a confirmationWindow which displays a payment confirmation message.
      * The window is centered, has a predefined size, and includes a single label
@@ -34,13 +30,24 @@ import javax.swing.*;
      *                            dates, and a confirmation of successful payment.
      */
     
-    public confirmationWindow(String paymentConfirmation) {
-        setTitle("Confirmation");
+     public confirmationWindow(String confirmationMessage) {
+        setTitle("Reservation Confirmation");
         setSize(500, 500);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        add(new JLabel(paymentConfirmation, SwingConstants.CENTER));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         
+        confirmationLabel = new JLabel(confirmationMessage, SwingConstants.CENTER);
+        add(confirmationLabel, BorderLayout.CENTER);
+
+        closeButton = new JButton("Logout");
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        add(closeButton, BorderLayout.SOUTH);
+
         setVisible(true);
     }
 }
