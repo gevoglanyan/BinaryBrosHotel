@@ -1,15 +1,9 @@
-/*
-    - Need to Make Better GUI
-
-    - Need to show Reservation (So Canceling is Easier)
-    - Need to make Textfield Smaller
-*/
-
 package Objects.EditReservationWindow;
 
 import Objects.Database;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.*;
 
@@ -25,6 +19,8 @@ import java.sql.*;
 public class editReservationWindow extends JFrame {
     private JTextField reservationIDField;
     private JButton cancelButton, modifyButton;
+    private JTable reservationsTable;
+    private DefaultTableModel tableModel;
 
     /**
      * Constructs a new editReservationWindow.
@@ -32,12 +28,13 @@ public class editReservationWindow extends JFrame {
      */
     
     public editReservationWindow() {
-        setTitle("Manage Reservation");
+        setTitle("Manage Reservations");
         initializeComponents();
         setUpLayout();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(500, 500);
+        setSize(600, 400);
         setLocationRelativeTo(null);
+        populateTable();
     }
 
     /**
@@ -45,13 +42,28 @@ public class editReservationWindow extends JFrame {
      * It sets up listeners for the buttons to handle user actions.
      */
 
-    private void initializeComponents() {
+     private void initializeComponents() {
         reservationIDField = new JTextField(20);
+
         cancelButton = new JButton("Cancel");
         modifyButton = new JButton("Modify");
-
-        cancelButton.addActionListener(event -> cancelReservation());
-        modifyButton.addActionListener(event -> openModificationWindow());
+        reservationsTable = new JTable();
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Status", "Check-In", "Check-Out"}, 0);
+    
+        reservationsTable.setModel(tableModel);
+        reservationsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    
+        cancelButton.addActionListener(event -> {
+            cancelReservation();
+        });
+        modifyButton.addActionListener(event -> {
+            openModificationWindow();
+        });
+    
+        reservationIDField.addActionListener(event -> {
+            // Optional
+            openModificationWindow();
+        });
     }
 
     /**
@@ -62,6 +74,7 @@ public class editReservationWindow extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         JPanel dataPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JScrollPane tableScrollPane = new JScrollPane(reservationsTable);
 
         dataPanel.add(new JLabel("Reservation ID:"));
         dataPanel.add(reservationIDField);
@@ -69,10 +82,27 @@ public class editReservationWindow extends JFrame {
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(modifyButton);
 
-        mainPanel.add(dataPanel, BorderLayout.CENTER);
+        mainPanel.add(dataPanel, BorderLayout.NORTH);
+        mainPanel.add(tableScrollPane, BorderLayout.CENTER);
         mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
+    }
+
+    /**
+     * Populates the table with reservation data from the database.
+     */
+    private void populateTable() {
+        try (Connection connection = Database.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT reservationID, status, checkInDate, checkOutDate FROM Reservations")) {
+            while (resultSet.next()) {
+                tableModel.addRow(new Object[]{resultSet.getInt("reservationID"), resultSet.getString("status"),
+                                               resultSet.getDate("checkInDate"), resultSet.getDate("checkOutDate")});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Failed to Load Reservations: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -80,18 +110,33 @@ public class editReservationWindow extends JFrame {
      * Displays a message based on the success or failure of the operation.
      */
 
-    private void cancelReservation() {
-        String reservationID = reservationIDField.getText().trim();
-        
-        if (!reservationID.isEmpty()) {
-            try {
-                updateReservationStatus(reservationID, "Canceled");
-                JOptionPane.showMessageDialog(this, "Reservation Cnceled Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Failed to cancel reservation: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
+     private void cancelReservation() {
+        int row = reservationsTable.getSelectedRow();
+        if (row >= 0) {
+            String reservationID = reservationsTable.getValueAt(row, 0).toString();
+    
+            SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+                @Override
+                protected Boolean doInBackground() throws Exception {
+                    updateReservationStatus(reservationID, "Canceled");
+                    return true;
+                }
+    
+                @Override
+                protected void done() {
+                    try {
+                        if (get()) {
+                            JOptionPane.showMessageDialog(editReservationWindow.this, "Reservation Canceled Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            tableModel.setValueAt("Canceled", row, 1); 
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(editReservationWindow.this, "Failed to Cancel Reservation: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            };
+            worker.execute();
         } else {
-            JOptionPane.showMessageDialog(this, "Enter a Valid Reservation ID!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Select a Reservation From the Table!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -100,12 +145,12 @@ public class editReservationWindow extends JFrame {
      */
 
     private void openModificationWindow() {
-        String reservationID = reservationIDField.getText().trim();
-
-        if (!reservationID.isEmpty()) {
+        int row = reservationsTable.getSelectedRow();
+        if (row >= 0) {
+            String reservationID = reservationsTable.getValueAt(row, 0).toString();
             new modificationWindow(this, reservationID).setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Enter a Valid Reservation ID!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Select a Reservation From the Table!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
 
