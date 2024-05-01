@@ -8,16 +8,16 @@ public class editPaymentWindow extends JFrame {
     private JTextField cardNumberField, expirationDateField, cvvField, zipCodeField;
     private JButton submitButton;
 
-    private String guestName;
-    private String roomNumber;
-    private String bedType;
+    // private String guestName;
+    // private String roomNumber;
+    // private String bedType;
     private String checkInDate;
     private String checkOutDate;
 
     public editPaymentWindow(String checkInDate, String checkOutDate) {
-        this.guestName = guestName;
-        this.roomNumber = roomNumber;
-        this.bedType = bedType;
+        // this.guestName = guestName;
+        // this.roomNumber = roomNumber;
+        // this.bedType = bedType;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
 
@@ -65,8 +65,8 @@ public class editPaymentWindow extends JFrame {
         String zipCode = zipCodeField.getText();
 
         if (isValidInput(paymentMethod, cardNumber, expirationDate, cvv, zipCode)) {
-            PaymentProcessor paymentProcessor = new PaymentProcessor();
-            String paymentConfirmation = paymentProcessor.processPayment(paymentMethod, cardNumber, expirationDate, cvv, zipCode);
+            // PaymentProcessor paymentProcessor = new PaymentProcessor();
+            // String paymentConfirmation = paymentProcessor.processPayment(paymentMethod, cardNumber, expirationDate, cvv, zipCode);
 
             new editConfirmationWindow(checkInDate, checkOutDate);
 

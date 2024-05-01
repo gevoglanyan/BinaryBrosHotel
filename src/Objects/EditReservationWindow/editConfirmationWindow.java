@@ -48,7 +48,7 @@ public class editConfirmationWindow extends JFrame {
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the window
+                dispose();
             }
         });
     
