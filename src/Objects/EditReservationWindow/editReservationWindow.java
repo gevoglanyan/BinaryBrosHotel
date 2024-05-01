@@ -79,51 +79,69 @@ public class editReservationWindow extends JFrame {
     /**
      * Populates the table with reservation data from the database.
      */
-    private void populateTable() {
+
+     private void populateTable() {
         try (Connection connection = Database.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT reservationID, status, checkInDate, checkOutDate FROM Reservations")) {
             while (resultSet.next()) {
-                tableModel.addRow(new Object[]{resultSet.getInt("reservationID"), resultSet.getString("status"),
-                                               resultSet.getDate("checkInDate"), resultSet.getDate("checkOutDate")});
+                tableModel.addRow(new Object[]{
+                    resultSet.getInt("reservationID"), 
+                    resultSet.getString("status"),
+                    resultSet.getDate("checkInDate"), 
+                    resultSet.getDate("checkOutDate")});
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Failed to Load Reservations: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     /**
      * Cancels the reservation with the given reservation ID.
      * Displays a message based on the success or failure of the operation.
      */
 
-     private void cancelReservation() {
-        int row = reservationsTable.getSelectedRow();
-        if (row >= 0) {
-            String reservationID = reservationsTable.getValueAt(row, 0).toString();
-    
-            SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
-                @Override
-                protected Boolean doInBackground() throws Exception {
-                    updateReservationStatus(reservationID, "Canceled");
-                    return true;
-                }
-    
-                @Override
-                protected void done() {
-                    try {
-                        if (get()) {
-                            JOptionPane.showMessageDialog(editReservationWindow.this, "Reservation Canceled Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                            tableModel.removeRow(row); 
-                        }
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(editReservationWindow.this, "Failed to Cancel Reservation: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+    private void cancelReservation() {
+        if (reservationsTable != null) {
+            int row = reservationsTable.getSelectedRow();
+
+            if (row >= 0) {
+                String reservationID = reservationsTable.getValueAt(row, 0).toString();
+
+                SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+                    @Override
+                    protected Boolean doInBackground() throws Exception {
+                        updateReservationStatus(reservationID, "Canceled");
+                        return true;
                     }
-                }
-            };
-            worker.execute();
+
+                    @Override
+                    protected void done() {
+                        try {
+                            if (get()) {
+                                String paymentConfirmation = "The reservation has been canceled successfully. A refund has been processed to your card.";
+                                editConfirmationWindow confirmationWindow = new editConfirmationWindow(
+                                        reservationID, paymentConfirmation);
+                                
+                                SwingUtilities.invokeLater(() -> {
+                                    confirmationWindow.setVisible(true);
+                                    tableModel.removeRow(row);
+                                    populateTable(); 
+                                });
+                            }
+                        } catch (Exception e) {
+                            SwingUtilities.invokeLater(() -> {
+                                JOptionPane.showMessageDialog(editReservationWindow.this, "Failed to cancel reservation: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            });
+                        }
+                    }
+                };
+                worker.execute();
+            } else {
+                JOptionPane.showMessageDialog(this, "Select a reservation from the table!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Select a Reservation From the Table!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No reservations table found!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -210,10 +228,10 @@ public class editReservationWindow extends JFrame {
          * Updates the reservation in the database with new check-in and check-out dates.
          */
         
-        private void updateReservation() {
+         private void updateReservation() {
             String checkInDate = checkInDateField.getText().trim();
             String checkOutDate = checkOutDateField.getText().trim();
-
+        
             if (!checkInDate.isEmpty() && !checkOutDate.isEmpty()) {
                 try (Connection connection = Database.getConnection();
                      PreparedStatement statement = connection.prepareStatement(
@@ -221,9 +239,13 @@ public class editReservationWindow extends JFrame {
                             statement.setDate(1, java.sql.Date.valueOf(checkInDate));
                             statement.setDate(2, java.sql.Date.valueOf(checkOutDate));
                             statement.setInt(3, Integer.parseInt(reservationID));
-
+        
                             if (statement.executeUpdate() > 0) {
                                 JOptionPane.showMessageDialog(this, "Reservation updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                
+                                editPaymentWindow paymentWindow = new editPaymentWindow(checkInDate, checkOutDate);
+                                paymentWindow.setVisible(true);
+                                
                                 dispose();
                             } else {
                                 throw new SQLException("Updating Reservation Failed!");
@@ -235,5 +257,6 @@ public class editReservationWindow extends JFrame {
                 JOptionPane.showMessageDialog(this, "Fill in All Fields.", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
+        
     }
 }  
