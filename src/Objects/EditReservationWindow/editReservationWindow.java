@@ -9,7 +9,7 @@ import java.sql.*;
 
 /**
  * This class provides a graphical user interface for managing reservations.
- * Users can cancel or modify existing reservations by entering a reservation ID.
+ * Users can cancel or modify existing reservations.
  *
  * @author Binary Bros (Alex Pulikkottil)
  * @date 04/21/2024
@@ -17,7 +17,6 @@ import java.sql.*;
  */
 
 public class editReservationWindow extends JFrame {
-    private JTextField reservationIDField;
     private JButton cancelButton, modifyButton;
     private JTable reservationsTable;
     private DefaultTableModel tableModel;
@@ -38,13 +37,11 @@ public class editReservationWindow extends JFrame {
     }
 
     /**
-     * Initializes the components of the window including input fields and buttons.
+     * Initializes the components of the window including buttons.
      * It sets up listeners for the buttons to handle user actions.
      */
 
      private void initializeComponents() {
-        reservationIDField = new JTextField(20);
-
         cancelButton = new JButton("Cancel");
         modifyButton = new JButton("Modify");
         reservationsTable = new JTable();
@@ -59,11 +56,6 @@ public class editReservationWindow extends JFrame {
         modifyButton.addActionListener(event -> {
             openModificationWindow();
         });
-    
-        reservationIDField.addActionListener(event -> {
-            // Optional
-            openModificationWindow();
-        });
     }
 
     /**
@@ -72,17 +64,12 @@ public class editReservationWindow extends JFrame {
 
     private void setUpLayout() {
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        JPanel dataPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JScrollPane tableScrollPane = new JScrollPane(reservationsTable);
-
-        dataPanel.add(new JLabel("Reservation ID:"));
-        dataPanel.add(reservationIDField);
 
         buttonsPanel.add(cancelButton);
         buttonsPanel.add(modifyButton);
 
-        mainPanel.add(dataPanel, BorderLayout.NORTH);
         mainPanel.add(tableScrollPane, BorderLayout.CENTER);
         mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
@@ -127,7 +114,7 @@ public class editReservationWindow extends JFrame {
                     try {
                         if (get()) {
                             JOptionPane.showMessageDialog(editReservationWindow.this, "Reservation Canceled Successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                            tableModel.setValueAt("Canceled", row, 1); 
+                            tableModel.removeRow(row); 
                         }
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(editReservationWindow.this, "Failed to Cancel Reservation: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -148,7 +135,7 @@ public class editReservationWindow extends JFrame {
         int row = reservationsTable.getSelectedRow();
         if (row >= 0) {
             String reservationID = reservationsTable.getValueAt(row, 0).toString();
-            new modificationWindow(this, reservationID).setVisible(true);
+            new ModificationWindow(this, reservationID).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Select a Reservation From the Table!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -179,7 +166,7 @@ public class editReservationWindow extends JFrame {
      * Inner class to handle modification of reservations.
      */
 
-    class modificationWindow extends JDialog {
+    class ModificationWindow extends JDialog {
         private JTextField checkInDateField, checkOutDateField;
         private JButton updateButton;
         private String reservationID;
@@ -191,7 +178,7 @@ public class editReservationWindow extends JFrame {
          * @param reservationID the ID of the reservation to modify
          */
 
-        modificationWindow(Frame owner, String reservationID) {
+        ModificationWindow(Frame owner, String reservationID) {
             super(owner, "Modify Reservation", true);
             this.reservationID = reservationID;
             initializeWindow();
@@ -249,4 +236,4 @@ public class editReservationWindow extends JFrame {
             }
         }
     }
-}                       
+}  
