@@ -149,10 +149,10 @@ public class createReservationWindow extends JFrame {
                 insertReservation(currentUserID, selectedRoomNumber, checkInDate, checkOutDate);
                 updateRoomStatus(selectedRoomNumber, "Occupied"); 
                 
-                /* 
+                
                 if (!email.isEmpty()) 
-                    new Email(email, "Reservation Confirmation", "Your reservation is confirmed for " + checkInDate + " to " + checkOutDate).send(); 
-                */
+                    new Email(email, name, checkInDate, checkOutDate).reservationMessage(); 
+                
                 
                 new paymentWindow(guestName, selectedRoomNumber, "Type fetched from DB or selected item", checkInDate, checkOutDate).setVisible(true);
 
