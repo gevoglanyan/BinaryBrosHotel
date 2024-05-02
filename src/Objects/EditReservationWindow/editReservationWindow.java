@@ -101,33 +101,28 @@ public class editReservationWindow extends JFrame {
      * Displays a message based on the success or failure of the operation.
      */
 
-    private void cancelReservation() {
+     private void cancelReservation() {
         if (reservationsTable != null) {
             int row = reservationsTable.getSelectedRow();
-
+    
             if (row >= 0) {
                 String reservationID = reservationsTable.getValueAt(row, 0).toString();
-
+    
                 SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
                     @Override
                     protected Boolean doInBackground() throws Exception {
                         updateReservationStatus(reservationID, "Canceled");
                         return true;
                     }
-
+    
                     @Override
                     protected void done() {
                         try {
                             if (get()) {
-                                String paymentConfirmation = "The reservation has been canceled successfully. A refund has been processed to your card.";
-                                editConfirmationWindow confirmationWindow = new editConfirmationWindow(
-                                        reservationID, paymentConfirmation);
+                                String confirmationMessage = "Your reservation has been canceled, and your money has been refunded.";
+                                JOptionPane.showMessageDialog(editReservationWindow.this, confirmationMessage, "Cancellation Successful", JOptionPane.INFORMATION_MESSAGE);
                                 
-                                SwingUtilities.invokeLater(() -> {
-                                    confirmationWindow.setVisible(true);
-                                    tableModel.removeRow(row);
-                                    populateTable(); 
-                                });
+                                tableModel.removeRow(row);
                             }
                         } catch (Exception e) {
                             SwingUtilities.invokeLater(() -> {
@@ -257,6 +252,6 @@ public class editReservationWindow extends JFrame {
                 JOptionPane.showMessageDialog(this, "Fill in All Fields.", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+
     }
 }  

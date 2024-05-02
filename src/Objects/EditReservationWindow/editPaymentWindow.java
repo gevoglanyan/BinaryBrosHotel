@@ -65,11 +65,7 @@ public class editPaymentWindow extends JFrame {
         String zipCode = zipCodeField.getText();
 
         if (isValidInput(paymentMethod, cardNumber, expirationDate, cvv, zipCode)) {
-            // PaymentProcessor paymentProcessor = new PaymentProcessor();
-            // String paymentConfirmation = paymentProcessor.processPayment(paymentMethod, cardNumber, expirationDate, cvv, zipCode);
-
             new editConfirmationWindow(checkInDate, checkOutDate);
-
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Fill in All Fields", "ERROR", JOptionPane.ERROR_MESSAGE);
