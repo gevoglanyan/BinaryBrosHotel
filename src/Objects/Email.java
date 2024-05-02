@@ -110,10 +110,8 @@ public class Email {
      */
 
     public void reservationMessage() {
-        String message = "Your hotel reservation has been made." 
-        + "Thank you " + name + " for choosing Binary Bros. for your hotel experience!"
-        + "Your reservation is from " + startDate + " to " + endDate + "."
-        + "To update or cancel your reservation, please edit your reservation.";
+        String message = name + ". Your reservation is confirmed for " + checkInDate + " to " 
+        + checkOutDate + ".";
         String header = "Reservation Confirmation";
         message(header, message);
     }
@@ -123,7 +121,8 @@ public class Email {
      */
 
     public void cancelMessage() {
-        String message = "Your hotel reservation with the Binary Bros has been cancelled.";
+        String message = "Your reservation is cancelled for " + checkInDate + " to " 
+        + checkOutDate + ".";
         String header = "Reservation Cancellation";
         message(header, message);
     }
@@ -133,9 +132,8 @@ public class Email {
      */
 
     public void updateMessage() {
-        String message = "Your hotel reservation from " + startDate + " to " + endDate
-                            + "has been successfully updated. Thank you again " + name
-                            + " for choosing Binary Bros. for your hotel experience!";  
+        String message = "Your reservation is updated for " + checkInDate + " to " 
+        + checkOutDate + ".";
         String header = "Reservation Update";
         message(header, message);
     }
