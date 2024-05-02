@@ -30,7 +30,7 @@ public class Email {
      * Represents the hotel's email address 
      */
 
-    private String sender = "binarybros@gmail.com";
+    private String sender = "binarybroshotel@gmail.com";
 
     /**
      * Represents the host IP address
@@ -114,7 +114,7 @@ public class Email {
         + "Thank you " + name + " for choosing Binary Bros. for your hotel experience!"
         + "Your reservation is from " + startDate + " to " + endDate + "."
         + "To update or cancel your reservation, please edit your reservation.";
-        String header = "Binary Bros: Hotel Reservation";
+        String header = "Reservation Confirmation";
         message(header, message);
     }
 
@@ -124,7 +124,7 @@ public class Email {
 
     public void cancelMessage() {
         String message = "Your hotel reservation with the Binary Bros has been cancelled.";
-        String header = "Binary Bros: Reservation Cancelation";
+        String header = "Reservation Cancellation";
         message(header, message);
     }
 
@@ -136,7 +136,7 @@ public class Email {
         String message = "Your hotel reservation from " + startDate + " to " + endDate
                             + "has been successfully updated. Thank you again " + name
                             + " for choosing Binary Bros. for your hotel experience!";  
-        String header = "Binary Bros: Reservation Update";
+        String header = "Reservation Update";
         message(header, message);
     }
 
