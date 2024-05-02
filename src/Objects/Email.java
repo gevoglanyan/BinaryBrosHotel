@@ -110,8 +110,8 @@ public class Email {
      */
 
     public void reservationMessage() {
-        String message = name + ". Your reservation is confirmed for " + checkInDate + " to " 
-        + checkOutDate + ".";
+        String message = name + ". Your reservation is confirmed for " + startDate + " to " 
+        + endDate + ".";
         String header = "Reservation Confirmation";
         message(header, message);
     }
@@ -121,8 +121,8 @@ public class Email {
      */
 
     public void cancelMessage() {
-        String message = "Your reservation is cancelled for " + checkInDate + " to " 
-        + checkOutDate + ".";
+        String message = "Your reservation is cancelled for " + startDate + " to " 
+        + endDate + ".";
         String header = "Reservation Cancellation";
         message(header, message);
     }
@@ -132,8 +132,8 @@ public class Email {
      */
 
     public void updateMessage() {
-        String message = "Your reservation is updated for " + checkInDate + " to " 
-        + checkOutDate + ".";
+        String message = "Your reservation is updated for " + startDate + " to " 
+        + endDate + ".";
         String header = "Reservation Update";
         message(header, message);
     }
