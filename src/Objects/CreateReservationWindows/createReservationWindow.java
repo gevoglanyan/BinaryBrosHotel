@@ -4,6 +4,7 @@ import Objects.Email;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
@@ -135,30 +136,65 @@ public class createReservationWindow extends JFrame {
     /**
      * Attempts to reserve the selected room for the guest.
      */
-    
-     private void reserveRoom() {
+
+    private void reserveRoom() {
         String guestName = nameField.getText();
         String email = emailField.getText();
         String selectedRoomDetail = (String) roomOptions.getSelectedItem();
         String selectedRoomNumber = selectedRoomDetail.split(":")[0].replace("Room ", "").trim();
         String checkInDate = checkInDateField.getText();
         String checkOutDate = checkOutDateField.getText();
-
+    
         if (validateInput(guestName, selectedRoomNumber, checkInDate, checkOutDate)) {
             try {
+                double pricePerNight = getPricePerNight(selectedRoomNumber);
+                double totalPrice = calculateTotalPrice(checkInDate, checkOutDate, pricePerNight);
+    
                 insertReservation(currentUserID, selectedRoomNumber, checkInDate, checkOutDate);
-                updateRoomStatus(selectedRoomNumber, "Occupied"); 
-                
-                if (!email.isEmpty()) 
-                    new Email(email, guestName, checkInDate, checkOutDate).reservationMessage(); 
-                
-                new paymentWindow(guestName, selectedRoomNumber, "Type fetched from DB or selected item", checkInDate, checkOutDate).setVisible(true);
-
+                updateRoomStatus(selectedRoomNumber, "Occupied");
+    
+                if (!email.isEmpty())
+                    new Email(email, guestName, checkInDate, checkOutDate).reservationMessage();
+    
+                new paymentWindow(guestName, selectedRoomNumber, "Type fetched from DB or selected item", checkInDate, checkOutDate, totalPrice).setVisible(true);
+    
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this, "Failed to Make Reservation: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Fill in All Fields With Valid Data.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private double getPricePerNight(String roomNumber) throws SQLException {
+        double pricePerNight = 0.0;
+    
+        try (Connection connection = Database.getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT pricePerNight FROM Rooms WHERE roomNumber = ?")) {
+            statement.setString(1, roomNumber);
+    
+            ResultSet next = statement.executeQuery();
+    
+            if (next.next()) {
+                pricePerNight = next.getDouble("pricePerNight");
+            }
+        }
+        return pricePerNight;
+    }
+    
+    private double calculateTotalPrice(String checkInDate, String checkOutDate, double pricePerNight) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date startDate = dateFormat.parse(checkInDate);
+            java.util.Date endDate = dateFormat.parse(checkOutDate);
+    
+            long duration = endDate.getTime() - startDate.getTime();
+            int nights = (int) (duration / (1000 * 60 * 60 * 24));
+    
+            return nights * pricePerNight;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0.0;
         }
     }
 

@@ -12,6 +12,7 @@ import java.awt.*;
  */
 
 public class paymentWindow extends JFrame {
+    private JLabel totalPriceLabel;
     private JComboBox<String> paymentMethodComboBox;
     private JTextField cardNumberField, expirationDateField, cvvField, zipCodeField;
     private JButton submitButton;
@@ -21,6 +22,7 @@ public class paymentWindow extends JFrame {
     private String bedType;
     private String checkInDate;
     private String checkOutDate;
+    private double totalPrice;
 
     /**
      * Constructs the payment window and initializes its components, layout, and stores reservation details.
@@ -31,18 +33,19 @@ public class paymentWindow extends JFrame {
      * @param checkOutDate Check-out date.
      */
 
-    public paymentWindow(String guestName, String roomNumber, String bedType, String checkInDate, String checkOutDate) {
+    public paymentWindow(String guestName, String roomNumber, String bedType, String checkInDate, String checkOutDate, double totalPrice) {
         this.guestName = guestName;
         this.roomNumber = roomNumber;
         this.bedType = bedType;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+        this.totalPrice = totalPrice;
 
         setTitle("Payment Processing");
         initializeComponents();
         setUpLayout();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 400);
+        setSize(600, 500);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -51,7 +54,10 @@ public class paymentWindow extends JFrame {
      * Initializes the components used in the payment form.
      */
 
-    private void initializeComponents() {
+     private void initializeComponents() {
+        totalPriceLabel = new JLabel("Total Price: $" + totalPrice);
+        totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+
         paymentMethodComboBox = new JComboBox<>(new String[]{"Credit Card", "Debit Card"});
         cardNumberField = new JTextField(20);
         expirationDateField = new JTextField(10);
@@ -68,19 +74,29 @@ public class paymentWindow extends JFrame {
      */
 
     private void setUpLayout() {
-        setLayout(new GridLayout(6, 2, 5, 5));
-        add(new JLabel("Payment Method:"));
-        add(paymentMethodComboBox);
-        add(new JLabel("Card Number:"));
-        add(cardNumberField);
-        add(new JLabel("Expiration Date (MM/YY):"));
-        add(expirationDateField);
-        add(new JLabel("CVV:"));
-        add(cvvField);
-        add(new JLabel("Zip Code:"));
-        add(zipCodeField);
-        add(new JLabel());  
-        add(submitButton);
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        topPanel.add(totalPriceLabel);
+
+        JPanel centerPanel = new JPanel(new GridLayout(5, 2, 10, 10)); 
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); 
+        centerPanel.add(new JLabel("Payment Method:", SwingConstants.RIGHT));
+        centerPanel.add(paymentMethodComboBox);
+        centerPanel.add(new JLabel("Card Number:", SwingConstants.RIGHT));
+        centerPanel.add(cardNumberField);
+        centerPanel.add(new JLabel("Expiration Date (MM/YY):", SwingConstants.RIGHT));
+        centerPanel.add(expirationDateField);
+        centerPanel.add(new JLabel("CVV:", SwingConstants.RIGHT));
+        centerPanel.add(cvvField);
+        centerPanel.add(new JLabel("Zip Code:", SwingConstants.RIGHT));
+        centerPanel.add(zipCodeField);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(submitButton);
+
+        setLayout(new BorderLayout());
+        add(topPanel, BorderLayout.NORTH);
+        add(centerPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -88,7 +104,7 @@ public class paymentWindow extends JFrame {
      * Validates input before processing and optionally displays a confirmation.
      */
 
-    private void processPayment() {
+     private void processPayment() {
         String paymentMethod = (String) paymentMethodComboBox.getSelectedItem();
         String cardNumber = cardNumberField.getText();
         String expirationDate = expirationDateField.getText();
@@ -99,7 +115,7 @@ public class paymentWindow extends JFrame {
             PaymentProcessor paymentProcessor = new PaymentProcessor();
             String paymentConfirmation = paymentProcessor.processPayment(paymentMethod, cardNumber, expirationDate, cvv, zipCode);
 
-            new confirmationWindow(guestName, roomNumber, bedType, checkInDate, checkOutDate, paymentConfirmation);
+            new confirmationWindow(guestName, roomNumber, bedType, checkInDate, checkOutDate, totalPrice, paymentConfirmation);
 
             dispose();
         } else {
@@ -112,7 +128,7 @@ public class paymentWindow extends JFrame {
      * @return true if all fields are valid, false otherwise.
      */
 
-    private boolean isValidInput(String paymentMethod, String cardNumber, String expirationDate, String cvv, String zipCode) {
+     private boolean isValidInput(String paymentMethod, String cardNumber, String expirationDate, String cvv, String zipCode) {
         return paymentMethod != null && !cardNumber.isEmpty() && !expirationDate.isEmpty() && !cvv.isEmpty() && !zipCode.isEmpty();
     }
 
@@ -127,9 +143,13 @@ public class paymentWindow extends JFrame {
          * @return A string summarizing the payment information, confirming processing.
          */
 
-        public String processPayment(String paymentMethod, String cardNumber, String expirationDate, String cvv, String zipCode) {
-            return String.format("Payment Processed Successfully for %s\nCard Number: %s\nExpiration Date: %s\nCVV: %s\nZip Code: %s",
-                paymentMethod, cardNumber, expirationDate, cvv, zipCode);
-    }
+         public String processPayment(String paymentMethod, String cardNumber, String expirationDate, String cvv, String zipCode) {
+            return String.format("Payment Processed Successfully for %s" +
+                                 "\nCard Number: %s" +
+                                 "\nExpiration Date: %s" +
+                                 "\nCVV: %s" +
+                                 "\nZip Code: %s",
+                                 paymentMethod, cardNumber, expirationDate, cvv, zipCode);
+        }
     }
 }
