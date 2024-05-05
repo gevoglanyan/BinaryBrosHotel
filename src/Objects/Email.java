@@ -121,8 +121,7 @@ public class Email {
      */
 
     public void cancelMessage() {
-        String message = "Your reservation is cancelled for " + startDate + " to " 
-        + endDate + ".";
+        String message = "Your reservation has been cancelled";
         String header = "Reservation Cancellation";
         message(header, message);
     }
@@ -132,8 +131,7 @@ public class Email {
      */
 
     public void updateMessage() {
-        String message = "Your reservation is updated for " + startDate + " to " 
-        + endDate + ".";
+        String message = "Your reservation has been updated.";
         String header = "Reservation Update";
         message(header, message);
     }
