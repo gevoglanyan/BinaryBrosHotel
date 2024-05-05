@@ -1,6 +1,7 @@
 package Objects.EditReservationWindow;
 
 import Objects.Database;
+import Objects.Email;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -121,7 +122,23 @@ public class editReservationWindow extends JFrame {
                             if (get()) {
                                 String confirmationMessage = "Your reservation has been canceled, and your money has been refunded.";
                                 JOptionPane.showMessageDialog(editReservationWindow.this, confirmationMessage, "Cancellation Successful", JOptionPane.INFORMATION_MESSAGE);
-                                
+                                /*   
+                                final JFrame frame = new JFrame ("Binary Bros Hotel");  // added email functionality
+                                final JLabel enter = new JLabel("Enter email address");
+                                final JButton submit = new JButton("Submit");
+                                final JPanel box = new JPanel();
+                                final JTextField email = new JTextField(16);;
+                                box.add(email);
+                                box.add(submit);
+                                box.add(enter);
+                                frame.add(box);
+                                frame.setSize(300,120);
+                                frame.setLocationRelativeTo(null);
+                                frame.show();
+                                String address = email.getText();
+                                submit.addActionListener(e-> frame.dispose());
+                                submit.addActionListener(e-> new Email(address, "","","").cancelMessage());    
+                                */
                                 tableModel.removeRow(row);
                             }
                         } catch (Exception e) {
@@ -242,6 +259,23 @@ public class editReservationWindow extends JFrame {
                                 paymentWindow.setVisible(true);
                                 
                                 dispose();
+                                /*   
+                                final JFrame frame = new JFrame ("Binary Bros Hotel");  // added email functionality
+                                final JLabel enter = new JLabel("Enter email address");
+                                final JButton submit = new JButton("Submit");
+                                final JPanel box = new JPanel();
+                                final JTextField email = new JTextField(16);;
+                                box.add(email);
+                                box.add(submit);
+                                box.add(enter);
+                                frame.add(box);
+                                frame.setSize(300,120);
+                                frame.setLocationRelativeTo(null);
+                                frame.show();
+                                String address = email.getText();
+                                submit.addActionListener(e-> frame.dispose());
+                                submit.addActionListener(e-> new Email(address, "","","").cancelMessage());    
+                                */
                             } else {
                                 throw new SQLException("Updating Reservation Failed!");
                             }
