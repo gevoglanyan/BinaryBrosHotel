@@ -122,7 +122,7 @@ public class editReservationWindow extends JFrame {
                             if (get()) {
                                 String confirmationMessage = "Your reservation has been canceled, and your money has been refunded.";
                                 JOptionPane.showMessageDialog(editReservationWindow.this, confirmationMessage, "Cancellation Successful", JOptionPane.INFORMATION_MESSAGE);
-                                /*   
+                                   
                                 final JFrame frame = new JFrame ("Binary Bros Hotel");  // added email functionality
                                 final JLabel enter = new JLabel("Enter email address");
                                 final JButton submit = new JButton("Submit");
@@ -138,7 +138,7 @@ public class editReservationWindow extends JFrame {
                                 String address = email.getText();
                                 submit.addActionListener(e-> frame.dispose());
                                 submit.addActionListener(e-> new Email(address, "","","").cancelMessage());    
-                                */
+                                
                                 tableModel.removeRow(row);
                             }
                         } catch (Exception e) {
@@ -259,7 +259,7 @@ public class editReservationWindow extends JFrame {
                                 paymentWindow.setVisible(true);
                                 
                                 dispose();
-                                /*   
+                                   
                                 final JFrame frame = new JFrame ("Binary Bros Hotel");  // added email functionality
                                 final JLabel enter = new JLabel("Enter email address");
                                 final JButton submit = new JButton("Submit");
@@ -275,7 +275,7 @@ public class editReservationWindow extends JFrame {
                                 String address = email.getText();
                                 submit.addActionListener(e-> frame.dispose());
                                 submit.addActionListener(e-> new Email(address, "","","").updateMessage());    
-                                */
+                                
                             } else {
                                 throw new SQLException("Updating Reservation Failed!");
                             }
