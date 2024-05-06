@@ -274,7 +274,7 @@ public class editReservationWindow extends JFrame {
                                 frame.show();
                                 String address = email.getText();
                                 submit.addActionListener(e-> frame.dispose());
-                                submit.addActionListener(e-> new Email(address, "","","").cancelMessage());    
+                                submit.addActionListener(e-> new Email(address, "","","").updateMessage());    
                                 */
                             } else {
                                 throw new SQLException("Updating Reservation Failed!");
