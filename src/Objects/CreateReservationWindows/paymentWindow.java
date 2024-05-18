@@ -45,7 +45,7 @@ public class paymentWindow extends JFrame {
         initializeComponents();
         setUpLayout();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 500);
+        setSize(800, 500);
         setLocationRelativeTo(null);
         setVisible(true);
     }

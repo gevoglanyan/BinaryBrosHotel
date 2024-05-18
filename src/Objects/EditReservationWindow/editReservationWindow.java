@@ -123,7 +123,7 @@ public class editReservationWindow extends JFrame {
                                 String confirmationMessage = "Your reservation has been canceled, and your money has been refunded.";
                                 JOptionPane.showMessageDialog(editReservationWindow.this, confirmationMessage, "Cancellation Successful", JOptionPane.INFORMATION_MESSAGE);
                                    
-                                final JFrame frame = new JFrame ("Binary Bros Hotel");  // added email functionality
+                                final JFrame frame = new JFrame ("Binary Bros Hotel");  
                                 final JLabel enter = new JLabel("Enter email address");
                                 final JButton submit = new JButton("Submit");
                                 final JPanel box = new JPanel();
@@ -134,7 +134,7 @@ public class editReservationWindow extends JFrame {
                                 frame.add(box);
                                 frame.setSize(300,120);
                                 frame.setLocationRelativeTo(null);
-                                frame.show();
+                                // frame.show();
                                 String address = email.getText();
                                 submit.addActionListener(e-> frame.dispose());
                                 submit.addActionListener(e-> new Email(address, "","","").cancelMessage());    
@@ -260,7 +260,7 @@ public class editReservationWindow extends JFrame {
                                 
                                 dispose();
                                    
-                                final JFrame frame = new JFrame ("Binary Bros Hotel");  // added email functionality
+                                final JFrame frame = new JFrame ("Binary Bros Hotel");  
                                 final JLabel enter = new JLabel("Enter email address");
                                 final JButton submit = new JButton("Submit");
                                 final JPanel box = new JPanel();
@@ -271,7 +271,7 @@ public class editReservationWindow extends JFrame {
                                 frame.add(box);
                                 frame.setSize(300,120);
                                 frame.setLocationRelativeTo(null);
-                                frame.show();
+                                // frame.show();
                                 String address = email.getText();
                                 submit.addActionListener(e-> frame.dispose());
                                 submit.addActionListener(e-> new Email(address, "","","").updateMessage());    
@@ -288,4 +288,4 @@ public class editReservationWindow extends JFrame {
         }
 
     }
-}  
+}

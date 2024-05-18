@@ -24,7 +24,7 @@ public class mainMenuWindow extends JFrame {
 
     public mainMenuWindow() {
         setTitle("Binary Bros Hotel Reservation System");
-        setSize(500, 400);
+        setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 

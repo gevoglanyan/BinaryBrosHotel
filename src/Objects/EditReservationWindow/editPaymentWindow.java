@@ -11,6 +11,7 @@ public class editPaymentWindow extends JFrame {
     // private String guestName;
     // private String roomNumber;
     // private String bedType;
+
     private String checkInDate;
     private String checkOutDate;
 
@@ -18,6 +19,7 @@ public class editPaymentWindow extends JFrame {
         // this.guestName = guestName;
         // this.roomNumber = roomNumber;
         // this.bedType = bedType;
+        
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
 
@@ -66,7 +68,7 @@ public class editPaymentWindow extends JFrame {
 
         if (isValidInput(paymentMethod, cardNumber, expirationDate, cvv, zipCode)) {
             new editConfirmationWindow(checkInDate, checkOutDate);
-            dispose();
+            // dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Fill in All Fields", "ERROR", JOptionPane.ERROR_MESSAGE);
         }

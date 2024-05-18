@@ -33,7 +33,7 @@ import java.awt.event.ActionListener;
     
      public confirmationWindow(String guestName, String roomNumber, String bedType, String checkInDate, String checkOutDate, double totalPrice, String paymentConfirmation) {
         setTitle("Reservation Confirmation");
-        setSize(600, 500);
+        setSize(800, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 

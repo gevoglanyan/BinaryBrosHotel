@@ -32,7 +32,7 @@ public class createAccountWindow extends JFrame {
         super("Account Creation");
         initializeUI();
         pack();
-        setSize(500, 400); 
+        setSize(800, 800); 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
